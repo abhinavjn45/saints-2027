@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── 2. Scroll: one rAF-batched, transform-only update ───
      Hysteresis stops the header flickering around thresholds. */
-  const COLLAPSE_AT   = 120;  // px scrolled before it may collapse
-  const DOWN_DISTANCE = 8;    // px of continuous down-scroll to collapse
+  const COLLAPSE_AT   = 16;   // px scrolled before it may collapse (first wheel notch triggers it)
+  const DOWN_DISTANCE = 3;    // px of continuous down-scroll to collapse
   const UP_DISTANCE   = 28;   // px of continuous up-scroll to restore
 
   let lastY = window.scrollY;
