@@ -244,9 +244,8 @@
 <section id="hero" class="relative flex items-end overflow-hidden bg-primary-950 text-white" style="min-height: 92vh;">
 
   <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('assets/images/website-assets/hero-section.jpg');"></div>
-  <!-- flat navy scrim, heavier on the left where the text sits -->
-  <div class="absolute inset-0 bg-primary-950/70"></div>
-  <div class="absolute inset-y-0 left-0 w-full lg:w-2/3 bg-primary-950/60"></div>
+  <!-- light neutral tint only, so the photo shows through -->
+  <div class="absolute inset-0 bg-black/30"></div>
   <div class="absolute bottom-0 left-0 right-0 h-1 bg-accent-500"></div>
 
   <div class="relative z-10 container mx-auto pt-10 pb-28 sm:pb-32 flex items-center justify-between gap-12">
@@ -268,7 +267,7 @@
     <!-- Conference logo, right-hand side (desktop) -->
     <div class="hero-logo hidden lg:flex" data-reveal style="--d:200ms">
       <img src="https://res.cloudinary.com/dchqvsa57/image/upload/v1780714581/saints_new_logo_lruoy4.png"
-        alt="SAINTS 2027" class="w-full h-auto object-contain" />
+        alt="SAINTS 2027" data-site-img="light_logo" class="w-full h-auto object-contain" />
     </div>
   </div>
 </section>
@@ -362,6 +361,20 @@
 
 
 <!-- ═══════════════════════════════════════════════════════
+     WELCOME MESSAGES  (backend: welcome_messages)
+════════════════════════════════════════════════════════ -->
+<section id="welcome" class="section section-paper" hidden>
+  <div class="container mx-auto">
+    <div class="max-w-2xl mb-12" data-reveal>
+      <p class="eyebrow">Welcome</p>
+      <h2 class="h2">Messages</h2>
+    </div>
+    <div class="msg-grid" data-sheet="welcome_messages"></div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
      KEY DATES
 ════════════════════════════════════════════════════════ -->
 <section id="dates" class="section section-navy">
@@ -371,7 +384,7 @@
       <h2 class="h2 text-white">Key dates</h2>
     </div>
 
-    <ol class="grid md:grid-cols-2 border-t border-white/15">
+    <ol class="grid md:grid-cols-2 border-t border-white/15" data-sheet="important_dates">
       <li class="date-item" data-reveal>
         <p class="date-label">Abstract submission</p>
         <p class="date-value">31 March 2027</p>
@@ -397,35 +410,57 @@
         <p class="eyebrow">Tracks &amp; speakers</p>
         <h2 class="h2 mb-0">Four tracks, one programme</h2>
       </div>
-      <p class="text-gray-600 max-w-md">Keynote and invited speakers will be announced for each track. Check back soon.</p>
+      <p class="text-gray-600 max-w-md" data-hide-when="speakers">Keynote and invited speakers will be announced for each track. Check back soon.</p>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-primary-100 border border-primary-100">
-      <article id="track-1" class="track" data-reveal>
-        <span class="track-no">01</span>
-        <h3>Track 1</h3>
-        <p>Theme to be announced.</p>
-        <span class="tag">Speakers TBA</span>
+    <div class="track-stack">
+      <article id="track-1" class="track track-wide" data-reveal>
+        <div class="track-head">
+          <span class="track-no">01</span>
+          <h3>Track 1</h3>
+          <p>Theme to be announced.</p>
+        </div>
+        <div class="track-speakers" data-speakers-track="1"><span class="tag">Speakers TBA</span></div>
       </article>
-      <article id="track-2" class="track" data-reveal style="--d:80ms">
-        <span class="track-no">02</span>
-        <h3>Track 2</h3>
-        <p>Theme to be announced.</p>
-        <span class="tag">Speakers TBA</span>
+      <article id="track-2" class="track track-wide" data-reveal>
+        <div class="track-head">
+          <span class="track-no">02</span>
+          <h3>Track 2</h3>
+          <p>Theme to be announced.</p>
+        </div>
+        <div class="track-speakers" data-speakers-track="2"><span class="tag">Speakers TBA</span></div>
       </article>
-      <article id="track-3" class="track" data-reveal style="--d:160ms">
-        <span class="track-no">03</span>
-        <h3>Track 3</h3>
-        <p>Theme to be announced.</p>
-        <span class="tag">Speakers TBA</span>
+      <article id="track-3" class="track track-wide" data-reveal>
+        <div class="track-head">
+          <span class="track-no">03</span>
+          <h3>Track 3</h3>
+          <p>Theme to be announced.</p>
+        </div>
+        <div class="track-speakers" data-speakers-track="3"><span class="tag">Speakers TBA</span></div>
       </article>
-      <article id="track-4" class="track" data-reveal style="--d:240ms">
-        <span class="track-no">04</span>
-        <h3>Track 4</h3>
-        <p>Theme to be announced.</p>
-        <span class="tag">Speakers TBA</span>
+      <article id="track-4" class="track track-wide" data-reveal>
+        <div class="track-head">
+          <span class="track-no">04</span>
+          <h3>Track 4</h3>
+          <p>Theme to be announced.</p>
+        </div>
+        <div class="track-speakers" data-speakers-track="4"><span class="tag">Speakers TBA</span></div>
       </article>
     </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     ORGANIZING COMMITTEE  (backend: organizing_committee)
+════════════════════════════════════════════════════════ -->
+<section id="committee" class="section" hidden>
+  <div class="container mx-auto">
+    <div class="max-w-2xl mb-12" data-reveal>
+      <p class="eyebrow">Organizing committee</p>
+      <h2 class="h2">The team behind SAINTS 2027</h2>
+    </div>
+    <div class="cm" data-sheet="organizing_committee"></div>
   </div>
 </section>
 
@@ -474,7 +509,7 @@
       <h2 class="h2">Three days at a glance</h2>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-6">
+    <div class="grid md:grid-cols-3 gap-6" data-sheet="schedule">
       <div class="day" data-reveal>
         <p class="day-n">Day 1</p><p class="day-d">6 January 2027</p>
         <ul><li>Registration</li><li>Inaugural session</li><li>Keynote lectures</li></ul>
@@ -488,7 +523,21 @@
         <ul><li>Invited talks</li><li>Best Paper Awards</li><li>Valedictory session</li></ul>
       </div>
     </div>
-    <p class="text-sm text-gray-500 mt-6">The detailed programme will be published closer to the event.</p>
+    <p class="text-sm text-gray-500 mt-6" data-hide-when="schedule">The detailed programme will be published closer to the event.</p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PLACES TO VISIT  (backend: places_to_visit)
+════════════════════════════════════════════════════════ -->
+<section id="visit" class="section" hidden>
+  <div class="container mx-auto">
+    <div class="max-w-2xl mb-12" data-reveal>
+      <p class="eyebrow">Places to visit</p>
+      <h2 class="h2">Explore Bangalore</h2>
+    </div>
+    <div class="places" data-sheet="places_to_visit"></div>
   </div>
 </section>
 
@@ -502,14 +551,28 @@
       <p class="eyebrow">Gallery</p>
       <h2 class="h2">Moments from the conference</h2>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3" data-reveal>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3" data-reveal data-sheet="gallery_images">
       <div class="shot md:col-span-2 md:row-span-2" style="background-image:url('assets/images/website-assets/hero-section.jpg')"></div>
       <div class="shot" style="background-image:url('assets/images/website-assets/hero-section.jpg');background-position:20% 30%"></div>
       <div class="shot" style="background-image:url('assets/images/website-assets/hero-section.jpg');background-position:80% 70%"></div>
       <div class="shot" style="background-image:url('assets/images/website-assets/hero-section.jpg');background-position:60% 20%"></div>
       <div class="shot" style="background-image:url('assets/images/website-assets/hero-section.jpg');background-position:10% 90%"></div>
     </div>
-    <p class="text-sm text-gray-500 mt-4">Placeholder images &mdash; event photographs will be added here.</p>
+    <p class="text-sm text-gray-500 mt-4" data-hide-when="gallery_images">Placeholder images &mdash; event photographs will be added here.</p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     FAQ  (backend: faqs)
+════════════════════════════════════════════════════════ -->
+<section id="faq" class="section section-paper" hidden>
+  <div class="container mx-auto max-w-3xl">
+    <div class="mb-10" data-reveal>
+      <p class="eyebrow">FAQs</p>
+      <h2 class="h2">Frequently asked questions</h2>
+    </div>
+    <div class="faqs" data-sheet="faqs"></div>
   </div>
 </section>
 
@@ -533,7 +596,7 @@
 <footer class="bg-primary-950 text-white/70 text-sm">
   <div class="container mx-auto grid gap-10 md:grid-cols-4">
     <div class="md:col-span-2">
-      <img src="assets/images/logos/CULOGO25_White.png" alt="CHRIST (Deemed to be University)" class="h-14 w-auto mb-5" />
+      <img src="assets/images/logos/CULOGO25_White.png" alt="CHRIST (Deemed to be University)" data-site-img="footer_logo" class="h-14 w-auto mb-5" />
       <p class="max-w-sm leading-relaxed">SAINTS 2027 &mdash; International Conference on Scientific Advances in Natural &amp; Technological Sciences. Organised by the <a href="https://christuniversity.in/schools/school-of-sciences" target="_blank" rel="noopener" class="inline-link">School of Sciences</a>.</p>
 
       <p class="foot-h mt-8">Follow CHRIST</p>
@@ -552,7 +615,11 @@
         <li><a href="#about" class="foot-a">About</a></li>
         <li><a href="#speakers" class="foot-a">Tracks &amp; speakers</a></li>
         <li><a href="#schedule" class="foot-a">Schedule</a></li>
-        <li><a href="#gallery" class="foot-a">Gallery</a></li>      </ul>
+        <li><a href="#gallery" class="foot-a">Gallery</a></li>
+        <li><a href="#committee" class="foot-a" data-needs="committee" hidden>Organizing committee</a></li>
+        <li><a href="#visit" class="foot-a" data-needs="visit" hidden>Places to visit</a></li>
+        <li><a href="#faq" class="foot-a" data-needs="faq" hidden>FAQs</a></li>
+      </ul>
     </div>
     <div>
       <p class="foot-h">Venue</p>
@@ -564,7 +631,7 @@
   </div>
   <div class="border-t border-white/10">
     <div class="container mx-auto py-5 text-xs text-white/50 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-      <span>&copy; 2027 SAINTS Organizing Committee. All rights reserved.</span>
+      <span data-site-text="footer_text">&copy; 2027 SAINTS Organizing Committee. All rights reserved.</span>
       <span>Designed &amp; developed by
         <a href="https://abhinavjain.dev" target="_blank" rel="noopener" class="credit">Abhinav Jain</a>
  and
@@ -580,6 +647,7 @@
      SCRIPTS
 ════════════════════════════════════════════════════════ -->
 <script src="assets/js/main.js"></script>
+<script src="assets/js/backend.js"></script>
 
 </body>
 </html>

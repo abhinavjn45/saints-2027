@@ -412,7 +412,7 @@
       <p class="eyebrow">Registration fees</p>
       <h2 class="h2">Fee structure</h2>
     </div>
-    <div class="fee-grid">
+    <div class="fee-grid" data-sheet="registration_fee">
       <div class="fee" data-reveal style="--d:0ms">
         <h3>UG/PG Students</h3>
         <dl>
@@ -471,10 +471,22 @@
 </section>
 
 
+<!-- ═══ REGISTRATION STEPS  (backend: registration_steps) ═══ -->
+<section id="register" class="section section-paper" hidden>
+  <div class="container mx-auto max-w-4xl">
+    <div class="mb-10" data-reveal>
+      <p class="eyebrow">How to register</p>
+      <h2 class="h2">Registration steps</h2>
+    </div>
+    <ol class="steps" data-sheet="registration_steps"></ol>
+  </div>
+</section>
+
+
 <footer class="bg-primary-950 text-white/70 text-sm">
   <div class="container mx-auto grid gap-10 md:grid-cols-4">
     <div class="md:col-span-2">
-      <img src="assets/images/logos/CULOGO25_White.png" alt="CHRIST (Deemed to be University)" class="h-14 w-auto mb-5" />
+      <img src="assets/images/logos/CULOGO25_White.png" alt="CHRIST (Deemed to be University)" data-site-img="footer_logo" class="h-14 w-auto mb-5" />
       <p class="max-w-sm leading-relaxed">SAINTS 2027 &mdash; International Conference on Scientific Advances in Natural &amp; Technological Sciences. Organised by the <a href="https://christuniversity.in/schools/school-of-sciences" target="_blank" rel="noopener" class="inline-link">School of Sciences</a>.</p>
 
       <p class="foot-h mt-8">Follow CHRIST</p>
@@ -505,7 +517,7 @@
   </div>
   <div class="border-t border-white/10">
     <div class="container mx-auto py-5 text-xs text-white/50 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-      <span>&copy; 2027 SAINTS Organizing Committee. All rights reserved.</span>
+      <span data-site-text="footer_text">&copy; 2027 SAINTS Organizing Committee. All rights reserved.</span>
       <span>Designed &amp; developed by
         <a href="https://abhinavjain.dev" target="_blank" rel="noopener" class="credit">Abhinav Jain</a>
  and
@@ -517,6 +529,7 @@
 </footer>
 
 <script src="assets/js/main.js"></script>
+<script src="assets/js/backend.js"></script>
 
 </body>
 </html>
