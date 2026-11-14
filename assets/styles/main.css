@@ -1,0 +1,74 @@
+/* ============================================================
+   SAINTS 2027 — Main Stylesheet
+   File: assets/styles/main.css
+   ============================================================ */
+
+/* ── 1. Announcement Ticker ─────────────────────────────── */
+@keyframes ticker {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+.ticker-track {
+  animation: ticker 28s linear infinite;
+  white-space: nowrap;
+}
+.ticker-track:hover { animation-play-state: paused; }
+
+
+/* ── 2. Dropdown fade + slide ───────────────────────────── */
+.dropdown-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+}
+.nav-item:hover .dropdown-menu,
+.nav-item:focus-within .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+
+/* ── 3. Header-top collapse (scroll-down hides it) ──────── */
+#header-top {
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity    0.4s  ease;
+  max-height: 200px;
+  opacity: 1;
+}
+#header-top.collapsed {
+  max-height: 0 !important;
+  opacity: 0;
+}
+
+
+/* ── 4. Active nav-link underline indicator ─────────────── */
+.nav-link::after {
+  content: '';
+  display: block;
+  height: 2px;
+  width: 0;
+  background: #4338ca;
+  border-radius: 2px;
+  transition: width 0.25s ease;
+  margin: 0 auto;
+}
+.nav-link:hover::after,
+.nav-link.active::after { width: 100%; }
+
+
+/* ── 5. Mobile menu slide-open ──────────────────────────── */
+#mobile-menu {
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+#mobile-menu.open { max-height: 600px; opacity: 1; }
+
+
+/* ── 6. Mobile accordion sub-menus ─────────────────────── */
+.mobile-submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.mobile-submenu.open { max-height: 300px; }

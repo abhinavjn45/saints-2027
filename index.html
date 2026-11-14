@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAINTS 2027 | International Conference on Scientific Advances in Natural &amp; Technological Sciences</title>
+  <meta name="description" content="SAINTS 2027 — International Conference on Scientific Advances in Natural &amp; Technological Sciences, January 6–8, 2027, CHRIST University, Bangalore." />
+  <meta name="author" content="SAINTS 2027 Organizing Committee" />
+
+  <!-- Favicon -->
+  <!-- <link rel="icon" type="image/png" href="assets/icons/favicon.png" /> -->
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Tailwind CSS CDN + Config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50:  '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+              950: '#1e1b4b',
+            },
+            accent: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            },
+            dark: '#0f0e17',
+          },
+          fontFamily: {
+            sans:    ['Inter', 'sans-serif'],
+            display: ['Playfair Display', 'serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Project Stylesheet -->
+  <link rel="stylesheet" href="assets/styles/main.css" />
+</head>
+
+<body class="font-sans bg-white text-gray-800 antialiased">
+
+
+<!-- ═══════════════════════════════════════════════════════
+     FIXED HEADER — Smart collapse on scroll-down,
+                    restore on scroll-up
+════════════════════════════════════════════════════════ -->
+<header id="main-header" class="fixed top-0 left-0 right-0 z-50">
+
+  <!-- ── Collapsible block: Topbar + Top Header ───────── -->
+  <div id="header-top">
+
+    <!-- LAYER 1 — TOPBAR (Announcements) -->
+    <div id="topbar" class="bg-primary-950 text-white text-xs py-1.5 overflow-hidden relative">
+      <div class="container mx-auto flex items-center gap-3 px-4">
+
+        <span class="shrink-0 bg-accent-500 text-white font-semibold px-2.5 py-0.5 rounded-sm tracking-wide uppercase text-[10px]">
+          Updates
+        </span>
+
+        <div class="flex-1 overflow-hidden relative">
+          <div class="ticker-track inline-flex items-center gap-10">
+            <span>🎉 <strong>Abstract Submission Open!</strong> — Submit your abstract by <strong>31 March 2027</strong>.</span>
+            <span>📢 <strong>Keynote Speakers Announced</strong> — Visit the Speakers section to learn more.</span>
+            <span>📅 <strong>Conference Dates:</strong> January 6–8, 2027 | Venue: CHRIST University, Bangalore</span>
+            <span>🏆 <strong>Best Paper Awards</strong> across all four tracks — stay tuned!</span>
+            <span>🌐 <strong>Early Bird Registration</strong> closes on <strong>30 April 2027</strong>.</span>
+          </div>
+        </div>
+
+        <button id="topbar-close" aria-label="Close announcements bar"
+          class="shrink-0 hover:text-accent-400 transition-colors ml-2">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+
+      </div>
+    </div>
+    <!-- end Topbar -->
+
+    <!-- LAYER 2 — TOP HEADER (Logos & Branding) -->
+    <div id="top-header" class="bg-white border-b border-gray-100">
+      <div class="container mx-auto px-4 py-3 flex items-center justify-between gap-6">
+
+        <!-- Left — University Logo -->
+        <div class="flex items-center">
+          <img src="assets/images/logos/christ_main_blue-gold.png"
+            alt="Christ University Logo"
+            class="h-16 w-auto object-contain" />
+        </div>
+
+        <!-- Center — SAINTS Logo -->
+        <div class="flex items-center justify-center">
+          <a href="#hero">
+            <img src="assets/images/logos/saints_main.png"
+              alt="SAINTS 2027 Logo"
+              class="h-16 w-auto object-contain" />
+          </a>
+        </div>
+
+        <!-- Right — Gold Sponsor -->
+        <div class="flex flex-col items-end gap-1">
+          <span class="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-widest text-accent-600">
+            <i class="fa-solid fa-medal text-accent-500 text-xs"></i> Gold Sponsor
+          </span>
+          <img src="assets/images/logos/rsi-supports-research-gold-sponsor.png"
+            alt="RSI Supports Research — Gold Sponsor"
+            class="h-16 w-auto object-contain" />
+        </div>
+
+      </div>
+    </div>
+    <!-- end Top Header -->
+
+  </div>
+  <!-- end #header-top -->
+
+
+  <!-- LAYER 3 — NAVBAR (always visible inside fixed header) -->
+  <nav id="navbar" class="bg-white border-t border-gray-200 text-gray-800 shadow-sm">
+    <div class="container mx-auto px-4 flex items-center justify-between h-14">
+
+      <!-- Desktop Nav Links -->
+      <ul class="hidden lg:flex items-center gap-2 h-full text-sm font-semibold tracking-wide">
+
+        <li>
+          <a href="#hero" class="nav-link active px-4 py-2 block text-primary-700 hover:text-accent-500 transition-colors">Home</a>
+        </li>
+        <li>
+          <a href="#about" class="nav-link px-4 py-2 block text-gray-700 hover:text-accent-500 transition-colors">About</a>
+        </li>
+
+        <!-- Speakers dropdown -->
+        <li class="nav-item relative h-full flex items-center">
+          <button class="nav-link flex items-center gap-1.5 px-4 py-2 text-gray-700 hover:text-accent-500 transition-colors cursor-pointer">
+            Speakers <i class="fa-solid fa-chevron-down text-[10px] mt-0.5 transition-transform duration-200"></i>
+          </button>
+          <ul class="dropdown-menu absolute top-full left-0 w-44 bg-white text-gray-800 rounded-b-lg shadow-xl border border-gray-100 py-1 z-50">
+            <li><a href="#track-1" class="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-primary-50 hover:text-primary-700 transition-colors">
+              <span class="w-5 h-5 rounded-full bg-primary-100 text-primary-700 text-[10px] font-bold flex items-center justify-center">1</span> Track 1
+            </a></li>
+            <li><a href="#track-2" class="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-primary-50 hover:text-primary-700 transition-colors">
+              <span class="w-5 h-5 rounded-full bg-primary-100 text-primary-700 text-[10px] font-bold flex items-center justify-center">2</span> Track 2
+            </a></li>
+            <li><a href="#track-3" class="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-primary-50 hover:text-primary-700 transition-colors">
+              <span class="w-5 h-5 rounded-full bg-primary-100 text-primary-700 text-[10px] font-bold flex items-center justify-center">3</span> Track 3
+            </a></li>
+            <li><a href="#track-4" class="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-primary-50 hover:text-primary-700 transition-colors">
+              <span class="w-5 h-5 rounded-full bg-primary-100 text-primary-700 text-[10px] font-bold flex items-center justify-center">4</span> Track 4
+            </a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="#publications" class="nav-link px-4 py-2 block text-gray-700 hover:text-accent-500 transition-colors">Publications</a>
+        </li>
+        <li>
+          <a href="#schedule" class="nav-link px-4 py-2 block text-gray-700 hover:text-accent-500 transition-colors">Schedule</a>
+        </li>
+
+        <!-- Legacy dropdown -->
+        <li class="nav-item relative h-full flex items-center">
+          <button class="nav-link flex items-center gap-1.5 px-4 py-2 text-gray-700 hover:text-accent-500 transition-colors cursor-pointer">
+            Legacy <i class="fa-solid fa-chevron-down text-[10px] mt-0.5 transition-transform duration-200"></i>
+          </button>
+          <ul class="dropdown-menu absolute top-full left-0 w-44 bg-white text-gray-800 rounded-b-lg shadow-xl border border-gray-100 py-1 z-50">
+            <li><a href="#saints-2026" class="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-primary-50 hover:text-primary-700 transition-colors">
+              <i class="fa-regular fa-calendar text-primary-500 text-xs"></i> SAINTS 2026
+            </a></li>
+            <li><a href="#saints-2024" class="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-primary-50 hover:text-primary-700 transition-colors">
+              <i class="fa-regular fa-calendar text-primary-500 text-xs"></i> SAINTS 2024
+            </a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="#gallery" class="nav-link px-4 py-2 block text-gray-700 hover:text-accent-500 transition-colors">Gallery</a>
+        </li>
+
+      </ul>
+      <!-- end Desktop Nav -->
+
+      <!-- Right: CTA + Hamburger -->
+      <div class="flex items-center gap-3 ml-auto lg:ml-0">
+        <a href="#register"
+          class="hidden sm:inline-flex items-center gap-2 bg-accent-500 hover:bg-accent-600 text-white text-xs font-semibold px-4 py-2 rounded-full transition-all duration-200 shadow-md hover:shadow-lg active:scale-95">
+          <i class="fa-solid fa-pen-to-square text-[11px]"></i> Submit Abstract
+        </a>
+        <button id="mobile-menu-btn" aria-label="Toggle navigation menu"
+          class="lg:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5 group">
+          <span class="hamburger-line block h-0.5 w-6 bg-gray-700 rounded-full transition-all duration-300"></span>
+          <span class="hamburger-line block h-0.5 w-6 bg-gray-700 rounded-full transition-all duration-300"></span>
+          <span class="hamburger-line block h-0.5 w-4 bg-gray-700 rounded-full transition-all duration-300 group-hover:w-6"></span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div id="mobile-menu" class="lg:hidden border-t border-gray-200 bg-white">
+      <ul class="container mx-auto px-4 py-2 flex flex-col gap-0.5 text-sm font-semibold">
+        <li><a href="#hero" class="block px-3 py-2.5 rounded hover:bg-gray-100 hover:text-accent-500 transition-colors text-gray-700">Home</a></li>
+        <li><a href="#about" class="block px-3 py-2.5 rounded hover:bg-gray-100 hover:text-accent-500 transition-colors text-gray-700">About</a></li>
+        <li>
+          <button class="mobile-accordion-btn w-full flex items-center justify-between px-3 py-2.5 rounded hover:bg-gray-100 text-gray-700 hover:text-accent-500 transition-colors" data-target="mobile-speakers">
+            Speakers <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+          </button>
+          <ul id="mobile-speakers" class="mobile-submenu pl-4 flex flex-col gap-0.5 mt-0.5">
+            <li><a href="#track-1" class="block px-3 py-2 rounded text-gray-500 hover:text-accent-500 hover:bg-gray-100 transition-colors">Track 1</a></li>
+            <li><a href="#track-2" class="block px-3 py-2 rounded text-gray-500 hover:text-accent-500 hover:bg-gray-100 transition-colors">Track 2</a></li>
+            <li><a href="#track-3" class="block px-3 py-2 rounded text-gray-500 hover:text-accent-500 hover:bg-gray-100 transition-colors">Track 3</a></li>
+            <li><a href="#track-4" class="block px-3 py-2 rounded text-gray-500 hover:text-accent-500 hover:bg-gray-100 transition-colors">Track 4</a></li>
+          </ul>
+        </li>
+        <li><a href="#publications" class="block px-3 py-2.5 rounded hover:bg-gray-100 hover:text-accent-500 transition-colors text-gray-700">Publications</a></li>
+        <li><a href="#schedule" class="block px-3 py-2.5 rounded hover:bg-gray-100 hover:text-accent-500 transition-colors text-gray-700">Schedule</a></li>
+        <li>
+          <button class="mobile-accordion-btn w-full flex items-center justify-between px-3 py-2.5 rounded hover:bg-gray-100 text-gray-700 hover:text-accent-500 transition-colors" data-target="mobile-legacy">
+            Legacy <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+          </button>
+          <ul id="mobile-legacy" class="mobile-submenu pl-4 flex flex-col gap-0.5 mt-0.5">
+            <li><a href="#saints-2026" class="block px-3 py-2 rounded text-gray-500 hover:text-accent-500 hover:bg-gray-100 transition-colors">SAINTS 2026</a></li>
+            <li><a href="#saints-2024" class="block px-3 py-2 rounded text-gray-500 hover:text-accent-500 hover:bg-gray-100 transition-colors">SAINTS 2024</a></li>
+          </ul>
+        </li>
+        <li><a href="#gallery" class="block px-3 py-2.5 rounded hover:bg-gray-100 hover:text-accent-500 transition-colors text-gray-700">Gallery</a></li>
+        <li class="pt-2 pb-3">
+          <a href="#register" class="flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold px-4 py-3 rounded-lg transition-all duration-200 active:scale-95">
+            <i class="fa-solid fa-pen-to-square"></i> Submit Abstract
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!-- end Mobile Menu Panel -->
+
+  </nav>
+  <!-- end Navbar -->
+
+</header>
+<!-- end #main-header -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO SECTION
+════════════════════════════════════════════════════════ -->
+<section id="hero"
+  class="relative min-h-screen flex items-center justify-center overflow-hidden"
+  style="padding-top: var(--header-height, 180px);">
+
+  <!-- Background image -->
+  <div class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    style="background-image: url('assets/images/website-assets/hero-section.jpg');"></div>
+
+  <!-- Dark overlay -->
+  <div class="absolute inset-0 bg-black/60"></div>
+
+  <div class="relative z-10 container mx-auto px-4 text-center text-white py-20">
+
+    <!-- Pre-heading label -->
+    <p class="inline-flex items-center gap-2 text-xs sm:text-sm uppercase tracking-[0.25em] text-white/80 font-medium mb-5">
+      <span class="block h-px w-8 bg-accent-400"></span>
+      International Conference
+      <span class="block h-px w-8 bg-accent-400"></span>
+    </p>
+
+    <!-- Main Heading -->
+    <h1 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 drop-shadow-lg">
+      <span class="bg-gradient-to-r from-accent-400 via-yellow-300 to-accent-400 bg-clip-text text-transparent">
+        Scientific Advances in Natural
+      </span><br />
+      <span class="bg-gradient-to-r from-accent-400 via-yellow-300 to-accent-400 bg-clip-text text-transparent">
+        &amp; Technological Sciences
+      </span>
+    </h1>
+
+    <!-- SAINTS Logo -->
+    <div class="flex justify-center mb-5">
+      <img src="https://res.cloudinary.com/dchqvsa57/image/upload/v1780714581/saints_new_logo_lruoy4.png"
+        alt="SAINTS 2027"
+        class="h-20 sm:h-24 w-auto object-contain drop-shadow-xl" />
+    </div>
+
+    <!-- Organised by -->
+    <p class="text-sm sm:text-base font-medium text-white/80 tracking-widest uppercase mb-8">
+      Organized by: <span class="text-accent-400 font-semibold">School of Sciences</span>
+    </p>
+
+    <!-- Divider -->
+    <div class="flex items-center justify-center gap-3 mb-8">
+      <div class="h-px w-16 bg-white/20"></div>
+      <div class="w-1.5 h-1.5 rounded-full bg-accent-400"></div>
+      <div class="h-px w-16 bg-white/20"></div>
+    </div>
+
+    <!-- Date & Venue -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mb-10">
+
+      <div class="flex items-center gap-2.5 text-white/90">
+        <span class="w-9 h-9 rounded-full bg-accent-500/20 border border-accent-400/40 flex items-center justify-center shrink-0">
+          <i class="fa-regular fa-calendar text-accent-400 text-sm"></i>
+        </span>
+        <div class="text-left">
+          <p class="text-[10px] uppercase tracking-widest text-white/50 leading-none mb-0.5">Date</p>
+          <p class="text-sm sm:text-base font-semibold leading-tight">January 6 – 8, 2027</p>
+        </div>
+      </div>
+
+      <div class="hidden sm:block w-px h-10 bg-white/20"></div>
+
+      <div class="flex items-center gap-2.5 text-white/90 max-w-xs text-left">
+        <span class="w-9 h-9 rounded-full bg-accent-500/20 border border-accent-400/40 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-location-dot text-accent-400 text-sm"></i>
+        </span>
+        <div>
+          <p class="text-[10px] uppercase tracking-widest text-white/50 leading-none mb-0.5">Venue</p>
+          <p class="text-sm sm:text-base font-semibold leading-tight">CHRIST (Deemed to be University)</p>
+          <p class="text-xs text-white/60 leading-tight">Bangalore Central Campus, Bangalore, India</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#register"
+        class="inline-flex items-center bg-accent-500 hover:bg-accent-600 text-white font-semibold px-8 py-3.5 rounded-full text-sm sm:text-base transition-all duration-200 shadow-xl hover:shadow-2xl active:scale-95">
+        Register Now
+      </a>
+      <a href="#abstract"
+        class="inline-flex items-center bg-white/10 hover:bg-white/20 border border-white/30 hover:border-white/60 text-white font-semibold px-8 py-3.5 rounded-full text-sm sm:text-base transition-all duration-200 backdrop-blur-sm active:scale-95">
+        Submit Abstract
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-white/40 text-xs animate-bounce">
+    <span class="text-[10px] uppercase tracking-widest">Scroll</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+
+</section>
+<!-- end #hero -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════════════ -->
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
