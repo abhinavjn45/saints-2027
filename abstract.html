@@ -69,7 +69,7 @@
 
     <!-- LAYER 1 — TOPBAR (Announcements) -->
     <div id="topbar" class="topbar">
-      <div class="topbar-inner container mx-auto flex items-center gap-3 px-4">
+      <div class="topbar-inner container mx-auto flex items-center gap-3">
 
         <span class="topbar-badge">
           <span class="topbar-pulse"></span> Updates
@@ -94,7 +94,7 @@
 
     <!-- LAYER 2 — TOP HEADER (Logos & Branding) -->
     <div id="top-header" class="top-header">
-      <div class="container mx-auto px-4 py-3 flex items-center justify-between gap-4 sm:gap-6">
+      <div class="container mx-auto py-3 flex items-center justify-between gap-4 sm:gap-6">
 
         <!-- Left — University Logo -->
         <a href="index.html#hero" class="logo-link" aria-label="CHRIST University">
@@ -130,7 +130,7 @@
 
   <!-- LAYER 3 — NAVBAR (always visible) -->
   <nav id="navbar" class="navbar" aria-label="Primary">
-    <div class="container mx-auto px-4 flex items-center justify-between h-16">
+    <div class="container mx-auto flex items-center justify-between h-16">
 
       <!-- Compact brand (fades in once the top header has slid away) -->
       <a href="index.html#hero" class="nav-brand" aria-label="SAINTS 2027 home">
@@ -159,7 +159,17 @@
         <li><a href="index.html#publications" class="nav-link">Publications</a></li>
         <li><a href="index.html#schedule" class="nav-link">Schedule</a></li>
         <li><a href="index.html#gallery" class="nav-link">Gallery</a></li>
-        <li><a href="legacy.html" class="nav-link">Legacy</a></li>
+
+        <!-- Legacy dropdown -->
+        <li class="nav-item relative">
+          <button class="nav-link" aria-haspopup="true">
+            Legacy <i class="fa-solid fa-chevron-down chev"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#" class="dropdown-link"><span class="track-num"><i class="fa-regular fa-calendar"></i></span><span class="dd-text"><b>SAINTS 2026</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+            <li><a href="#" class="dropdown-link"><span class="track-num"><i class="fa-regular fa-calendar"></i></span><span class="dd-text"><b>SAINTS 2024</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+          </ul>
+        </li>
 
       </ul>
       <!-- end Desktop Nav -->
@@ -182,7 +192,7 @@
     <!-- Mobile Menu Panel -->
     <div id="mobile-menu" class="lg:hidden">
       <div class="mobile-menu-inner">
-        <ul class="container mx-auto px-4 py-3 flex flex-col gap-1 text-sm font-medium">
+        <ul class="container mx-auto py-3 flex flex-col gap-1 text-sm font-medium">
           <li><a href="index.html#hero" class="m-link">Home</a></li>
           <li><a href="index.html#about" class="m-link">About</a></li>
           <li>
@@ -199,7 +209,15 @@
           <li><a href="index.html#publications" class="m-link">Publications</a></li>
           <li><a href="index.html#schedule" class="m-link">Schedule</a></li>
           <li><a href="index.html#gallery" class="m-link">Gallery</a></li>
-          <li><a href="legacy.html" class="m-link">Legacy</a></li>
+          <li>
+            <button class="mobile-accordion-btn m-link w-full flex items-center justify-between" data-target="mobile-legacy" aria-expanded="false">
+              Legacy <i class="fa-solid fa-chevron-down text-xs"></i>
+            </button>
+            <div id="mobile-legacy" class="mobile-submenu"><ul>
+              <li><a href="#" class="m-sublink">SAINTS 2026</a></li>
+              <li><a href="#" class="m-sublink">SAINTS 2024</a></li>
+            </ul></div>
+          </li>
           <li class="pt-2 pb-2">
             <a href="abstract.html" class="btn btn-primary justify-center w-full">Submit Abstract <i class="fa-solid fa-arrow-right btn-arrow"></i></a>
           </li>
@@ -218,13 +236,13 @@
 <section id="page-hero" class="relative overflow-hidden bg-primary-950 text-white">
   <div class="absolute inset-0 bg-cover bg-center opacity-25" style="background-image: url('assets/images/website-assets/hero-section.jpg');"></div>
   <div class="absolute bottom-0 left-0 right-0 h-1 bg-accent-500"></div>
-  <div class="relative z-10 container mx-auto px-4 py-16 sm:py-20">
+  <div class="relative z-10 container mx-auto">
     <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><span>Abstract Submission</span></nav>
     <p class="eyebrow eyebrow-light mt-6" data-reveal>Call for abstracts</p>
     <h1 class="font-display text-4xl sm:text-5xl font-bold leading-tight mt-4 mb-4" data-reveal style="--d:80ms">Abstract Submission</h1>
     <p class="text-white/75 text-lg max-w-2xl mb-8" data-reveal style="--d:160ms">Abstract Submission is now open. Submit your research and be a part of SAINTS 2027.</p>
     <div class="flex flex-col sm:flex-row gap-3" data-reveal style="--d:240ms">
-      <a href="#portal" class="btn btn-primary btn-lg">Submit Abstract <i class="fa-solid fa-arrow-right btn-arrow"></i></a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf207lI_9zFKQfLKKWXpFzejVC5bueGQAr0FRWA_wTylmuWuA/viewform" target="_blank" rel="noopener" class="btn btn-primary btn-lg">Submit Abstract <i class="fa-solid fa-arrow-right btn-arrow"></i></a>
       <a href="#guidelines" class="btn btn-outline-light btn-lg">Read Guidelines</a>
     </div>
   </div>
@@ -232,7 +250,7 @@
 
 <!-- ═══ INTRO + DATES ═══ -->
 <section class="section">
-  <div class="container mx-auto px-4 grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+  <div class="container mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
     <div class="lg:col-span-7" data-reveal>
       <p class="eyebrow">Invitation</p>
       <h2 class="h2">Share original research with a global audience</h2>
@@ -253,7 +271,7 @@
 
 <!-- ═══ PRESENTATION CATEGORIES ═══ -->
 <section id="categories" class="section section-paper">
-  <div class="container mx-auto px-4">
+  <div class="container mx-auto">
     <div class="max-w-2xl mb-12" data-reveal>
       <p class="eyebrow">Presentation categories</p>
       <h2 class="h2">Oral and poster formats</h2>
@@ -297,13 +315,13 @@
 
 <!-- ═══ GUIDELINES ═══ -->
 <section id="guidelines" class="section">
-  <div class="container mx-auto px-4 grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+  <div class="container mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
     <div class="lg:col-span-5" data-reveal>
       <p class="eyebrow">Guidelines</p>
       <h2 class="h2">Abstract preparation</h2>
       <p class="body-copy">Follow these requirements so your abstract can move straight into peer review.</p>
-      <a href="#" class="btn btn-navy" download><i class="fa-solid fa-file-word"></i> Download Abstract Template</a>
-      <p class="text-sm text-gray-500 mt-3">SAINTS_Abstract_Template.docx</p>
+      <a href="assets/SAINTS_Abstract_template.docx" download class="btn btn-navy"><i class="fa-solid fa-file-word"></i> Download Abstract Template</a>
+      <p class="text-sm text-gray-500 mt-3">SAINTS_Abstract_template.docx</p>
     </div>
     <div class="lg:col-span-7 panel" data-reveal style="--d:100ms">
       <ul class="check-list">
@@ -320,7 +338,7 @@
 
 <!-- ═══ PUBLICATION ═══ -->
 <section id="publication" class="section section-navy">
-  <div class="container mx-auto px-4 grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+  <div class="container mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
     <div class="lg:col-span-5" data-reveal>
       <p class="eyebrow eyebrow-light">Publication</p>
       <h2 class="h2 text-white">Publication of accepted abstracts</h2>
@@ -340,7 +358,7 @@
 
 <!-- ═══ AWARDS ═══ -->
 <section id="awards" class="section">
-  <div class="container mx-auto px-4">
+  <div class="container mx-auto">
     <div class="max-w-2xl mb-12" data-reveal>
       <p class="eyebrow">Awards and recognition</p>
       <h2 class="h2">Recognising excellence in research and communication</h2>
@@ -376,20 +394,20 @@
 
 <!-- ═══ SUBMISSION PORTAL ═══ -->
 <section id="portal" class="section section-paper">
-  <div class="container mx-auto px-4 text-center max-w-3xl" data-reveal>
+  <div class="container mx-auto text-center max-w-3xl" data-reveal>
     <p class="eyebrow justify-center">Submission portal</p>
     <h2 class="h2">Ready to submit your research?</h2>
     <p class="body-copy text-lg mb-9">Click below to access the secure submission form.</p>
     <div class="flex flex-col sm:flex-row gap-3 justify-center">
-      <a href="#" class="btn btn-primary btn-lg">Submit Abstract <i class="fa-solid fa-arrow-right btn-arrow"></i></a>
-      <a href="#" class="btn btn-navy btn-lg" download><i class="fa-solid fa-download"></i> Download Template</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf207lI_9zFKQfLKKWXpFzejVC5bueGQAr0FRWA_wTylmuWuA/viewform" target="_blank" rel="noopener" class="btn btn-primary btn-lg">Submit Abstract <i class="fa-solid fa-arrow-right btn-arrow"></i></a>
+      <a href="assets/SAINTS_Abstract_template.docx" download class="btn btn-navy btn-lg"><i class="fa-solid fa-download"></i> Download Template</a>
     </div>
   </div>
 </section>
 
 <!-- ═══ REGISTRATION FEES ═══ -->
 <section id="fees" class="section">
-  <div class="container mx-auto px-4">
+  <div class="container mx-auto">
     <div class="max-w-2xl mb-12" data-reveal>
       <p class="eyebrow">Registration fees</p>
       <h2 class="h2">Fee structure</h2>
@@ -454,7 +472,7 @@
 
 
 <footer class="bg-primary-950 text-white/70 text-sm">
-  <div class="container mx-auto px-4 py-14 grid gap-10 md:grid-cols-4">
+  <div class="container mx-auto grid gap-10 md:grid-cols-4">
     <div class="md:col-span-2">
       <img src="assets/images/logos/CULOGO25_White.png" alt="CHRIST (Deemed to be University)" class="h-14 w-auto mb-5" />
       <p class="max-w-sm leading-relaxed">SAINTS 2027 &mdash; International Conference on Scientific Advances in Natural &amp; Technological Sciences. Organised by the <a href="https://christuniversity.in/schools/school-of-sciences" target="_blank" rel="noopener" class="inline-link">School of Sciences</a>.</p>
@@ -475,9 +493,7 @@
         <li><a href="index.html#about" class="foot-a">About</a></li>
         <li><a href="index.html#speakers" class="foot-a">Tracks &amp; speakers</a></li>
         <li><a href="index.html#schedule" class="foot-a">Schedule</a></li>
-        <li><a href="index.html#gallery" class="foot-a">Gallery</a></li>
-        <li><a href="legacy.html" class="foot-a">Legacy</a></li>
-      </ul>
+        <li><a href="index.html#gallery" class="foot-a">Gallery</a></li>      </ul>
     </div>
     <div>
       <p class="foot-h">Venue</p>
@@ -488,7 +504,7 @@
     </div>
   </div>
   <div class="border-t border-white/10">
-    <div class="container mx-auto px-4 py-5 text-xs text-white/50 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <div class="container mx-auto py-5 text-xs text-white/50 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
       <span>&copy; 2027 SAINTS Organizing Committee. All rights reserved.</span>
       <span>Designed &amp; developed by
         <a href="https://abhinavjain.dev" target="_blank" rel="noopener" class="credit">Abhinav Jain</a>

@@ -74,7 +74,7 @@
 
     <!-- LAYER 1 — TOPBAR (Announcements) -->
     <div id="topbar" class="topbar">
-      <div class="topbar-inner container mx-auto flex items-center gap-3 px-4">
+      <div class="topbar-inner container mx-auto flex items-center gap-3">
 
         <span class="topbar-badge">
           <span class="topbar-pulse"></span> Updates
@@ -99,7 +99,7 @@
 
     <!-- LAYER 2 — TOP HEADER (Logos & Branding) -->
     <div id="top-header" class="top-header">
-      <div class="container mx-auto px-4 py-3 flex items-center justify-between gap-4 sm:gap-6">
+      <div class="container mx-auto py-3 flex items-center justify-between gap-4 sm:gap-6">
 
         <!-- Left — University Logo -->
         <a href="#hero" class="logo-link" aria-label="CHRIST University">
@@ -135,7 +135,7 @@
 
   <!-- LAYER 3 — NAVBAR (always visible) -->
   <nav id="navbar" class="navbar" aria-label="Primary">
-    <div class="container mx-auto px-4 flex items-center justify-between h-16">
+    <div class="container mx-auto flex items-center justify-between h-16">
 
       <!-- Compact brand (fades in once the top header has slid away) -->
       <a href="#hero" class="nav-brand" aria-label="SAINTS 2027 home">
@@ -164,7 +164,17 @@
         <li><a href="#publications" class="nav-link">Publications</a></li>
         <li><a href="#schedule" class="nav-link">Schedule</a></li>
         <li><a href="#gallery" class="nav-link">Gallery</a></li>
-        <li><a href="legacy.html" class="nav-link">Legacy</a></li>
+
+        <!-- Legacy dropdown -->
+        <li class="nav-item relative">
+          <button class="nav-link" aria-haspopup="true">
+            Legacy <i class="fa-solid fa-chevron-down chev"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#" class="dropdown-link"><span class="track-num"><i class="fa-regular fa-calendar"></i></span><span class="dd-text"><b>SAINTS 2026</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+            <li><a href="#" class="dropdown-link"><span class="track-num"><i class="fa-regular fa-calendar"></i></span><span class="dd-text"><b>SAINTS 2024</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+          </ul>
+        </li>
 
       </ul>
       <!-- end Desktop Nav -->
@@ -187,7 +197,7 @@
     <!-- Mobile Menu Panel -->
     <div id="mobile-menu" class="lg:hidden">
       <div class="mobile-menu-inner">
-        <ul class="container mx-auto px-4 py-3 flex flex-col gap-1 text-sm font-medium">
+        <ul class="container mx-auto py-3 flex flex-col gap-1 text-sm font-medium">
           <li><a href="#hero" class="m-link">Home</a></li>
           <li><a href="#about" class="m-link">About</a></li>
           <li>
@@ -204,7 +214,15 @@
           <li><a href="#publications" class="m-link">Publications</a></li>
           <li><a href="#schedule" class="m-link">Schedule</a></li>
           <li><a href="#gallery" class="m-link">Gallery</a></li>
-          <li><a href="legacy.html" class="m-link">Legacy</a></li>
+          <li>
+            <button class="mobile-accordion-btn m-link w-full flex items-center justify-between" data-target="mobile-legacy" aria-expanded="false">
+              Legacy <i class="fa-solid fa-chevron-down text-xs"></i>
+            </button>
+            <div id="mobile-legacy" class="mobile-submenu"><ul>
+              <li><a href="#" class="m-sublink">SAINTS 2026</a></li>
+              <li><a href="#" class="m-sublink">SAINTS 2024</a></li>
+            </ul></div>
+          </li>
           <li class="pt-2 pb-2">
             <a href="abstract.html" class="btn btn-primary justify-center w-full">Submit Abstract <i class="fa-solid fa-arrow-right btn-arrow"></i></a>
           </li>
@@ -231,7 +249,7 @@
   <div class="absolute inset-y-0 left-0 w-full lg:w-2/3 bg-primary-950/60"></div>
   <div class="absolute bottom-0 left-0 right-0 h-1 bg-accent-500"></div>
 
-  <div class="relative z-10 container mx-auto px-4 pt-10 pb-28 sm:pb-32 flex items-center justify-between gap-12">
+  <div class="relative z-10 container mx-auto pt-10 pb-28 sm:pb-32 flex items-center justify-between gap-12">
     <div class="max-w-3xl">
 
       <p class="eyebrow eyebrow-light" data-reveal>International Conference</p>
@@ -258,7 +276,7 @@
 
 
 <!-- ═══ Quick facts strip (overlaps hero) ═══ -->
-<div class="relative z-20 container mx-auto px-4 -mt-16 sm:-mt-20">
+<div class="relative z-20 container mx-auto -mt-16 sm:-mt-20">
   <div class="facts" data-reveal>
     <div class="fact">
       <i class="fa-regular fa-calendar"></i>
@@ -291,7 +309,7 @@
      ABOUT
 ════════════════════════════════════════════════════════ -->
 <section id="about" class="section">
-  <div class="container mx-auto px-4">
+  <div class="container mx-auto">
 
     <div class="max-w-3xl" data-reveal>
       <p class="eyebrow">About the conference</p>
@@ -347,7 +365,7 @@
      KEY DATES
 ════════════════════════════════════════════════════════ -->
 <section id="dates" class="section section-navy">
-  <div class="container mx-auto px-4">
+  <div class="container mx-auto">
     <div class="max-w-2xl mb-12" data-reveal>
       <p class="eyebrow eyebrow-light">Plan ahead</p>
       <h2 class="h2 text-white">Key dates</h2>
@@ -373,7 +391,7 @@
      TRACKS & SPEAKERS
 ════════════════════════════════════════════════════════ -->
 <section id="speakers" class="section">
-  <div class="container mx-auto px-4">
+  <div class="container mx-auto">
     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12" data-reveal>
       <div class="max-w-2xl">
         <p class="eyebrow">Tracks &amp; speakers</p>
@@ -416,7 +434,7 @@
      ABSTRACT SUBMISSION + PUBLICATIONS
 ════════════════════════════════════════════════════════ -->
 <section id="abstract" class="section section-paper">
-  <div class="container mx-auto px-4 grid lg:grid-cols-2 gap-6">
+  <div class="container mx-auto grid lg:grid-cols-2 gap-6">
 
     <div class="panel" data-reveal>
       <p class="eyebrow">Call for abstracts</p>
@@ -450,7 +468,7 @@
      SCHEDULE
 ════════════════════════════════════════════════════════ -->
 <section id="schedule" class="section">
-  <div class="container mx-auto px-4">
+  <div class="container mx-auto">
     <div class="max-w-2xl mb-12" data-reveal>
       <p class="eyebrow">Programme</p>
       <h2 class="h2">Three days at a glance</h2>
@@ -479,7 +497,7 @@
      GALLERY
 ════════════════════════════════════════════════════════ -->
 <section id="gallery" class="section section-paper">
-  <div class="container mx-auto px-4">
+  <div class="container mx-auto">
     <div class="max-w-2xl mb-12" data-reveal>
       <p class="eyebrow">Gallery</p>
       <h2 class="h2">Moments from the conference</h2>
@@ -500,7 +518,7 @@
      REGISTER CTA
 ════════════════════════════════════════════════════════ -->
 <section id="join" class="section section-navy">
-  <div class="container mx-auto px-4 text-center max-w-3xl" data-reveal>
+  <div class="container mx-auto text-center max-w-3xl" data-reveal>
     <p class="eyebrow eyebrow-light justify-center">Join us</p>
     <h2 class="h2 text-white">Be part of SAINTS 2027</h2>
     <p class="text-white/75 text-lg mb-9">Share your research with scientists and scholars from around the world.</p>
@@ -513,7 +531,7 @@
      FOOTER
 ════════════════════════════════════════════════════════ -->
 <footer class="bg-primary-950 text-white/70 text-sm">
-  <div class="container mx-auto px-4 py-14 grid gap-10 md:grid-cols-4">
+  <div class="container mx-auto grid gap-10 md:grid-cols-4">
     <div class="md:col-span-2">
       <img src="assets/images/logos/CULOGO25_White.png" alt="CHRIST (Deemed to be University)" class="h-14 w-auto mb-5" />
       <p class="max-w-sm leading-relaxed">SAINTS 2027 &mdash; International Conference on Scientific Advances in Natural &amp; Technological Sciences. Organised by the <a href="https://christuniversity.in/schools/school-of-sciences" target="_blank" rel="noopener" class="inline-link">School of Sciences</a>.</p>
@@ -534,9 +552,7 @@
         <li><a href="#about" class="foot-a">About</a></li>
         <li><a href="#speakers" class="foot-a">Tracks &amp; speakers</a></li>
         <li><a href="#schedule" class="foot-a">Schedule</a></li>
-        <li><a href="#gallery" class="foot-a">Gallery</a></li>
-        <li><a href="legacy.html" class="foot-a">Legacy</a></li>
-      </ul>
+        <li><a href="#gallery" class="foot-a">Gallery</a></li>      </ul>
     </div>
     <div>
       <p class="foot-h">Venue</p>
@@ -547,7 +563,7 @@
     </div>
   </div>
   <div class="border-t border-white/10">
-    <div class="container mx-auto px-4 py-5 text-xs text-white/50 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <div class="container mx-auto py-5 text-xs text-white/50 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
       <span>&copy; 2027 SAINTS Organizing Committee. All rights reserved.</span>
       <span>Designed &amp; developed by
         <a href="https://abhinavjain.dev" target="_blank" rel="noopener" class="credit">Abhinav Jain</a>
