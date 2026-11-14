@@ -91,6 +91,19 @@
   }
 
   const isHttp = u => /^https?:\/\//i.test(u || '');
+
+  // Sheet images are often full-size originals (several MB). Cloudinary can resize and
+  // compress on the fly, so ask for the size we actually display.
+  function sized(url, w) {
+    return /\/image\/upload\//.test(url)
+      ? url.replace('/image/upload/', '/image/upload/f_auto,q_auto,c_limit,w_' + w + '/')
+      : url;
+  }
+  function photo(url, w, alt) {
+    const img = document.createElement('img');
+    img.src = sized(url, w); img.alt = alt || ''; img.loading = 'lazy'; img.decoding = 'async';
+    return img;
+  }
   const pad2 = n => String(n).padStart(2, '0');
 
   // Allow only a small set of inline tags; links must be http(s).
@@ -350,7 +363,7 @@
   function speakerCard(s) {
     const card = el('article', 'speaker');
     const ph = el('div', 'speaker-photo');
-    if (isHttp(s.speaker_image)) { const img = el('img'); img.src = s.speaker_image; img.alt = s.speaker_fullname; img.loading = 'lazy'; ph.appendChild(img); }
+    if (isHttp(s.speaker_image)) ph.appendChild(photo(s.speaker_image, 160, s.speaker_fullname));
     const txt = el('div', 'speaker-text');
     txt.append(el('h4', 'speaker-name', s.speaker_fullname), el('p', 'speaker-aff', s.speaker_affiliation));
     card.append(ph, txt);
@@ -413,8 +426,7 @@
     box.innerHTML = '';
     items.forEach(r => {
       const fig = el('figure', 'gal');
-      const img = el('img'); img.src = r.image_url; img.alt = r.image_title; img.loading = 'lazy';
-      fig.append(img);
+      fig.append(photo(r.image_url, 900, r.image_title));
       if (r.image_title) fig.appendChild(el('figcaption', null, r.image_title));
       box.appendChild(fig);
     });
@@ -437,7 +449,7 @@
       });
       const by = el('footer', 'msg-by');
       if (isHttp(r.welcome_message_image)) {
-        const img = el('img'); img.src = r.welcome_message_image; img.alt = r.welcome_message_by; img.loading = 'lazy'; by.appendChild(img);
+        by.appendChild(photo(r.welcome_message_image, 160, r.welcome_message_by));
       }
       const who = el('div'); who.append(el('p', 'msg-name', r.welcome_message_by));
       const sub = [r.welcome_message_role, r.welcome_message_designation, r.welcome_message_institute].filter(Boolean).join(' · ');
@@ -461,7 +473,7 @@
       const ul = el('ul', 'cm-list');
       members.forEach(m => {
         const li = el('li', 'cm-member');
-        if (isHttp(m.member_image)) { const img = el('img'); img.src = m.member_image; img.alt = m.member_fullname; img.loading = 'lazy'; li.appendChild(img); }
+        if (isHttp(m.member_image)) li.appendChild(photo(m.member_image, 160, m.member_fullname));
         const t = el('div'); t.appendChild(el('p', 'cm-name', m.member_fullname));
         if (m.member_designation) t.appendChild(el('p', 'cm-desig', m.member_designation));
         li.appendChild(t); ul.appendChild(li);
@@ -481,7 +493,7 @@
       const a = el(isHttp(r.ptv_link) ? 'a' : 'div', 'place');
       if (isHttp(r.ptv_link)) { a.href = r.ptv_link; a.target = '_blank'; a.rel = 'noopener'; }
       a.setAttribute('data-reveal', ''); a.style.setProperty('--d', (i % 4) * 70 + 'ms');
-      if (isHttp(r.ptv_image)) { const img = el('img'); img.src = r.ptv_image; img.alt = ''; img.loading = 'lazy'; a.appendChild(img); }
+      if (isHttp(r.ptv_image)) a.appendChild(photo(r.ptv_image, 640, ''));
       const cap = el('div', 'place-cap'); cap.appendChild(el('h3', null, r.ptv_title));
       if (r.ptv_desc) cap.appendChild(el('p', null, r.ptv_desc));
       a.appendChild(cap); box.appendChild(a);
@@ -535,7 +547,7 @@
       const t = el('p', 'step-title'); t.innerHTML = sanitize(r.reg_step_title); body.appendChild(t);
       if (r.reg_step_description) { const d = el('p', 'step-desc'); d.innerHTML = sanitize(r.reg_step_description); body.appendChild(d); }
       if (isHttp(r.reg_step_screenshot)) {
-        const img = el('img', 'step-shot'); img.src = r.reg_step_screenshot; img.alt = 'Step ' + (i + 1) + ' screenshot'; img.loading = 'lazy'; body.appendChild(img);
+        const img = photo(r.reg_step_screenshot, 900, 'Step ' + (i + 1) + ' screenshot'); img.className = 'step-shot'; body.appendChild(img);
       }
       li.appendChild(body); box.appendChild(li);
     });
@@ -584,6 +596,9 @@
   }
 
   function boot() {
+    ['https://res.cloudinary.com', 'https://docs.google.com'].forEach(h => {
+      const l = document.createElement('link'); l.rel = 'preconnect'; l.href = h; l.crossOrigin = ''; document.head.appendChild(l);
+    });
     refresh();
     setInterval(refresh, POLL_MS);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
