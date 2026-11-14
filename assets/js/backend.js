@@ -3,21 +3,44 @@
    File: assets/js/backend.js
 
    The Google Sheet is the backend. Each tab is read as CSV and
-   rendered into the page. Static markup in the HTML is the
-   fallback: if the sheet can't be reached, the page keeps it.
+   rendered into the page. Nothing is cached: tabs are re-read on
+   load, every POLL_MS, and whenever the browser tab regains focus;
+   a section is only re-drawn when its data actually changed, so an
+   edit in the sheet shows up without reloading.
 
    Rules
    - Tabs with a *_status column only show rows where status = "active".
-   - `footer_right_text` is deliberately ignored (the footer credit stays as written in the HTML).
+   - `footer_right_text` is ignored (the footer credit stays as written in the HTML).
    - Plain values are inserted as text; the few cells that hold HTML
      (messages, steps, FAQ answers) go through sanitize() first.
+   - Dates in the page are bound to rows of `important_dates` by title,
+     e.g. <span data-date="Abstract Deadline">.
+   - Tracks come from a `tracks` tab (track_id, track_title, track_theme,
+     track_status). Until that tab exists, TRACKS_FALLBACK is used.
    ============================================================ */
 (function () {
   'use strict';
 
   const SHEET_ID = '1T8OY51wObS-MhN7tSpAHnSGPJ143aYBVnnUFK51E2jU';
-  const CACHE_MS = 5 * 60 * 1000;
+  const POLL_MS  = 15000;
   const IGNORED_OPTIONS = ['footer_right_text'];
+
+  // First column each tab must start with. gviz silently returns the first tab
+  // when a tab name doesn't exist, so this is how we detect a missing tab.
+  const EXPECT = {
+    site_options: 'option_id', important_dates: 'imp_date_id', tracks: 'track_id', speakers: 'speaker_id',
+    schedule: 'schedule_id', gallery_images: 'image_id', welcome_messages: 'welcome_message_id',
+    organizing_committee: 'member_id', places_to_visit: 'ptv_id', faqs: 'faq_id',
+    registration_fee: 'reg_fee_id', registration_steps: 'reg_step_id',
+  };
+
+  // Used only while the `tracks` tab doesn't exist yet.
+  const TRACKS_FALLBACK = [
+    { id: '1', title: 'Track 1', theme: 'Materials for Advanced Applications' },
+    { id: '2', title: 'Track 2', theme: 'Frontier in Life Sciences, climate change & Sustainable Technologies' },
+    { id: '3', title: 'Track 3', theme: 'Scalable Mathematical & Statistical Solutions Through Modelling, Analysis and Computation' },
+    { id: '4', title: 'Track 4', theme: 'From Innovation to Implementation: Advancing Next Generation Technologies' },
+  ];
 
   /* ── CSV ───────────────────────────────────────────────── */
   function parseCSV(text) {
@@ -38,38 +61,23 @@
     return rows;
   }
 
-  function toObjects(csv) {
-    const rows = parseCSV(csv);
-    if (!rows.length) return [];
-    const head = rows[0].map(h => h.trim());
-    return rows.slice(1)
+  /* ── Fetch (never cached) ──────────────────────────────── */
+  async function fetchTab(name) {
+    const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:csv&sheet=' +
+      encodeURIComponent(name) + '&_=' + Date.now();
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error(name + ': HTTP ' + res.status);
+    const grid = parseCSV(await res.text());
+    const head = (grid[0] || []).map(h => h.trim());
+    if (head[0] !== EXPECT[name]) return { missing: true, rows: [] };      // tab doesn't exist (yet)
+
+    let rows = grid.slice(1)
       .map(r => { const o = {}; head.forEach((h, i) => { if (h) o[h] = (r[i] || '').trim(); }); return o; })
       .filter(o => Object.values(o).some(v => v !== ''));
+    const statusKey = head.find(k => /_status$/.test(k));
+    if (statusKey) rows = rows.filter(r => (r[statusKey] || '').toLowerCase() === 'active');
+    return { missing: false, rows };
   }
-
-  /* ── Fetch with a short session cache ──────────────────── */
-  async function tab(name) {
-    const key = 'saints:' + name;
-    try {
-      const hit = JSON.parse(sessionStorage.getItem(key) || 'null');
-      if (hit && Date.now() - hit.t < CACHE_MS) return hit.rows;
-    } catch (e) { /* storage unavailable */ }
-
-    const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID +
-      '/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent(name);
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(name + ': HTTP ' + res.status);
-    let rows = toObjects(await res.text());
-
-    // honour *_status columns
-    const statusKey = rows[0] && Object.keys(rows[0]).find(k => /_status$/.test(k));
-    if (statusKey) rows = rows.filter(r => r[statusKey].toLowerCase() === 'active');
-
-    try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), rows })); } catch (e) { /* ignore */ }
-    return rows;
-  }
-
-  const safe = name => tab(name).catch(err => { console.warn('[backend]', err.message); return null; });
 
   /* ── Helpers ───────────────────────────────────────────── */
   const $  = (s, r) => (r || document).querySelector(s);
@@ -83,6 +91,7 @@
   }
 
   const isHttp = u => /^https?:\/\//i.test(u || '');
+  const pad2 = n => String(n).padStart(2, '0');
 
   // Allow only a small set of inline tags; links must be http(s).
   const ALLOWED = { A: 1, STRONG: 1, B: 1, EM: 1, I: 1, BR: 1, U: 1 };
@@ -107,33 +116,31 @@
     })(doc.body);
     return doc.body.innerHTML;
   }
-
-  // **bold** (used in some FAQ answers) → <strong>, then sanitise
   const richText = s => sanitize(s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>'));
 
   const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   function parseDate(s) {
-    let m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(s);          // M/D/YYYY (sheet format)
+    let m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(s || '');          // M/D/YYYY (the sheet's format)
     if (m) return new Date(+m[3], +m[1] - 1, +m[2]);
     const d = new Date(s);
     return isNaN(d) ? null : d;
   }
+  const fmt = d => d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear();
   function formatRange(a, b) {
     const s = parseDate(a), e = b ? parseDate(b) : null;
     if (!s) return a;
-    const f = d => d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear();
-    if (!e) return f(s);
-    if (s.getMonth() === e.getMonth() && s.getFullYear() === e.getFullYear())
-      return s.getDate() + '–' + f(e);
-    return f(s) + ' – ' + f(e);
+    if (!e || +e === +s) return fmt(s);
+    if (s.getMonth() === e.getMonth() && s.getFullYear() === e.getFullYear()) return s.getDate() + '–' + fmt(e);
+    return fmt(s) + ' – ' + fmt(e);
   }
   const money = (v, fallback) => {
     if (v === '' || v == null) return fallback;
     const n = Number(String(v).replace(/,/g, ''));
     return isNaN(n) ? v : '₹' + n.toLocaleString('en-IN');
   };
+  const WORDS = ['zero','one','two','three','four','five','six','seven','eight','nine','ten'];
 
-  function reveal(node) { // keep the page's scroll-reveal working for injected nodes
+  function reveal(node) {
     $$('[data-reveal]', node).forEach(n => n.classList.add('is-in'));
     if (node.hasAttribute && node.hasAttribute('data-reveal')) node.classList.add('is-in');
   }
@@ -143,12 +150,56 @@
     $$('[data-needs="' + section.id + '"]').forEach(a => { a.hidden = false; });
   }
 
-  /* ── 1. site_options ───────────────────────────────────── */
-  function applySiteOptions(rows) {
+  // Show the first `limit` children; a button reveals the rest.
+  function collapsible(box, limit) {
+    const old = box.nextElementSibling;
+    if (old && old.classList.contains('more-wrap')) old.remove();
+    const kids = Array.from(box.children);
+    if (kids.length <= limit) return;
+    let open = false;
+    const apply = () => kids.forEach((k, i) => { k.hidden = !open && i >= limit; });
+    const btn = el('button', 'btn btn-ghost', ''); btn.type = 'button';
+    const label = () => { btn.textContent = open ? 'Show fewer' : 'Show all ' + kids.length; };
+    btn.addEventListener('click', () => { open = !open; apply(); label(); });
+    const wrap = el('div', 'more-wrap'); wrap.appendChild(btn);
+    box.insertAdjacentElement('afterend', wrap);
+    apply(); label();
+  }
+
+  /* ── Data ──────────────────────────────────────────────── */
+  const D = {};                       // tab name → rows (kept from the last good fetch)
+  let OPT = {};
+
+  const dateRow = title => (D.important_dates || []).find(r => r.imp_date_title.toLowerCase() === String(title).toLowerCase());
+  function confRange() {
+    const r = dateRow('Conference Dates');
+    if (!r) return null;
+    const s = parseDate(r.imp_date_start_display); const e = parseDate(r.imp_date_end_display) || s;
+    return s ? { start: s, end: e } : null;
+  }
+
+  function getTracks() {
+    let list;
+    if (D.tracks && D.tracks.length) {
+      list = D.tracks.map(r => ({ id: r.track_id, title: r.track_title || 'Track ' + r.track_id, theme: r.track_theme || '' }));
+    } else if (D.tracks_missing) {
+      list = TRACKS_FALLBACK.slice();
+    } else {
+      list = [];
+    }
+    const spk = D.speakers || [];
+    list.forEach(t => { t.count = spk.filter(s => s.speaker_track === t.id).length; });
+    return list.sort((a, b) => Number(a.id) - Number(b.id));
+  }
+
+  /* ── Renderers ─────────────────────────────────────────── */
+
+  // site_options → meta tags, favicons, logos, footer text
+  function applySiteOptions() {
     const o = {};
-    rows.forEach(r => { if (IGNORED_OPTIONS.indexOf(r.option_key) < 0) o[r.option_key] = r.option_value; });
+    (D.site_options || []).forEach(r => { if (IGNORED_OPTIONS.indexOf(r.option_key) < 0) o[r.option_key] = r.option_value; });
+    OPT = o;
     const fill = s => (s || '').replace(/\{(\w+)\}/g, (m, k) => (o[k] != null ? o[k] : m));
-    const usable = v => v && isHttp(v) ? true : false;
     const real = v => v && !/^YOUR_|will be updated/i.test(v);
 
     const meta = (attr, name, value) => {
@@ -158,13 +209,13 @@
       m.setAttribute('content', value);
     };
     const link = (rel, value, extra) => {
-      if (!usable(value)) return;
+      if (!isHttp(value)) return;
       let l = $('link[rel="' + rel + '"]' + (extra && extra.sizes ? '[sizes="' + extra.sizes + '"]' : ''));
       if (!l) { l = document.createElement('link'); l.rel = rel; if (extra && extra.sizes) l.sizes = extra.sizes; document.head.appendChild(l); }
       l.href = value; if (extra && extra.type) l.type = extra.type;
     };
 
-    if (real(o.seo_title)) document.title = fill(o.seo_title);
+    if (real(o.seo_title) && !document.body.hasAttribute('data-own-title')) document.title = fill(o.seo_title);
     meta('name', 'description', o.seo_description);
     meta('name', 'keywords', o.seo_keywords);
     meta('name', 'author', o.seo_author);
@@ -174,95 +225,190 @@
     meta('property', 'og:type', o.og_type);
     meta('property', 'og:site_name', o.og_site_name);
     meta('property', 'og:locale', o.og_locale);
-    if (usable(o.og_image)) meta('property', 'og:image', o.og_image);
+    if (isHttp(o.og_image)) meta('property', 'og:image', o.og_image);
     meta('name', 'twitter:card', o.twitter_card);
     meta('name', 'twitter:title', fill(o.twitter_title));
     meta('name', 'twitter:description', fill(o.twitter_description));
-    if (usable(o.twitter_image)) meta('name', 'twitter:image', o.twitter_image);
+    if (isHttp(o.twitter_image)) meta('name', 'twitter:image', o.twitter_image);
     meta('name', 'twitter:site', o.twitter_site);
     meta('name', 'twitter:creator', o.twitter_creator);
     meta('name', 'google-site-verification', o.google_site_verification);
     meta('name', 'msvalidate.01', o.bing_site_verification);
-    if (usable(o.canonical_url)) link('canonical', o.canonical_url);
+    if (isHttp(o.canonical_url)) link('canonical', o.canonical_url);
     link('icon', o.favicon);
     link('icon', o.favicon_16x16, { sizes: '16x16', type: 'image/png' });
     link('icon', o.favicon_32x32, { sizes: '32x32', type: 'image/png' });
     link('apple-touch-icon', o.apple_touch_icon);
     link('manifest', o.favicon_manifest);
 
-    // Logos
     $$('[data-site-img]').forEach(img => {
       const v = o[img.dataset.siteImg];
-      if (usable(v)) { img.src = v; if (o.site_fullname) img.alt = o.site_fullname; }
+      if (isHttp(v)) { img.src = v; if (o.site_fullname) img.alt = o.site_fullname; }
     });
-    // Text
     $$('[data-site-text]').forEach(n => {
       const v = o[n.dataset.siteText];
       if (v) n.innerHTML = sanitize(fill(v));
     });
   }
 
-  /* ── 2. important_dates → Key dates ────────────────────── */
-  function renderDates(rows) {
-    const list = $('[data-sheet="important_dates"]');
-    if (!list || !rows.length) return;
-    list.innerHTML = '';
-    rows.forEach((r, i) => {
-      const li = el('li', 'date-item');
-      li.setAttribute('data-reveal', ''); li.style.setProperty('--d', (i % 2) * 100 + 'ms');
-      li.append(el('p', 'date-label', r.imp_date_title),
-                el('p', 'date-value', formatRange(r.imp_date_start_display, r.imp_date_end_display)));
-      list.appendChild(li);
+  // important_dates → timeline, inline date bindings, day cards, countdown
+  function renderDates() {
+    const rows = D.important_dates || [];
+    const now = new Date(); now.setHours(0, 0, 0, 0);
+
+    // inline bindings: <span data-date="Abstract Deadline">
+    $$('[data-date]').forEach(n => {
+      const r = dateRow(n.dataset.date);
+      if (r) n.textContent = formatRange(r.imp_date_start_display, r.imp_date_end_display);
     });
-    reveal(list);
+
+    // schedule day cards follow the conference range
+    const conf = confRange();
+    if (conf) {
+      const days = Math.round((conf.end - conf.start) / 864e5) + 1;
+      $$('[data-day]').forEach(n => {
+        const k = Number(n.dataset.day);
+        const d = new Date(conf.start); d.setDate(d.getDate() + k - 1);
+        n.textContent = fmt(d);
+        const card = n.closest('[data-day-card]'); if (card) card.hidden = k > days;
+      });
+      const cd = $('#countdown');
+      if (cd) cd.dataset.target = conf.start.getFullYear() + '-' + pad2(conf.start.getMonth() + 1) + '-' + pad2(conf.start.getDate()) + 'T09:00:00+05:30';
+    }
+
+    // timeline
+    const box = $('[data-sheet="important_dates"]');
+    if (!box || !rows.length) return;
+    const items = rows.map(r => {
+      const s = parseDate(r.imp_date_start_display);
+      return { r, s, e: parseDate(r.imp_date_end_display) || s };
+    }).filter(x => x.s).sort((a, b) => a.s - b.s);
+    const nextIdx = items.findIndex(x => x.e >= now);
+
+    box.innerHTML = '';
+    items.forEach((x, i) => {
+      const li = el('li', 'tl-item' + (x.e < now ? ' is-past' : '') + (i === nextIdx ? ' is-next' : '') +
+        (/conference dates/i.test(x.r.imp_date_title) ? ' tl-key' : ''));
+      li.setAttribute('data-reveal', '');
+      li.appendChild(el('span', 'tl-node'));
+      const card = el('div', 'tl-card');
+      if (i === nextIdx) card.appendChild(el('span', 'tl-badge', 'Next'));
+      card.append(el('p', 'tl-date', formatRange(x.r.imp_date_start_display, x.r.imp_date_end_display)),
+                  el('h3', 'tl-title', x.r.imp_date_title));
+      li.appendChild(card); box.appendChild(li);
+    });
+    reveal(box); show(box.closest('section'));
   }
 
-  /* ── 3. speakers → per track ───────────────────────────── */
-  function renderSpeakers(rows) {
-    if (!rows.length) return;
-    const byTrack = {};
-    rows.forEach(r => (byTrack[r.speaker_track] = byTrack[r.speaker_track] || []).push(r));
-    $$('[data-speakers-track]').forEach(box => {
-      const list = byTrack[box.dataset.speakersTrack] || [];
-      if (!list.length) return;
-      box.innerHTML = '';
-      list.forEach(s => {
-        const card = el('article', 'speaker');
-        const ph = el('div', 'speaker-photo');
-        if (isHttp(s.speaker_image)) {
-          const img = el('img'); img.src = s.speaker_image; img.alt = s.speaker_fullname; img.loading = 'lazy';
-          ph.appendChild(img);
+  // tracks → home tiles, nav menus, counts
+  function renderTracks() {
+    const tracks = getTracks();
+    const n = tracks.length;
+    $$('[data-track-count]').forEach(s => {
+      if (!n) return;
+      const w = n < WORDS.length ? WORDS[n] : String(n);
+      s.textContent = s.dataset.trackCount === 'cap' ? w.charAt(0).toUpperCase() + w.slice(1) : w;
+    });
+
+    $$('[data-tracks-menu]').forEach(ul => {
+      if (!n) return;
+      ul.innerHTML = '';
+      const mobile = ul.dataset.tracksMenu === 'mobile';
+      tracks.forEach(t => {
+        const li = el('li'); const a = el('a'); a.href = 'track.html?track=' + encodeURIComponent(t.id);
+        if (mobile) { a.className = 'm-sublink'; a.textContent = t.title + (t.theme ? ': ' + t.theme : ''); }
+        else {
+          a.className = 'dropdown-link';
+          const num = el('span', 'track-num', t.id);
+          const txt = el('span', 'dd-text'); txt.appendChild(el('b', null, t.title));
+          if (t.theme) txt.appendChild(el('small', null, t.theme));
+          const arr = el('i', 'fa-solid fa-arrow-right dd-arrow');
+          a.append(num, txt, arr);
         }
-        const txt = el('div', 'speaker-text');
-        if (s.speaker_category) txt.appendChild(el('p', 'speaker-cat', s.speaker_category));
-        txt.append(el('h4', 'speaker-name', s.speaker_fullname), el('p', 'speaker-aff', s.speaker_affiliation));
-        card.append(ph, txt);
-        box.appendChild(card);
+        li.appendChild(a); ul.appendChild(li);
       });
     });
-    $$('[data-hide-when="speakers"]').forEach(n => { n.hidden = true; });
-  }
 
-  /* ── 4. schedule → embeds per track ────────────────────── */
-  function renderSchedule(rows) {
-    const box = $('[data-sheet="schedule"]');
-    const embeds = rows.filter(r => isHttp(r.schedule_embed_url));
-    if (!box || !embeds.length) return;
-    box.innerHTML = '';
-    embeds.forEach(r => {
-      const wrap = el('div', 'schedule-embed');
-      wrap.appendChild(el('h3', 'schedule-embed-title', 'Track ' + r.schedule_for_track));
-      const f = el('iframe'); f.src = r.schedule_embed_url; f.loading = 'lazy';
-      f.title = 'Schedule, Track ' + r.schedule_for_track;
-      wrap.appendChild(f); box.appendChild(wrap);
+    const grid = $('[data-sheet="tracks"]');
+    if (!grid || !n) return;
+    grid.innerHTML = '';
+    tracks.forEach((t, i) => {
+      const a = el('a', 'track'); a.href = 'track.html?track=' + encodeURIComponent(t.id);
+      a.setAttribute('data-reveal', ''); a.style.setProperty('--d', i * 80 + 'ms');
+      a.appendChild(el('span', 'track-no', pad2(Number(t.id) || t.id)));
+      a.appendChild(el('h3', null, t.title));
+      if (t.theme) a.appendChild(el('p', null, t.theme));
+      const foot = el('span', 'track-go', 'View track ');
+      foot.appendChild(el('i', 'fa-solid fa-arrow-right'));
+      a.appendChild(foot);
+      grid.appendChild(a);
     });
-    $$('[data-hide-when="schedule"]').forEach(n => { n.hidden = true; });
+    reveal(grid); show(grid.closest('section'));
   }
 
-  /* ── 5. gallery_images ─────────────────────────────────── */
-  function renderGallery(rows) {
+  // track.html?track=N → speakers + schedule for that track
+  function speakerCard(s) {
+    const card = el('article', 'speaker');
+    const ph = el('div', 'speaker-photo');
+    if (isHttp(s.speaker_image)) { const img = el('img'); img.src = s.speaker_image; img.alt = s.speaker_fullname; img.loading = 'lazy'; ph.appendChild(img); }
+    const txt = el('div', 'speaker-text');
+    txt.append(el('h4', 'speaker-name', s.speaker_fullname), el('p', 'speaker-aff', s.speaker_affiliation));
+    card.append(ph, txt);
+    return card;
+  }
+  function renderTrackPage() {
+    const tracks = getTracks();
+    if (!tracks.length) return;
+    const wanted = new URLSearchParams(location.search).get('track') || (location.hash.match(/track-(\w+)/) || [])[1];
+    const t = tracks.find(x => x.id === wanted) || (wanted ? null : tracks[0]);
+    const set = (k, v) => $$('[data-tp="' + k + '"]').forEach(n => { n.textContent = v; });
+    const page = $('[data-track-page]');
+
+    if (!t) { set('title', 'Track not found'); set('theme', ''); $$('[data-tp-section]').forEach(s => { s.hidden = true; }); return; }
+    set('title', t.title); set('theme', t.theme); set('crumb', t.title);
+    document.title = t.title + (t.theme ? ': ' + t.theme : '') + ' | ' + (OPT.site_fullname || 'SAINTS 2027');
+
+    // speakers, grouped by category (sheet order)
+    const sbox = $('[data-tp="speakers"]');
+    const spk = (D.speakers || []).filter(s => s.speaker_track === t.id);
+    sbox.innerHTML = '';
+    const groups = new Map();
+    spk.forEach(s => { const k = s.speaker_category || ''; if (!groups.has(k)) groups.set(k, []); groups.get(k).push(s); });
+    groups.forEach((list, cat) => {
+      const g = el('div', 'cm-group');
+      if (cat) g.appendChild(el('h3', 'cm-role', cat));
+      const grid = el('div', 'speaker-grid'); list.forEach(s => grid.appendChild(speakerCard(s)));
+      g.appendChild(grid); sbox.appendChild(g);
+    });
+    const sec = $('[data-tp-section="speakers"]'); if (sec) sec.hidden = !spk.length;
+
+    // schedule embeds for this track
+    const embeds = (D.schedule || []).filter(r => r.schedule_for_track === t.id && isHttp(r.schedule_embed_url));
+    const schBox = $('[data-tp="schedule"]');
+    schBox.innerHTML = '';
+    embeds.forEach(r => {
+      const f = el('iframe'); f.src = r.schedule_embed_url; f.loading = 'lazy'; f.title = 'Schedule, ' + t.title;
+      const wrap = el('div', 'schedule-embed'); wrap.appendChild(f); schBox.appendChild(wrap);
+    });
+    const ssec = $('[data-tp-section="schedule"]'); if (ssec) ssec.hidden = !embeds.length;
+
+    // other tracks
+    const obox = $('[data-tp="others"]'); obox.innerHTML = '';
+    tracks.filter(x => x.id !== t.id).forEach(x => {
+      const a = el('a', 'track'); a.href = 'track.html?track=' + encodeURIComponent(x.id);
+      a.appendChild(el('span', 'track-no', pad2(Number(x.id) || x.id)));
+      a.appendChild(el('h3', null, x.title));
+      if (x.theme) a.appendChild(el('p', null, x.theme));
+      const foot = el('span', 'track-go', 'View track '); foot.appendChild(el('i', 'fa-solid fa-arrow-right')); a.appendChild(foot);
+      obox.appendChild(a);
+    });
+    if (page) page.hidden = false;
+  }
+
+  // gallery_images
+  function renderGallery() {
     const box = $('[data-sheet="gallery_images"]');
-    const items = rows.filter(r => isHttp(r.image_url));
+    const items = (D.gallery_images || []).filter(r => isHttp(r.image_url));
     if (!box || !items.length) return;
     box.innerHTML = '';
     items.forEach(r => {
@@ -275,31 +421,36 @@
     $$('[data-hide-when="gallery_images"]').forEach(n => { n.hidden = true; });
   }
 
-  /* ── 6. welcome_messages ───────────────────────────────── */
-  function renderWelcome(rows) {
+  // welcome_messages (long text is clamped on the page; a button opens it)
+  function renderWelcome() {
     const box = $('[data-sheet="welcome_messages"]');
+    const rows = D.welcome_messages || [];
     if (!box || !rows.length) return;
     box.innerHTML = '';
     rows.forEach((r, i) => {
       const card = el('article', 'msg'); card.setAttribute('data-reveal', ''); card.style.setProperty('--d', i * 100 + 'ms');
-      const body = el('div', 'msg-body'); body.innerHTML = sanitize(r.welcome_message_text);
+      const body = el('div', 'msg-body is-clamped'); body.innerHTML = sanitize(r.welcome_message_text);
+      const more = el('button', 'msg-more', 'Read full message'); more.type = 'button';
+      more.addEventListener('click', () => {
+        const open = body.classList.toggle('is-clamped') === false;
+        more.textContent = open ? 'Show less' : 'Read full message';
+      });
       const by = el('footer', 'msg-by');
       if (isHttp(r.welcome_message_image)) {
-        const img = el('img'); img.src = r.welcome_message_image; img.alt = r.welcome_message_by; img.loading = 'lazy';
-        by.appendChild(img);
+        const img = el('img'); img.src = r.welcome_message_image; img.alt = r.welcome_message_by; img.loading = 'lazy'; by.appendChild(img);
       }
-      const who = el('div');
-      who.append(el('p', 'msg-name', r.welcome_message_by));
+      const who = el('div'); who.append(el('p', 'msg-name', r.welcome_message_by));
       const sub = [r.welcome_message_role, r.welcome_message_designation, r.welcome_message_institute].filter(Boolean).join(' · ');
       who.appendChild(el('p', 'msg-role', sub));
-      by.appendChild(who); card.append(body, by); box.appendChild(card);
+      by.appendChild(who); card.append(body, more, by); box.appendChild(card);
     });
     reveal(box); show(box.closest('section'));
   }
 
-  /* ── 7. organizing_committee (grouped by role, sheet order) ─ */
-  function renderCommittee(rows) {
+  // organizing_committee (committee.html) — grouped by role in sheet order
+  function renderCommittee() {
     const box = $('[data-sheet="organizing_committee"]');
+    const rows = D.organizing_committee || [];
     if (!box || !rows.length) return;
     box.innerHTML = '';
     const groups = new Map();
@@ -309,12 +460,9 @@
       if (role) g.appendChild(el('h3', 'cm-role', role));
       const ul = el('ul', 'cm-list');
       members.forEach(m => {
-        const li = el('li', 'cm-member' + (isHttp(m.member_image) ? ' cm-with-photo' : ''));
-        if (isHttp(m.member_image)) {
-          const img = el('img'); img.src = m.member_image; img.alt = m.member_fullname; img.loading = 'lazy'; li.appendChild(img);
-        }
-        const t = el('div');
-        t.appendChild(el('p', 'cm-name', m.member_fullname));
+        const li = el('li', 'cm-member');
+        if (isHttp(m.member_image)) { const img = el('img'); img.src = m.member_image; img.alt = m.member_fullname; img.loading = 'lazy'; li.appendChild(img); }
+        const t = el('div'); t.appendChild(el('p', 'cm-name', m.member_fullname));
         if (m.member_designation) t.appendChild(el('p', 'cm-desig', m.member_designation));
         li.appendChild(t); ul.appendChild(li);
       });
@@ -323,9 +471,10 @@
     reveal(box); show(box.closest('section'));
   }
 
-  /* ── 8. places_to_visit ────────────────────────────────── */
-  function renderPlaces(rows) {
+  // places_to_visit (first few; button shows the rest)
+  function renderPlaces() {
     const box = $('[data-sheet="places_to_visit"]');
+    const rows = D.places_to_visit || [];
     if (!box || !rows.length) return;
     box.innerHTML = '';
     rows.forEach((r, i) => {
@@ -337,18 +486,17 @@
       if (r.ptv_desc) cap.appendChild(el('p', null, r.ptv_desc));
       a.appendChild(cap); box.appendChild(a);
     });
-    reveal(box); show(box.closest('section'));
+    reveal(box); collapsible(box, 4); show(box.closest('section'));
   }
 
-  /* ── 9. faqs (rows without a question are skipped) ─────── */
-  function renderFaqs(rows) {
+  // faqs (rows without a question are skipped)
+  function renderFaqs() {
     const box = $('[data-sheet="faqs"]');
-    const items = rows.filter(r => r.faq_question);
+    const items = (D.faqs || []).filter(r => r.faq_question);
     if (!box || !items.length) return;
     box.innerHTML = '';
-    items.forEach((r, i) => {
+    items.forEach(r => {
       const d = el('details', 'faq'); d.setAttribute('data-reveal', '');
-      if (i === 0) d.open = true;
       d.appendChild(el('summary', null, r.faq_question));
       const a = el('div', 'faq-a'); a.innerHTML = richText(r.faq_answer); d.appendChild(a);
       box.appendChild(d);
@@ -356,9 +504,10 @@
     reveal(box); show(box.closest('section'));
   }
 
-  /* ── 10. registration_fee ──────────────────────────────── */
-  function renderFees(rows) {
+  // registration_fee
+  function renderFees() {
     const box = $('[data-sheet="registration_fee"]');
+    const rows = D.registration_fee || [];
     if (!box || !rows.length) return;
     box.innerHTML = '';
     rows.forEach((r, i) => {
@@ -373,9 +522,10 @@
     reveal(box);
   }
 
-  /* ── 11. registration_steps ────────────────────────────── */
-  function renderSteps(rows) {
+  // registration_steps
+  function renderSteps() {
     const box = $('[data-sheet="registration_steps"]');
+    const rows = D.registration_steps || [];
     if (!box || !rows.length) return;
     box.innerHTML = '';
     rows.forEach((r, i) => {
@@ -392,22 +542,52 @@
     reveal(box); show(box.closest('section'));
   }
 
-  /* ── Boot ──────────────────────────────────────────────── */
-  const jobs = [
-    ['site_options', applySiteOptions], ['important_dates', renderDates], ['speakers', renderSpeakers],
-    ['schedule', renderSchedule], ['gallery_images', renderGallery], ['welcome_messages', renderWelcome],
-    ['organizing_committee', renderCommittee], ['places_to_visit', renderPlaces], ['faqs', renderFaqs],
-    ['registration_fee', renderFees], ['registration_steps', renderSteps],
+  /* ── Registry: which tabs a renderer needs, and when it applies ── */
+  const RENDERERS = [
+    { tabs: ['site_options'],                 when: () => true,                                                           run: applySiteOptions },
+    { tabs: ['important_dates'],              when: () => $('[data-sheet="important_dates"],[data-date],[data-day],#countdown'), run: renderDates },
+    { tabs: ['tracks', 'speakers'],           when: () => $('[data-tracks-menu],[data-sheet="tracks"],[data-track-count]'), run: renderTracks },
+    { tabs: ['tracks', 'speakers', 'schedule'], when: () => $('[data-track-page]'),                                       run: renderTrackPage },
+    { tabs: ['gallery_images'],               when: () => $('[data-sheet="gallery_images"]'),                             run: renderGallery },
+    { tabs: ['welcome_messages'],             when: () => $('[data-sheet="welcome_messages"]'),                           run: renderWelcome },
+    { tabs: ['organizing_committee'],         when: () => $('[data-sheet="organizing_committee"]'),                       run: renderCommittee },
+    { tabs: ['places_to_visit'],              when: () => $('[data-sheet="places_to_visit"]'),                            run: renderPlaces },
+    { tabs: ['faqs'],                         when: () => $('[data-sheet="faqs"]'),                                       run: renderFaqs },
+    { tabs: ['registration_fee'],             when: () => $('[data-sheet="registration_fee"]'),                           run: renderFees },
+    { tabs: ['registration_steps'],           when: () => $('[data-sheet="registration_steps"]'),                         run: renderSteps },
   ];
+  // Dates also drive the day cards / countdown, which can render before dates load; tracks needs speakers for counts.
+
+  const lastSig = new Map();
+  let busy = false;
+
+  async function refresh() {
+    if (busy) return; busy = true;
+    try {
+      const active = RENDERERS.filter(r => r.when());
+      const names = Array.from(new Set(active.flatMap(r => r.tabs)));
+      await Promise.all(names.map(async n => {
+        try {
+          const t = await fetchTab(n);
+          if (n === 'tracks') D.tracks_missing = t.missing;
+          D[n] = t.rows;
+        } catch (err) { console.warn('[backend]', err.message); }      // keep last good data
+      }));
+      active.forEach(r => {
+        if (r.tabs.some(n => D[n] === undefined)) return;               // never fetched
+        const sig = r.tabs.map(n => JSON.stringify(D[n])).join('|') + (r.tabs.indexOf('tracks') >= 0 ? D.tracks_missing : '');
+        if (lastSig.get(r) === sig) return;
+        lastSig.set(r, sig);
+        try { r.run(); } catch (e) { console.warn('[backend]', e); }
+      });
+    } finally { busy = false; }
+  }
 
   function boot() {
-    jobs.forEach(([name, render]) => {
-      // only fetch tabs this page can show
-      const used = name === 'site_options' || document.querySelector('[data-sheet="' + name + '"]') ||
-        (name === 'speakers' && document.querySelector('[data-speakers-track]'));
-      if (!used) return;
-      safe(name).then(rows => { if (rows) { try { render(rows); } catch (e) { console.warn('[backend]', name, e); } } });
-    });
+    refresh();
+    setInterval(refresh, POLL_MS);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+    window.addEventListener('focus', refresh);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();

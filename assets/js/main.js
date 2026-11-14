@@ -160,14 +160,14 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── 8. Countdown to conference start ──────────────────── */
   const cd = document.getElementById('countdown');
   if (cd) {
-    const target = new Date('2027-01-06T09:00:00+05:30').getTime();
+    const FALLBACK = '2027-01-06T09:00:00+05:30';   // overridden by backend.js from the sheet (data-target)
     const parts = {
       d: cd.querySelector('[data-cd="d"]'), h: cd.querySelector('[data-cd="h"]'),
       m: cd.querySelector('[data-cd="m"]'), s: cd.querySelector('[data-cd="s"]'),
     };
     const pad = n => String(n).padStart(2, '0');
     const tick = () => {
-      const diff = Math.max(0, target - Date.now());
+      const diff = Math.max(0, new Date(cd.dataset.target || FALLBACK).getTime() - Date.now());
       parts.d.textContent = pad(Math.floor(diff / 864e5));
       parts.h.textContent = pad(Math.floor(diff / 36e5) % 24);
       parts.m.textContent = pad(Math.floor(diff / 6e4) % 60);

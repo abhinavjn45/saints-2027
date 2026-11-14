@@ -148,17 +148,18 @@
           <button class="nav-link" aria-haspopup="true">
             Speakers <i class="fa-solid fa-chevron-down chev"></i>
           </button>
-          <ul class="dropdown-menu">
-            <li><a href="index.html#track-1" class="dropdown-link"><span class="track-num">1</span><span class="dd-text"><b>Track 1</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
-            <li><a href="index.html#track-2" class="dropdown-link"><span class="track-num">2</span><span class="dd-text"><b>Track 2</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
-            <li><a href="index.html#track-3" class="dropdown-link"><span class="track-num">3</span><span class="dd-text"><b>Track 3</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
-            <li><a href="index.html#track-4" class="dropdown-link"><span class="track-num">4</span><span class="dd-text"><b>Track 4</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+          <ul class="dropdown-menu" data-tracks-menu="desktop">
+            <li><a href="track.html?track=1" class="dropdown-link"><span class="track-num">1</span><span class="dd-text"><b>Track 1</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+            <li><a href="track.html?track=2" class="dropdown-link"><span class="track-num">2</span><span class="dd-text"><b>Track 2</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+            <li><a href="track.html?track=3" class="dropdown-link"><span class="track-num">3</span><span class="dd-text"><b>Track 3</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+            <li><a href="track.html?track=4" class="dropdown-link"><span class="track-num">4</span><span class="dd-text"><b>Track 4</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
           </ul>
         </li>
 
         <li><a href="index.html#publications" class="nav-link">Publications</a></li>
         <li><a href="index.html#schedule" class="nav-link">Schedule</a></li>
         <li><a href="index.html#gallery" class="nav-link">Gallery</a></li>
+        <li><a href="committee.html" class="nav-link">Committee</a></li>
 
         <!-- Legacy dropdown -->
         <li class="nav-item relative">
@@ -199,16 +200,17 @@
             <button class="mobile-accordion-btn m-link w-full flex items-center justify-between" data-target="mobile-speakers" aria-expanded="false">
               Speakers <i class="fa-solid fa-chevron-down text-xs"></i>
             </button>
-            <div id="mobile-speakers" class="mobile-submenu"><ul>
-              <li><a href="index.html#track-1" class="m-sublink">Track 1</a></li>
-              <li><a href="index.html#track-2" class="m-sublink">Track 2</a></li>
-              <li><a href="index.html#track-3" class="m-sublink">Track 3</a></li>
-              <li><a href="index.html#track-4" class="m-sublink">Track 4</a></li>
+            <div id="mobile-speakers" class="mobile-submenu"><ul data-tracks-menu="mobile">
+              <li><a href="track.html?track=1" class="m-sublink">Track 1</a></li>
+              <li><a href="track.html?track=2" class="m-sublink">Track 2</a></li>
+              <li><a href="track.html?track=3" class="m-sublink">Track 3</a></li>
+              <li><a href="track.html?track=4" class="m-sublink">Track 4</a></li>
             </ul></div>
           </li>
           <li><a href="index.html#publications" class="m-link">Publications</a></li>
           <li><a href="index.html#schedule" class="m-link">Schedule</a></li>
           <li><a href="index.html#gallery" class="m-link">Gallery</a></li>
+          <li><a href="committee.html" class="m-link">Committee</a></li>
           <li>
             <button class="mobile-accordion-btn m-link w-full flex items-center justify-between" data-target="mobile-legacy" aria-expanded="false">
               Legacy <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -262,8 +264,8 @@
     <aside class="lg:col-span-5 key-dates" data-reveal style="--d:120ms">
       <p class="eyebrow eyebrow-light">Important dates</p>
       <dl>
-        <div><dt>Abstract Submission Deadline</dt><dd>24 September 2026</dd></div>
-        <div><dt>Notification of Acceptance</dt><dd>20 October 2026</dd></div>
+        <div><dt>Abstract Submission Deadline</dt><dd data-date="Abstract Deadline">24 September 2026</dd></div>
+        <div><dt>Notification of Acceptance</dt><dd data-date="Acceptance Notification">20 October 2026</dd></div>
       </dl>
     </aside>
   </div>
@@ -505,14 +507,16 @@
         <li><a href="index.html#about" class="foot-a">About</a></li>
         <li><a href="index.html#speakers" class="foot-a">Tracks &amp; speakers</a></li>
         <li><a href="index.html#schedule" class="foot-a">Schedule</a></li>
-        <li><a href="index.html#gallery" class="foot-a">Gallery</a></li>      </ul>
+        <li><a href="index.html#gallery" class="foot-a">Gallery</a></li>
+        <li><a href="committee.html" class="foot-a">Organizing committee</a></li>
+      </ul>
     </div>
     <div>
       <p class="foot-h">Venue</p>
       <a href="https://maps.app.goo.gl/uuUKjwd8Y8pchqi28" target="_blank" rel="noopener" class="foot-a leading-relaxed block">
         CHRIST (Deemed to be University),<br />Bangalore, India <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1"></i>
       </a>
-      <p class="mt-3">6&ndash;8 January 2027</p>
+      <p class="mt-3" data-date="Conference Dates">6&ndash;8 January 2027</p>
     </div>
   </div>
   <div class="border-t border-white/10">

@@ -82,9 +82,9 @@
 
         <div class="ticker-mask flex-1 overflow-hidden relative">
           <div class="ticker-track inline-flex items-center gap-12">
-            <span>🎉 <strong>Abstract Submission Open!</strong> — Submit your abstract by <strong>31 March 2027</strong>.</span>
+            <span>🎉 <strong>Abstract Submission Open!</strong> — Submit your abstract by <strong data-date="Abstract Deadline">31 March 2027</strong>.</span>
             <span>📢 <strong>Keynote Speakers Announced</strong> — Visit the Speakers section to learn more.</span>
-            <span>📅 <strong>Conference Dates:</strong> January 6–8, 2027 | Venue: CHRIST University, Bangalore</span>
+            <span>📅 <strong>Conference Dates:</strong> <span data-date="Conference Dates">January 6–8, 2027</span> | Venue: CHRIST University, Bangalore</span>
             <span>🏆 <strong>Best Paper Awards</strong> across all four tracks — stay tuned!</span>
           </div>
         </div>
@@ -153,17 +153,18 @@
           <button class="nav-link" aria-haspopup="true">
             Speakers <i class="fa-solid fa-chevron-down chev"></i>
           </button>
-          <ul class="dropdown-menu">
-            <li><a href="#track-1" class="dropdown-link"><span class="track-num">1</span><span class="dd-text"><b>Track 1</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
-            <li><a href="#track-2" class="dropdown-link"><span class="track-num">2</span><span class="dd-text"><b>Track 2</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
-            <li><a href="#track-3" class="dropdown-link"><span class="track-num">3</span><span class="dd-text"><b>Track 3</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
-            <li><a href="#track-4" class="dropdown-link"><span class="track-num">4</span><span class="dd-text"><b>Track 4</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+          <ul class="dropdown-menu" data-tracks-menu="desktop">
+            <li><a href="track.html?track=1" class="dropdown-link"><span class="track-num">1</span><span class="dd-text"><b>Track 1</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+            <li><a href="track.html?track=2" class="dropdown-link"><span class="track-num">2</span><span class="dd-text"><b>Track 2</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+            <li><a href="track.html?track=3" class="dropdown-link"><span class="track-num">3</span><span class="dd-text"><b>Track 3</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+            <li><a href="track.html?track=4" class="dropdown-link"><span class="track-num">4</span><span class="dd-text"><b>Track 4</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
           </ul>
         </li>
 
         <li><a href="#publications" class="nav-link">Publications</a></li>
         <li><a href="#schedule" class="nav-link">Schedule</a></li>
         <li><a href="#gallery" class="nav-link">Gallery</a></li>
+        <li><a href="committee.html" class="nav-link">Committee</a></li>
 
         <!-- Legacy dropdown -->
         <li class="nav-item relative">
@@ -204,16 +205,17 @@
             <button class="mobile-accordion-btn m-link w-full flex items-center justify-between" data-target="mobile-speakers" aria-expanded="false">
               Speakers <i class="fa-solid fa-chevron-down text-xs"></i>
             </button>
-            <div id="mobile-speakers" class="mobile-submenu"><ul>
-              <li><a href="#track-1" class="m-sublink">Track 1</a></li>
-              <li><a href="#track-2" class="m-sublink">Track 2</a></li>
-              <li><a href="#track-3" class="m-sublink">Track 3</a></li>
-              <li><a href="#track-4" class="m-sublink">Track 4</a></li>
+            <div id="mobile-speakers" class="mobile-submenu"><ul data-tracks-menu="mobile">
+              <li><a href="track.html?track=1" class="m-sublink">Track 1</a></li>
+              <li><a href="track.html?track=2" class="m-sublink">Track 2</a></li>
+              <li><a href="track.html?track=3" class="m-sublink">Track 3</a></li>
+              <li><a href="track.html?track=4" class="m-sublink">Track 4</a></li>
             </ul></div>
           </li>
           <li><a href="#publications" class="m-link">Publications</a></li>
           <li><a href="#schedule" class="m-link">Schedule</a></li>
           <li><a href="#gallery" class="m-link">Gallery</a></li>
+          <li><a href="committee.html" class="m-link">Committee</a></li>
           <li>
             <button class="mobile-accordion-btn m-link w-full flex items-center justify-between" data-target="mobile-legacy" aria-expanded="false">
               Legacy <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -279,7 +281,7 @@
   <div class="facts" data-reveal>
     <div class="fact">
       <i class="fa-regular fa-calendar"></i>
-      <div><p class="fact-k">Date</p><p class="fact-v">January 6 &ndash; 8, 2027</p></div>
+      <div><p class="fact-k">Date</p><p class="fact-v" data-date="Conference Dates">January 6 &ndash; 8, 2027</p></div>
     </div>
     <div class="fact">
       <i class="fa-solid fa-location-dot"></i>
@@ -320,7 +322,7 @@
       </p>
       <p class="body-copy">
         Over three days, delegates will attend keynote lectures, parallel technical sessions, poster presentations
-        and workshops spanning four thematic tracks.
+        and workshops spanning <span data-track-count>four</span> thematic tracks.
       </p>
       <a href="#speakers" class="link-arrow mt-2">Explore the tracks <i class="fa-solid fa-arrow-right"></i></a>
     </div>
@@ -377,25 +379,14 @@
 <!-- ═══════════════════════════════════════════════════════
      KEY DATES
 ════════════════════════════════════════════════════════ -->
-<section id="dates" class="section section-navy">
+<section id="dates" class="section section-navy" hidden>
   <div class="container mx-auto">
-    <div class="max-w-2xl mb-12" data-reveal>
+    <div class="max-w-2xl mb-14" data-reveal>
       <p class="eyebrow eyebrow-light">Plan ahead</p>
       <h2 class="h2 text-white">Key dates</h2>
     </div>
 
-    <ol class="grid md:grid-cols-2 border-t border-white/15" data-sheet="important_dates">
-      <li class="date-item" data-reveal>
-        <p class="date-label">Abstract submission</p>
-        <p class="date-value">31 March 2027</p>
-        <p class="date-note">Deadline to submit your abstract.</p>
-      </li>
-      <li class="date-item" data-reveal style="--d:100ms">
-        <p class="date-label">Conference</p>
-        <p class="date-value">6&ndash;8 January 2027</p>
-        <p class="date-note">CHRIST (Deemed to be University), Bangalore.</p>
-      </li>
-    </ol>
+    <ol class="timeline" data-sheet="important_dates"></ol>
   </div>
 </section>
 
@@ -403,64 +394,17 @@
 <!-- ═══════════════════════════════════════════════════════
      TRACKS & SPEAKERS
 ════════════════════════════════════════════════════════ -->
-<section id="speakers" class="section">
+<section id="speakers" class="section" hidden>
   <div class="container mx-auto">
     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12" data-reveal>
       <div class="max-w-2xl">
-        <p class="eyebrow">Tracks &amp; speakers</p>
-        <h2 class="h2 mb-0">Four tracks, one programme</h2>
+        <p class="eyebrow">Tracks</p>
+        <h2 class="h2 mb-0"><span data-track-count="cap">Four</span> tracks, one programme</h2>
       </div>
-      <p class="text-gray-600 max-w-md" data-hide-when="speakers">Keynote and invited speakers will be announced for each track. Check back soon.</p>
+      <p class="text-gray-600 max-w-md">Select a track to see its speakers and schedule.</p>
     </div>
 
-    <div class="track-stack">
-      <article id="track-1" class="track track-wide" data-reveal>
-        <div class="track-head">
-          <span class="track-no">01</span>
-          <h3>Track 1</h3>
-          <p>Theme to be announced.</p>
-        </div>
-        <div class="track-speakers" data-speakers-track="1"><span class="tag">Speakers TBA</span></div>
-      </article>
-      <article id="track-2" class="track track-wide" data-reveal>
-        <div class="track-head">
-          <span class="track-no">02</span>
-          <h3>Track 2</h3>
-          <p>Theme to be announced.</p>
-        </div>
-        <div class="track-speakers" data-speakers-track="2"><span class="tag">Speakers TBA</span></div>
-      </article>
-      <article id="track-3" class="track track-wide" data-reveal>
-        <div class="track-head">
-          <span class="track-no">03</span>
-          <h3>Track 3</h3>
-          <p>Theme to be announced.</p>
-        </div>
-        <div class="track-speakers" data-speakers-track="3"><span class="tag">Speakers TBA</span></div>
-      </article>
-      <article id="track-4" class="track track-wide" data-reveal>
-        <div class="track-head">
-          <span class="track-no">04</span>
-          <h3>Track 4</h3>
-          <p>Theme to be announced.</p>
-        </div>
-        <div class="track-speakers" data-speakers-track="4"><span class="tag">Speakers TBA</span></div>
-      </article>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     ORGANIZING COMMITTEE  (backend: organizing_committee)
-════════════════════════════════════════════════════════ -->
-<section id="committee" class="section" hidden>
-  <div class="container mx-auto">
-    <div class="max-w-2xl mb-12" data-reveal>
-      <p class="eyebrow">Organizing committee</p>
-      <h2 class="h2">The team behind SAINTS 2027</h2>
-    </div>
-    <div class="cm" data-sheet="organizing_committee"></div>
+    <div class="tracks-grid" data-sheet="tracks"></div>
   </div>
 </section>
 
@@ -476,7 +420,7 @@
       <h2 class="h3">Submit your research</h2>
       <p class="body-copy">Original, unpublished work across all four tracks is welcome. Submit an abstract for oral or poster presentation.</p>
       <ul class="check-list">
-        <li>Deadline: 31 March 2027</li>
+        <li>Deadline: <span data-date="Abstract Deadline">31 March 2027</span></li>
         <li>Oral and poster presentation formats</li>
         <li>Peer-reviewed by the scientific committee</li>
       </ul>
@@ -509,21 +453,21 @@
       <h2 class="h2">Three days at a glance</h2>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-6" data-sheet="schedule">
-      <div class="day" data-reveal>
-        <p class="day-n">Day 1</p><p class="day-d">6 January 2027</p>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="day" data-day-card data-reveal>
+        <p class="day-n">Day 1</p><p class="day-d" data-day="1">6 January 2027</p>
         <ul><li>Registration</li><li>Inaugural session</li><li>Keynote lectures</li></ul>
       </div>
-      <div class="day" data-reveal style="--d:100ms">
-        <p class="day-n">Day 2</p><p class="day-d">7 January 2027</p>
+      <div class="day" data-day-card data-reveal style="--d:100ms">
+        <p class="day-n">Day 2</p><p class="day-d" data-day="2">7 January 2027</p>
         <ul><li>Parallel technical sessions</li><li>Poster presentations</li><li>Workshops</li></ul>
       </div>
-      <div class="day" data-reveal style="--d:200ms">
-        <p class="day-n">Day 3</p><p class="day-d">8 January 2027</p>
+      <div class="day" data-day-card data-reveal style="--d:200ms">
+        <p class="day-n">Day 3</p><p class="day-d" data-day="3">8 January 2027</p>
         <ul><li>Invited talks</li><li>Best Paper Awards</li><li>Valedictory session</li></ul>
       </div>
     </div>
-    <p class="text-sm text-gray-500 mt-6" data-hide-when="schedule">The detailed programme will be published closer to the event.</p>
+    <p class="text-sm text-gray-500 mt-6">The detailed programme will be published closer to the event.</p>
   </div>
 </section>
 
@@ -534,8 +478,8 @@
 <section id="visit" class="section" hidden>
   <div class="container mx-auto">
     <div class="max-w-2xl mb-12" data-reveal>
-      <p class="eyebrow">Places to visit</p>
-      <h2 class="h2">Explore Bangalore</h2>
+      <p class="eyebrow">Visit</p>
+      <h2 class="h2">Places to visit</h2>
     </div>
     <div class="places" data-sheet="places_to_visit"></div>
   </div>
@@ -616,7 +560,7 @@
         <li><a href="#speakers" class="foot-a">Tracks &amp; speakers</a></li>
         <li><a href="#schedule" class="foot-a">Schedule</a></li>
         <li><a href="#gallery" class="foot-a">Gallery</a></li>
-        <li><a href="#committee" class="foot-a" data-needs="committee" hidden>Organizing committee</a></li>
+        <li><a href="committee.html" class="foot-a">Organizing committee</a></li>
         <li><a href="#visit" class="foot-a" data-needs="visit" hidden>Places to visit</a></li>
         <li><a href="#faq" class="foot-a" data-needs="faq" hidden>FAQs</a></li>
       </ul>
@@ -626,7 +570,7 @@
       <a href="https://maps.app.goo.gl/uuUKjwd8Y8pchqi28" target="_blank" rel="noopener" class="foot-a leading-relaxed block">
         CHRIST (Deemed to be University),<br />Bangalore, India <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1"></i>
       </a>
-      <p class="mt-3">6&ndash;8 January 2027</p>
+      <p class="mt-3" data-date="Conference Dates">6&ndash;8 January 2027</p>
     </div>
   </div>
   <div class="border-t border-white/10">
