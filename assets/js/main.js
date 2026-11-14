@@ -87,7 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
       topbar.style.height = topbar.offsetHeight + 'px';
       void topbar.offsetHeight;
       topbar.classList.add('is-closed');
-      topbar.addEventListener('transitionend', measure, { once: true });
+      topbar.style.height = '0px';
+      topbar.addEventListener('transitionend', (e) => {
+        if (e.propertyName === 'height') { topbar.style.display = 'none'; measure(); }
+      });
     });
   }
 
