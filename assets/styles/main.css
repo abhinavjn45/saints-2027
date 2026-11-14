@@ -454,3 +454,60 @@ footer .inline-link:hover { color: var(--amber-400); }
   padding-left: clamp(20px, 4vw, 56px) !important;
   padding-right: clamp(20px, 4vw, 56px) !important;
 }
+
+
+/* ── 13. Responsive spacing (scales with viewport) ───────── */
+.container {
+  padding-left: clamp(20px, 5vw, 72px) !important;
+  padding-right: clamp(20px, 5vw, 72px) !important;
+}
+.section { padding-top: clamp(56px, 8vw, 112px); padding-bottom: clamp(56px, 8vw, 112px); }
+.panel   { padding: clamp(28px, 3.5vw, 48px) clamp(22px, 3vw, 44px); }
+.edition { padding: clamp(28px, 3.5vw, 48px) clamp(22px, 3vw, 44px); }
+.day     { padding: clamp(24px, 2.6vw, 36px) clamp(20px, 2.4vw, 32px); }
+.track   { padding: clamp(24px, 2.6vw, 36px) clamp(20px, 2vw, 30px) clamp(22px, 2.2vw, 32px); }
+.fact    { padding: clamp(16px, 1.8vw, 26px) clamp(18px, 2vw, 30px); }
+.date-item { padding-top: clamp(24px, 3vw, 40px); padding-bottom: clamp(16px, 2vw, 32px); }
+
+/* Dropdown: tracks only, compact */
+.dropdown-menu { min-width: 13rem; }
+.dd-text b { font-size: 14px; }
+.dropdown-head { display: none; }
+
+/* Why attend */
+.why { margin-top: clamp(40px, 6vw, 80px); }
+.why-grid {
+  list-style: none; margin-top: 22px;
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  border-top: 1px solid #e5e2d8; border-left: 1px solid #e5e2d8; background: #fff;
+}
+@media (min-width: 768px)  { .why-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1100px) { .why-grid { grid-template-columns: repeat(5, 1fr); } }
+@media (max-width: 479px)  { .why-grid { grid-template-columns: 1fr; } }
+
+.why-item {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
+  padding: clamp(20px, 2.4vw, 32px) clamp(18px, 2vw, 26px);
+  border-right: 1px solid #e5e2d8; border-bottom: 1px solid #e5e2d8;
+  position: relative; transition: background-color 0.3s ease;
+}
+.why-item::before {
+  content: ''; position: absolute; left: 0; top: 0; height: 3px; width: 100%;
+  background: var(--amber-500); transform: scaleX(0); transform-origin: 0 50%;
+  transition: transform 0.45s var(--ease-out);
+}
+.why-item:hover { background: #fbfaf6; }
+.why-item:hover::before { transform: scaleX(1); }
+.why-icon {
+  width: 52px; height: 52px; border-radius: 10px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--indigo-50); color: var(--indigo-700); font-size: 22px;
+  transition: background-color 0.3s, color 0.3s;
+}
+.why-item:hover .why-icon { background: var(--indigo-700); color: var(--amber-400); }
+.why-item h3 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.15rem; line-height: 1.25; color: var(--indigo-950); }
+.why-chip {
+  margin-top: auto; display: inline-block; padding: 7px 12px; border-radius: 4px;
+  background: var(--indigo-950); color: rgba(255,255,255,0.85); font-size: 12px; font-weight: 500; line-height: 1.3;
+}
+.why-chip b { color: var(--amber-400); font-weight: 700; }
