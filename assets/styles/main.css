@@ -556,7 +556,7 @@ footer .inline-link:hover { color: var(--amber-400); }
 /* ── 15. Global gutter + overflow protection ─────────────── */
 :root {
   --gutter:       clamp(16px, 4vw, 64px);    /* page side padding */
-  --section-y:    clamp(56px, 8vw, 112px);   /* section top/bottom */
+  --section-y:    clamp(40px, 5vw, 72px);    /* section top/bottom */
   --card-pad:     clamp(22px, 3vw, 40px);    /* cards and panels */
   --card-pad-sm:  clamp(16px, 2vw, 28px);    /* compact cards */
 }
