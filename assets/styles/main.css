@@ -551,3 +551,30 @@ footer .inline-link:hover { color: var(--amber-400); }
 .fee dt { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #8a8576; font-weight: 600; }
 .fee dd { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--indigo-700); font-variant-numeric: tabular-nums; }
 .fee dl > div:first-child dd { color: var(--amber-600); }
+
+
+/* ── 15. Global gutter + overflow protection ─────────────── */
+:root { --gutter: clamp(16px, 5vw, 72px); }
+
+html, body { max-width: 100%; overflow-x: clip; }
+img, video, svg { max-width: 100%; }
+
+.container {
+  padding-left: var(--gutter) !important;
+  padding-right: var(--gutter) !important;
+}
+
+/* Logo row shrinks to fit any width instead of overflowing */
+.top-header .container { gap: clamp(8px, 2.5vw, 24px) !important; }
+.top-header .logo-link, .top-header .sponsor-chip { min-width: 0; flex: 0 1 auto; }
+.top-header img { height: clamp(30px, 8.5vw, 64px) !important; width: auto; max-width: 100%; object-fit: contain; }
+@media (max-width: 479px) { .sponsor-label { display: none; } }
+
+/* Topbar and nav never exceed the viewport */
+.topbar-inner, .navbar .container { max-width: 100%; }
+
+/* Hero: fluid heading and stacked buttons on small screens */
+#hero h1 { font-size: clamp(2rem, 6.2vw, 3.6rem); }
+@media (max-width: 639px) {
+  #hero .btn-lg { width: 100%; justify-content: center; }
+}
