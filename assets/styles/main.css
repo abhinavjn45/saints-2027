@@ -674,8 +674,9 @@ a.place:hover img { transform: scale(1.05); }
 /* Registration steps */
 .steps { list-style: none; display: grid; gap: 14px; counter-reset: step; }
 .step { display: flex; gap: 18px; background: #fff; border: 1px solid #e5e2d8; padding: var(--card-pad-sm); }
-.step-n { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
-          background: var(--indigo-950); color: var(--amber-400); font-family: 'Playfair Display', serif; font-weight: 700; }
+.step-n { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+          background: var(--indigo-950); color: #fff; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 16px;
+          line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
 .step-body { min-width: 0; }
 .step-title { font-weight: 600; color: var(--indigo-950); line-height: 1.5; padding-top: 6px; }
 .step-desc { margin-top: 6px; color: #4b5563; }
