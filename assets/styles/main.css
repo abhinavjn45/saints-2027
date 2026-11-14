@@ -434,3 +434,14 @@ body { background: #fff; color: #1f2937; }
 .inline-link:hover { color: var(--amber-600); }
 .facts .inline-link:hover, .section-paper .inline-link:hover { color: var(--indigo-700); }
 footer .inline-link:hover { color: var(--amber-400); }
+
+
+/* ── 12. Page gutters: consistent side padding, capped width ─ */
+.container {
+  width: 100%;
+  max-width: 1280px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: clamp(20px, 4vw, 56px) !important;
+  padding-right: clamp(20px, 4vw, 56px) !important;
+}
