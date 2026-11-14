@@ -429,3 +429,8 @@ body { background: #fff; color: #1f2937; }
            transition: transform 0.35s var(--ease-out), box-shadow 0.35s; }
 .edition:hover { transform: translateY(-4px); box-shadow: 0 22px 40px -24px rgba(8,19,48,0.35); }
 .edition-year { display: block; font-family: 'Playfair Display', serif; font-size: 4rem; line-height: 1; color: #b9cceb; }
+
+.inline-link { color: inherit; font-weight: inherit; border-bottom: 1px solid var(--amber-500); transition: color 0.2s, border-color 0.2s; }
+.inline-link:hover { color: var(--amber-600); }
+.facts .inline-link:hover, .section-paper .inline-link:hover { color: var(--indigo-700); }
+footer .inline-link:hover { color: var(--amber-400); }
