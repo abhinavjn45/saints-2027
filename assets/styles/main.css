@@ -418,3 +418,14 @@ body { background: #fff; color: #1f2937; }
                 transition: opacity 0.7s ease var(--d, 0ms), transform 0.8s var(--ease-out) var(--d, 0ms); }
 [data-reveal].is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { [data-reveal] { opacity: 1; transform: none; transition: none; } }
+
+
+/* ── 11. Inner pages (Legacy) ────────────────────────────── */
+.crumbs { display: flex; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.6); }
+.crumbs a { color: rgba(255,255,255,0.85); transition: color 0.2s; }
+.crumbs a:hover { color: var(--amber-400); }
+
+.edition { background: #fff; border: 1px solid #e5e2d8; border-top: 3px solid var(--indigo-700); padding: 40px 36px; position: relative;
+           transition: transform 0.35s var(--ease-out), box-shadow 0.35s; }
+.edition:hover { transform: translateY(-4px); box-shadow: 0 22px 40px -24px rgba(8,19,48,0.35); }
+.edition-year { display: block; font-family: 'Playfair Display', serif; font-size: 4rem; line-height: 1; color: #b9cceb; }

@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const header    = document.getElementById('main-header');
   const headerTop = document.getElementById('header-top');
   const navbar    = document.getElementById('navbar');
-  const hero      = document.getElementById('hero');
+  const hero      = document.getElementById('hero') || document.getElementById('page-hero');
   const progress  = document.getElementById('scroll-progress');
 
 
