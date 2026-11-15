@@ -4,8 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Organizing Committee | SAINTS 2027</title>
-  <meta name="description" content="The organizing committee of SAINTS 2027." />
+  <meta name="description" content="The organizing committee of SAINTS 2027, hosted by the School of Sciences at CHRIST (Deemed to be University), Bangalore." />
   <meta name="author" content="SAINTS 2027 Organizing Committee" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://saints.christuniversity.in/committee.html" />
+  <meta property="og:url" content="https://saints.christuniversity.in/committee.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SAINTS 2027" />
+  <meta property="og:locale" content="en_IN" />
+  <meta property="og:title" content="Organizing Committee | SAINTS 2027" />
+  <meta property="og:description" content="The organizing committee of SAINTS 2027, hosted by the School of Sciences at CHRIST (Deemed to be University), Bangalore." />
+  <meta property="og:image" content="https://saints.christuniversity.in/assets/images/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="SAINTS 2027 - Discovery to Scalable Solutions" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Organizing Committee | SAINTS 2027" />
+  <meta name="twitter:description" content="The organizing committee of SAINTS 2027, hosted by the School of Sciences at CHRIST (Deemed to be University), Bangalore." />
+  <meta name="twitter:image" content="https://saints.christuniversity.in/assets/images/og-image.jpg" />
 
   <!-- Favicon -->
   <!-- <link rel="icon" type="image/png" href="assets/icons/favicon.png" /> -->
@@ -18,47 +34,14 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  <!-- Tailwind CSS CDN + Config -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: {
-              50:  '#eef3fb',
-              100: '#dce6f5',
-              200: '#b9cceb',
-              300: '#8aa8d8',
-              400: '#5a80c0',
-              500: '#3a5fa3',
-              600: '#25447f',
-              700: '#1a3466',
-              800: '#122650',
-              900: '#0c1c3d',
-              950: '#081330',
-            },
-            accent: {
-              400: '#d9b44a',
-              500: '#c49a2c',
-              600: '#a67f1d',
-            },
-            dark: '#0f0e17',
-          },
-          fontFamily: {
-            sans:    ['Inter', 'sans-serif'],
-            display: ['Playfair Display', 'serif'],
-          },
-        },
-      },
-    };
-  </script>
-
   <!-- Project Stylesheet -->
   <link rel="stylesheet" href="assets/styles/main.css" />
+
+  <!-- Tailwind utilities load after main.css, as the CDN build did, so they win ties -->
+  <link rel="stylesheet" href="assets/styles/tailwind.css" />
 </head>
 
-<body class="font-sans bg-white text-gray-800 antialiased">
+<body data-own-meta class="font-sans bg-white text-gray-800 antialiased">
 
 <div id="scroll-progress" aria-hidden="true"></div>
 

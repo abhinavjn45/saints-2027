@@ -3,9 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SAINTS 2027 | International Conference on Scientific Advances in Natural &amp; Technological Sciences</title>
-  <meta name="description" content="SAINTS 2027 — International Conference on Scientific Advances in Natural &amp; Technological Sciences, January 6–8, 2027, CHRIST University, Bangalore." />
+  <title>SAINTS 2027 - Discovery to Scalable Solutions</title>
+  <meta name="description" content="International Conference on Scientific Advances in Natural &amp; Technological Sciences, hosted by the School of Sciences at CHRIST (Deemed to be University), Bangalore." />
   <meta name="author" content="SAINTS 2027 Organizing Committee" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://saints.christuniversity.in/" />
+  <meta property="og:url" content="https://saints.christuniversity.in/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SAINTS 2027" />
+  <meta property="og:locale" content="en_IN" />
+  <meta property="og:title" content="SAINTS 2027 - Discovery to Scalable Solutions" />
+  <meta property="og:description" content="International Conference on Scientific Advances in Natural &amp; Technological Sciences, hosted by the School of Sciences at CHRIST (Deemed to be University), Bangalore." />
+  <meta property="og:image" content="https://saints.christuniversity.in/assets/images/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="SAINTS 2027 - Discovery to Scalable Solutions" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SAINTS 2027 - Discovery to Scalable Solutions" />
+  <meta name="twitter:description" content="International Conference on Scientific Advances in Natural &amp; Technological Sciences, hosted by the School of Sciences at CHRIST (Deemed to be University), Bangalore." />
+  <meta name="twitter:image" content="https://saints.christuniversity.in/assets/images/og-image.jpg" />
 
   <!-- Favicon -->
   <!-- <link rel="icon" type="image/png" href="assets/icons/favicon.png" /> -->
@@ -18,44 +34,11 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  <!-- Tailwind CSS CDN + Config -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: {
-              50:  '#eef3fb',
-              100: '#dce6f5',
-              200: '#b9cceb',
-              300: '#8aa8d8',
-              400: '#5a80c0',
-              500: '#3a5fa3',
-              600: '#25447f',
-              700: '#1a3466',
-              800: '#122650',
-              900: '#0c1c3d',
-              950: '#081330',
-            },
-            accent: {
-              400: '#d9b44a',
-              500: '#c49a2c',
-              600: '#a67f1d',
-            },
-            dark: '#0f0e17',
-          },
-          fontFamily: {
-            sans:    ['Inter', 'sans-serif'],
-            display: ['Playfair Display', 'serif'],
-          },
-        },
-      },
-    };
-  </script>
-
   <!-- Project Stylesheet -->
   <link rel="stylesheet" href="assets/styles/main.css" />
+
+  <!-- Tailwind utilities load after main.css, as the CDN build did, so they win ties -->
+  <link rel="stylesheet" href="assets/styles/tailwind.css" />
 </head>
 
 <body class="font-sans bg-white text-gray-800 antialiased">
@@ -82,10 +65,10 @@
 
         <div class="ticker-mask flex-1 overflow-hidden relative">
           <div class="ticker-track inline-flex items-center gap-12">
-            <span>🎉 <strong>Abstract Submission Open!</strong> — Submit your abstract by <strong data-date="Abstract Deadline">31 March 2027</strong>.</span>
-            <span>📢 <strong>Keynote Speakers Announced</strong> — Visit the Speakers section to learn more.</span>
-            <span>📅 <strong>Conference Dates:</strong> <span data-date="Conference Dates">January 6–8, 2027</span> | Venue: CHRIST University, Bangalore</span>
-            <span>🏆 <strong>Best Paper Awards</strong> across all four tracks — stay tuned!</span>
+            <span><strong>Abstract Submission Open!</strong> — Submit your abstract by <strong data-date="Abstract Deadline">31 March 2027</strong>.</span>
+            <span><strong>Keynote Speakers Announced</strong> — Visit the Speakers section to learn more.</span>
+            <span><strong>Conference Dates:</strong> <span data-date="Conference Dates">January 6–8, 2027</span> | Venue: CHRIST University, Bangalore</span>
+            <span><strong>Best Paper Awards</strong> across all four tracks — stay tuned!</span>
           </div>
         </div>
 
@@ -330,32 +313,25 @@
     <!-- Why attend -->
     <div class="why" data-reveal>
       <p class="eyebrow">Why attend?</p>
-      <ul class="why-grid">
-        <li class="why-item">
-          <span class="why-icon"><i class="fa-solid fa-microphone-lines"></i></span>
-          <h3>Distinguished Speakers</h3>
-          <span class="why-chip"><b>50+</b> International Speakers</span>
-        </li>
-        <li class="why-item">
-          <span class="why-icon"><i class="fa-solid fa-globe"></i></span>
-          <h3>Global Network</h3>
-          <span class="why-chip"><b>33+</b> Countries</span>
-        </li>
-        <li class="why-item">
-          <span class="why-icon"><i class="fa-solid fa-trophy"></i></span>
-          <h3>Best Paper Award</h3>
-          <span class="why-chip">Cash prize of <b>&#8377;5,000</b></span>
-        </li>
-        <li class="why-item">
-          <span class="why-icon"><i class="fa-solid fa-lightbulb"></i></span>
-          <h3>Best Innovation Pitch Award</h3>
-        </li>
-        <li class="why-item">
-          <span class="why-icon"><i class="fa-solid fa-graduation-cap"></i></span>
-          <h3>Best PhD Thesis Award</h3>
-          <span class="why-chip">Cash prize of <b>&#8377;5,000</b></span>
-        </li>
-      </ul>
+      <div class="why-split">
+        <ul class="why-stats">
+          <li>
+            <p class="why-fig">50+</p>
+            <h3>Distinguished Speakers</h3>
+            <p class="why-sub">International Speakers</p>
+          </li>
+          <li>
+            <p class="why-fig">33+</p>
+            <h3>Global Network</h3>
+            <p class="why-sub">Countries</p>
+          </li>
+        </ul>
+        <ul class="why-awards">
+          <li><span>Best Paper Award</span><b>Cash prize of &#8377;5,000</b></li>
+          <li><span>Best Innovation Pitch Award</span></li>
+          <li><span>Best PhD Thesis Award</span><b>Cash prize of &#8377;5,000</b></li>
+        </ul>
+      </div>
     </div>
 
   </div>
@@ -368,7 +344,6 @@
 <section id="welcome" class="section section-paper" hidden>
   <div class="container mx-auto">
     <div class="max-w-2xl mb-12" data-reveal>
-      <p class="eyebrow">Welcome</p>
       <h2 class="h2">Messages</h2>
     </div>
     <div class="msg-grid" data-sheet="welcome_messages"></div>
@@ -478,7 +453,6 @@
 <section id="visit" class="section section-paper" hidden>
   <div class="container mx-auto">
     <div class="max-w-2xl mb-12" data-reveal>
-      <p class="eyebrow">Visit</p>
       <h2 class="h2">Places to visit</h2>
     </div>
     <div class="places" data-sheet="places_to_visit"></div>
@@ -492,7 +466,6 @@
 <section id="gallery" class="section">
   <div class="container mx-auto">
     <div class="max-w-2xl mb-12" data-reveal>
-      <p class="eyebrow">Gallery</p>
       <h2 class="h2">Moments from the conference</h2>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3" data-reveal data-sheet="gallery_images">
@@ -513,7 +486,6 @@
 <section id="faq" class="section section-paper" hidden>
   <div class="container mx-auto max-w-3xl">
     <div class="mb-10" data-reveal>
-      <p class="eyebrow">FAQs</p>
       <h2 class="h2">Frequently asked questions</h2>
     </div>
     <div class="faqs" data-sheet="faqs"></div>

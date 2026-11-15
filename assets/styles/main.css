@@ -764,3 +764,92 @@ a.track:hover .track-go { gap: 14px; color: var(--indigo-950); }
 @media (min-width: 640px)  { .speaker-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1100px) { .speaker-grid { grid-template-columns: repeat(3, 1fr); } }
 .schedule-list { display: grid; gap: 24px; }
+
+
+/* ══════════════════════════════════════════════════════════
+   19. Design refinement
+   Less template, more editorial: flat cards, no lift-on-hover,
+   no coloured top bars, no icon badges, a compact timeline.
+   (Overrides earlier rules on purpose; edit here first.)
+   ══════════════════════════════════════════════════════════ */
+
+/* Numerals: Playfair defaults to old-style figures, which look uneven in dates and counts */
+body { font-variant-numeric: lining-nums; }
+.cd b, .fee dd, .stat b { font-variant-numeric: lining-nums tabular-nums; }
+
+/* Cards: hairline border, no coloured top bar */
+.panel, .msg, .edition, .award, .key-dates { border-top: 1px solid #e5e2d8; }
+.key-dates { border: 0; }
+.facts { border-top: 0; }
+
+/* Hover: change colour, don't float */
+.day:hover, .edition:hover, .award:hover, .fee:hover, .partner:hover, .stat:hover,
+.btn-ghost:hover, .btn-navy:hover, .btn-outline-light:hover, .btn-primary:hover, .logo-link:hover { transform: none; box-shadow: none; }
+.btn-primary::after { display: none; }
+.btn:active { transform: none; }
+.day:hover, .fee:hover, .partner:hover { border-color: var(--indigo-700); }
+
+/* Quieter scroll reveal */
+[data-reveal] { transform: translate3d(0, 10px, 0); transition: opacity 0.5s ease var(--d, 0ms), transform 0.6s var(--ease-out) var(--d, 0ms); }
+
+/* Section headings that now stand alone */
+.h2:first-child { margin-top: 0; }
+
+/* Ticker separator */
+.ticker-track > span::after {
+  content: ''; display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--amber-400); margin-left: 3rem; vertical-align: middle;
+}
+
+/* Why attend: figures + awards list (replaces five icon cards) */
+.why-split { display: grid; gap: clamp(28px, 5vw, 72px); margin-top: 26px; align-items: start; }
+@media (min-width: 900px) { .why-split { grid-template-columns: 1fr 1fr; } }
+.why-stats { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.why-stats li { padding-top: 18px; border-top: 2px solid var(--indigo-950); }
+.why-fig { font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(2.8rem, 6vw, 4.6rem); line-height: 1; color: var(--indigo-950); }
+.why-stats h3 { margin-top: 14px; font-weight: 700; font-size: 1rem; color: var(--indigo-950); }
+.why-sub { margin-top: 2px; font-size: 14px; color: #6b7280; }
+.why-awards { list-style: none; }
+.why-awards li { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px;
+                 padding: 18px 0; border-bottom: 1px solid #e5e2d8; }
+.why-awards li:first-child { border-top: 2px solid var(--indigo-950); }
+.why-awards span { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.2rem; color: var(--indigo-950); }
+.why-awards b { font-size: 14px; font-weight: 600; color: var(--amber-600); }
+
+/* Key dates: a compact schedule-style list instead of a zig-zag */
+.timeline { --tl-date: 15rem; max-width: 64rem; gap: 0; padding: 0; }
+.timeline::before { top: 18px; bottom: 18px; left: calc(var(--tl-date) + 14px); transform: none; width: 1px; background: rgba(255,255,255,0.22); }
+.tl-item, .tl-item:nth-child(even) {
+  width: auto; margin: 0; padding: 16px 20px; text-align: left; position: relative;
+  display: grid; grid-template-columns: var(--tl-date) 28px 1fr; align-items: center; column-gap: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.12); transition: background-color 0.2s;
+}
+.tl-item:hover { background: rgba(255,255,255,0.05); }
+.tl-card, .tl-card:hover { display: contents; background: none; border: 0; transform: none; }
+.tl-date { grid-column: 1; grid-row: 1; font-size: clamp(1.15rem, 2vw, 1.45rem); }
+.tl-item .tl-node, .tl-item:nth-child(even) .tl-node {
+  position: static; grid-column: 2; grid-row: 1; justify-self: center; width: 11px; height: 11px; border-width: 2px;
+}
+.tl-title { grid-column: 3; grid-row: 1; margin: 0 0 0 14px; font-size: 13px; letter-spacing: 0.1em; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.tl-badge { position: static; display: inline-block; padding: 2px 9px; }
+.tl-item.is-past { opacity: 0.5; }
+.tl-key { background: var(--amber-400); border-bottom-color: var(--amber-400); }
+.tl-key:hover { background: var(--amber-400); }
+.tl-key .tl-node { background: var(--indigo-950); border-color: var(--indigo-950); }
+.tl-key .tl-date, .tl-key .tl-title { color: var(--indigo-950); }
+@media (max-width: 639px) {
+  .timeline { --tl-date: 0px; }
+  .timeline::before { left: 34px; }
+  .tl-item, .tl-item:nth-child(even) { grid-template-columns: 28px 1fr; padding: 14px 12px; row-gap: 2px; }
+  .tl-item .tl-node, .tl-item:nth-child(even) .tl-node { grid-column: 1; grid-row: 1 / span 2; align-self: start; margin-top: 8px; }
+  .tl-date { grid-column: 2; grid-row: 1; }
+  .tl-title { grid-column: 2; grid-row: 2; margin-left: 0; }
+}
+
+/* Loading placeholders */
+@keyframes shimmer { to { background-position: -200% 0; } }
+.sk-card { min-height: 22px; background: linear-gradient(90deg, rgba(128,128,128,0.10) 25%, rgba(128,128,128,0.20) 50%, rgba(128,128,128,0.10) 75%);
+           background-size: 200% 100%; animation: shimmer 1.4s linear infinite; border: 0; }
+.tl-item.sk .tl-card { display: block; grid-column: 3; margin-left: 14px; height: 22px; }
+.track.sk { min-height: 190px; }
+@media (prefers-reduced-motion: reduce) { .sk-card { animation: none; } }

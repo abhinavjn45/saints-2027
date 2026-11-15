@@ -1,0 +1,11 @@
+{
+  "name": "saints-2027",
+  "private": true,
+  "description": "SAINTS 2027 conference website (static). Run `npm run build:css` after changing Tailwind classes in the HTML or JS.",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i assets/styles/tailwind.src.css -o assets/styles/tailwind.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

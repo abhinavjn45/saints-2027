@@ -3,10 +3,14 @@
    File: assets/js/backend.js
 
    The Google Sheet is the backend. Each tab is read as CSV and
-   rendered into the page. Nothing is cached: tabs are re-read on
-   load, every POLL_MS, and whenever the browser tab regains focus;
-   a section is only re-drawn when its data actually changed, so an
-   edit in the sheet shows up without reloading.
+   rendered into the page. Fresh data is always preferred: tabs are
+   re-read on load, every POLL_MS while the page is visible, and when
+   the browser tab regains focus. A section is only re-drawn when its
+   data changed, so an edit in the sheet shows up without reloading.
+
+   If Google can't be reached (offline, throttled, timeout) the last
+   good copy of each tab, kept in localStorage, is shown instead, and
+   polling backs off. Loading placeholders are shown while waiting.
 
    Rules
    - Tabs with a *_status column only show rows where status = "active".
@@ -22,7 +26,10 @@
   'use strict';
 
   const SHEET_ID = '1T8OY51wObS-MhN7tSpAHnSGPJ143aYBVnnUFK51E2jU';
-  const POLL_MS  = 15000;
+  const POLL_MS  = 60000;      // while the page is visible
+  const MIN_GAP  = 10000;      // never refetch more often than this (focus/visibility events)
+  const MAX_POLL = 300000;     // backoff ceiling when Google keeps failing
+  const TIMEOUT  = 8000;       // give up on a request after this long
   const IGNORED_OPTIONS = ['footer_right_text'];
 
   // First column each tab must start with. gviz silently returns the first tab
@@ -65,7 +72,9 @@
   async function fetchTab(name) {
     const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:csv&sheet=' +
       encodeURIComponent(name) + '&_=' + Date.now();
-    const res = await fetch(url, { cache: 'no-store' });
+    const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), TIMEOUT);
+    let res;
+    try { res = await fetch(url, { cache: 'no-store', signal: ctl.signal }); } finally { clearTimeout(timer); }
     if (!res.ok) throw new Error(name + ': HTTP ' + res.status);
     const grid = parseCSV(await res.text());
     const head = (grid[0] || []).map(h => h.trim());
@@ -77,6 +86,14 @@
     const statusKey = head.find(k => /_status$/.test(k));
     if (statusKey) rows = rows.filter(r => (r[statusKey] || '').toLowerCase() === 'active');
     return { missing: false, rows };
+  }
+
+  /* ── Last good copy (used only when the live fetch fails) ── */
+  function saveCopy(name, t) {
+    try { localStorage.setItem('saints:' + name, JSON.stringify({ t: Date.now(), missing: t.missing, rows: t.rows })); } catch (e) { /* storage full or blocked */ }
+  }
+  function loadCopy(name) {
+    try { return JSON.parse(localStorage.getItem('saints:' + name) || 'null'); } catch (e) { return null; }
   }
 
   /* ── Helpers ───────────────────────────────────────────── */
@@ -228,26 +245,31 @@
       l.href = value; if (extra && extra.type) l.type = extra.type;
     };
 
-    if (real(o.seo_title) && !document.body.hasAttribute('data-own-title')) document.title = fill(o.seo_title);
-    meta('name', 'description', o.seo_description);
-    meta('name', 'keywords', o.seo_keywords);
+    // Inner pages carry their own title/description/social tags in the HTML; the sheet's
+    // site-wide values apply to the home page only.
+    const own = document.body.hasAttribute('data-own-meta');
+    if (!own) {
+      if (real(o.seo_title)) document.title = fill(o.seo_title);
+      meta('name', 'description', o.seo_description);
+      meta('name', 'keywords', o.seo_keywords);
+      meta('name', 'robots', o.seo_robots);
+      meta('property', 'og:title', fill(o.og_title));
+      meta('property', 'og:description', fill(o.og_description));
+      meta('property', 'og:type', o.og_type);
+      meta('property', 'og:site_name', o.og_site_name);
+      meta('property', 'og:locale', o.og_locale);
+      if (isHttp(o.og_image)) meta('property', 'og:image', o.og_image);
+      meta('name', 'twitter:card', o.twitter_card);
+      meta('name', 'twitter:title', fill(o.twitter_title));
+      meta('name', 'twitter:description', fill(o.twitter_description));
+      if (isHttp(o.twitter_image)) meta('name', 'twitter:image', o.twitter_image);
+      meta('name', 'twitter:site', o.twitter_site);
+      meta('name', 'twitter:creator', o.twitter_creator);
+      if (isHttp(o.canonical_url)) link('canonical', o.canonical_url);
+    }
     meta('name', 'author', o.seo_author);
-    meta('name', 'robots', o.seo_robots);
-    meta('property', 'og:title', fill(o.og_title));
-    meta('property', 'og:description', fill(o.og_description));
-    meta('property', 'og:type', o.og_type);
-    meta('property', 'og:site_name', o.og_site_name);
-    meta('property', 'og:locale', o.og_locale);
-    if (isHttp(o.og_image)) meta('property', 'og:image', o.og_image);
-    meta('name', 'twitter:card', o.twitter_card);
-    meta('name', 'twitter:title', fill(o.twitter_title));
-    meta('name', 'twitter:description', fill(o.twitter_description));
-    if (isHttp(o.twitter_image)) meta('name', 'twitter:image', o.twitter_image);
-    meta('name', 'twitter:site', o.twitter_site);
-    meta('name', 'twitter:creator', o.twitter_creator);
     meta('name', 'google-site-verification', o.google_site_verification);
     meta('name', 'msvalidate.01', o.bing_site_verification);
-    if (isHttp(o.canonical_url)) link('canonical', o.canonical_url);
     link('icon', o.favicon);
     link('icon', o.favicon_16x16, { sizes: '16x16', type: 'image/png' });
     link('icon', o.favicon_32x32, { sizes: '32x32', type: 'image/png' });
@@ -305,9 +327,9 @@
       li.setAttribute('data-reveal', '');
       li.appendChild(el('span', 'tl-node'));
       const card = el('div', 'tl-card');
-      if (i === nextIdx) card.appendChild(el('span', 'tl-badge', 'Next'));
-      card.append(el('p', 'tl-date', formatRange(x.r.imp_date_start_display, x.r.imp_date_end_display)),
-                  el('h3', 'tl-title', x.r.imp_date_title));
+      const title = el('h3', 'tl-title', x.r.imp_date_title);
+      if (i === nextIdx) title.appendChild(el('span', 'tl-badge', 'Next'));
+      card.append(el('p', 'tl-date', formatRange(x.r.imp_date_start_display, x.r.imp_date_end_display)), title);
       li.appendChild(card); box.appendChild(li);
     });
     reveal(box); show(box.closest('section'));
@@ -570,39 +592,85 @@
   ];
   // Dates also drive the day cards / countdown, which can render before dates load; tracks needs speakers for counts.
 
-  const lastSig = new Map();
-  let busy = false;
+  /* ── Loading placeholders (replaced by real content, or removed if nothing loads) ── */
+  function skeletons() {
+    const tl = $('[data-sheet="important_dates"]');
+    if (tl && !tl.children.length) {
+      for (let i = 0; i < 3; i++) {
+        const li = el('li', 'tl-item sk'); li.appendChild(el('span', 'tl-node'));
+        li.appendChild(el('div', 'tl-card sk-card')); tl.appendChild(li);
+      }
+      tl.closest('section').hidden = false;
+    }
+    const tr = $('[data-sheet="tracks"]');
+    if (tr && !tr.children.length) {
+      for (let i = 0; i < 4; i++) tr.appendChild(el('div', 'track sk sk-card'));
+      tr.closest('section').hidden = false;
+    }
+  }
+  // Anything still showing a placeholder after a refresh got no data: remove it and hide its section.
+  function settleSkeletons() {
+    const boxes = new Set();
+    $$('.sk').forEach(n => { if (n.parentNode) boxes.add(n.parentNode); });
+    boxes.forEach(box => {
+      while (box.firstChild) box.removeChild(box.firstChild);
+      const sec = box.closest('section'); if (sec) sec.hidden = true;
+    });
+  }
 
-  async function refresh() {
-    if (busy) return; busy = true;
+  /* ── Refresh loop ──────────────────────────────────────── */
+  const lastSig = new Map();
+  let busy = false, lastRun = 0, failures = 0, timer = null;
+
+  function apply(name, t) {
+    if (name === 'tracks') D.tracks_missing = t.missing;
+    D[name] = t.rows;
+  }
+
+  async function refresh(force) {
+    if (busy || (!force && Date.now() - lastRun < MIN_GAP)) return;
+    busy = true; lastRun = Date.now();
+    let ok = 0, bad = 0;
     try {
       const active = RENDERERS.filter(r => r.when());
       const names = Array.from(new Set(active.flatMap(r => r.tabs)));
       await Promise.all(names.map(async n => {
         try {
-          const t = await fetchTab(n);
-          if (n === 'tracks') D.tracks_missing = t.missing;
-          D[n] = t.rows;
-        } catch (err) { console.warn('[backend]', err.message); }      // keep last good data
+          const t = await fetchTab(n); apply(n, t); saveCopy(n, t); ok++;
+        } catch (err) {
+          bad++; console.warn('[backend]', err.name === 'AbortError' ? n + ': timed out' : err.message);
+          if (D[n] === undefined) { const c = loadCopy(n); if (c) apply(n, c); }   // show the saved copy
+        }
       }));
       active.forEach(r => {
-        if (r.tabs.some(n => D[n] === undefined)) return;               // never fetched
+        if (r.tabs.some(n => D[n] === undefined)) return;               // nothing live and nothing saved
         const sig = r.tabs.map(n => JSON.stringify(D[n])).join('|') + (r.tabs.indexOf('tracks') >= 0 ? D.tracks_missing : '');
         if (lastSig.get(r) === sig) return;
         lastSig.set(r, sig);
         try { r.run(); } catch (e) { console.warn('[backend]', e); }
       });
+      settleSkeletons();
     } finally { busy = false; }
+    failures = ok === 0 && bad > 0 ? failures + 1 : 0;
+  }
+
+  function schedule() {
+    clearTimeout(timer);
+    const delay = Math.min(MAX_POLL, POLL_MS * Math.pow(2, failures));   // back off while Google is failing
+    timer = setTimeout(async () => {
+      if (!document.hidden) await refresh(true);
+      schedule();
+    }, delay);
   }
 
   function boot() {
     ['https://res.cloudinary.com', 'https://docs.google.com'].forEach(h => {
       const l = document.createElement('link'); l.rel = 'preconnect'; l.href = h; l.crossOrigin = ''; document.head.appendChild(l);
     });
-    refresh();
-    setInterval(refresh, POLL_MS);
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
-    window.addEventListener('focus', refresh);
+    skeletons();
+    refresh(true).then(schedule);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(false); });
+    window.addEventListener('focus', () => refresh(false));
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
