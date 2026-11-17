@@ -995,3 +995,12 @@ p, li, dd, summary, figcaption { text-wrap: pretty; }
 }
 .nav-item.is-closed:hover .chev,
 .nav-item.is-closed:focus-within .chev { transform: none; }
+
+/* One hero tint for every page: navy under the text, clearing to the right so the photo shows */
+.hero-tint {
+  background: linear-gradient(90deg, rgba(8, 19, 48, 0.88) 0%, rgba(8, 19, 48, 0.66) 45%, rgba(8, 19, 48, 0.3) 100%);
+}
+@media (max-width: 767px) { .hero-tint { background: rgba(8, 19, 48, 0.72); } }
+#hero h1, #hero .eyebrow, #hero .btn-outline-light { text-shadow: none; }
+#hero .btn-outline-light { background: transparent; }
+#hero .btn-outline-light:hover { background: #fff; }
