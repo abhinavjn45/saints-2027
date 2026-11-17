@@ -113,6 +113,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
+  /* ── 4b. Desktop dropdowns close once a link is chosen ────
+     They open on hover or keyboard focus. After a click the pointer is
+     still over the menu and the link keeps focus, so close it explicitly
+     and let it open again the next time the pointer comes back. */
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      if (!e.target.closest('.dropdown-menu a')) return;
+      item.classList.add('is-closed');
+      if (document.activeElement && item.contains(document.activeElement)) document.activeElement.blur();
+    });
+    item.addEventListener('mouseleave', () => {
+      item.classList.remove('is-closed');
+      if (document.activeElement && item.contains(document.activeElement)) document.activeElement.blur();
+    });
+  });
+
+
   /* ── 5. Mobile menu ────────────────────────────────────── */
   const mobileBtn  = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');

@@ -987,3 +987,11 @@ p, li, dd, summary, figcaption { text-wrap: pretty; }
 .reg-form { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
 .reg-form p { font-size: 0.875rem; color: var(--muted); }
 .foot-h { line-height: 1.5; }
+
+/* Dropdown stays shut after a link in it is clicked (class set in main.js) */
+.nav-item.is-closed:hover .dropdown-menu,
+.nav-item.is-closed:focus-within .dropdown-menu {
+  opacity: 0; visibility: hidden; transform: translate3d(-50%, 8px, 0) scale(0.98);
+}
+.nav-item.is-closed:hover .chev,
+.nav-item.is-closed:focus-within .chev { transform: none; }
