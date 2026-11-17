@@ -190,8 +190,8 @@
     if (kids.length <= limit) return;
     let open = false;
     const apply = () => kids.forEach((k, i) => { k.hidden = !open && i >= limit; });
-    const btn = el('button', 'btn btn-ghost', ''); btn.type = 'button';
-    const label = () => { btn.textContent = open ? 'Show fewer' : 'Show all ' + kids.length; };
+    const btn = el('button', 'btn btn-line btn-sm', ''); btn.type = 'button';
+    const label = () => { btn.textContent = open ? 'Show fewer' : 'Show all ' + kids.length; btn.setAttribute('aria-expanded', String(open)); };
     btn.addEventListener('click', () => { open = !open; apply(); label(); });
     const wrap = el('div', 'more-wrap'); wrap.appendChild(btn);
     box.insertAdjacentElement('afterend', wrap);
@@ -210,6 +210,12 @@
     return s ? { start: s, end: e } : null;
   }
 
+  // One icon per track, by position (Phosphor names)
+  const TRACK_ICONS = ['atom', 'leaf', 'function', 'cpu'];
+  function icon(name, cls) {
+    const i = el('i', (cls || 'ph') + ' ph-' + name); i.setAttribute('aria-hidden', 'true'); return i;
+  }
+
   function getTracks() {
     let list;
     if (D.tracks && D.tracks.length) {
@@ -220,8 +226,14 @@
       list = [];
     }
     const spk = D.speakers || [];
-    list.forEach(t => { t.count = spk.filter(s => s.speaker_track === t.id).length; });
-    return list.sort((a, b) => Number(a.id) - Number(b.id));
+    list.sort((a, b) => Number(a.id) - Number(b.id));
+    list.forEach((t, i) => {
+      const mine = spk.filter(s => s.speaker_track === t.id);
+      t.count = mine.length;
+      t.icon = TRACK_ICONS[i] || 'flask';
+      t.faces = mine.filter(s => isHttp(s.speaker_image)).slice(0, 4).map(s => s.speaker_image);
+    });
+    return list;
   }
 
   /* ── Renderers ─────────────────────────────────────────── */
@@ -288,7 +300,7 @@
     });
   }
 
-  // important_dates → timeline, inline date bindings, day cards, countdown
+  // important_dates → timeline, inline date bindings, day cards, countdown, next-deadline notice
   function renderDates() {
     const rows = D.important_dates || [];
     const now = new Date(); now.setHours(0, 0, 0, 0);
@@ -309,9 +321,22 @@
         n.textContent = fmt(d);
         const card = n.closest('[data-day-card]'); if (card) card.hidden = k > days;
       });
-      const cd = $('#countdown');
-      if (cd) cd.dataset.target = conf.start.getFullYear() + '-' + pad2(conf.start.getMonth() + 1) + '-' + pad2(conf.start.getDate()) + 'T09:00:00+05:30';
+      const iso = d => d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+      $$('[data-countdown]').forEach(n => { n.dataset.start = iso(conf.start); n.dataset.end = iso(conf.end); });
     }
+
+    // header notice: the next deadline still ahead (the conference itself is not a deadline)
+    const upcoming = rows
+      .map(r => ({ r, s: parseDate(r.imp_date_start_display) }))
+      .filter(x => x.s && x.s >= now && !/conference dates/i.test(x.r.imp_date_title))
+      .sort((a, b) => a.s - b.s)[0];
+    if (upcoming) {
+      const left = Math.round((upcoming.s - now) / 864e5);
+      $$('[data-next-title]').forEach(n => { n.textContent = upcoming.r.imp_date_title; });
+      $$('[data-next-date]').forEach(n => { n.textContent = fmt(upcoming.s); });
+      $$('[data-next-left]').forEach(n => { n.textContent = left === 0 ? 'Today' : left === 1 ? 'Tomorrow' : left + ' days left'; });
+    }
+    $$('.notice-next, .next-card').forEach(n => { n.hidden = !upcoming; });
 
     // timeline
     const box = $('[data-sheet="important_dates"]');
@@ -337,7 +362,51 @@
     reveal(box); show(box.closest('section'));
   }
 
-  // tracks → home tiles, nav menus, counts
+  const speakersLabel = n => n + (n === 1 ? ' speaker' : ' speakers');
+
+  function trackCard(t) {
+    const a = el('a', 'track'); a.href = 'track.html?track=' + encodeURIComponent(t.id);
+    const top = el('div', 'track-top');
+    const badge = el('span', 'icon-badge'); badge.appendChild(icon(t.icon));
+    top.append(badge, el('span', 'track-no', pad2(Number(t.id) || t.id)));
+    a.appendChild(top);
+    a.appendChild(el('h3', null, t.title));
+    if (t.theme) a.appendChild(el('p', null, t.theme));
+    const foot = el('div', 'track-foot');
+    if (t.faces.length) {
+      const faces = el('div', 'faces'); t.faces.forEach(u => faces.appendChild(photo(u, 96, ''))); foot.appendChild(faces);
+    }
+    if (t.count) foot.appendChild(el('span', 'track-count', speakersLabel(t.count)));
+    const go = el('span', 'track-arrow'); go.appendChild(icon('arrow-right')); foot.appendChild(go);
+    a.appendChild(foot);
+    return a;
+  }
+
+  // A few speakers from every track for the home page rail (those with a photo)
+  function renderFeatured() {
+    const box = $('[data-sheet="featured_speakers"]');
+    if (!box) return;
+    const pools = getTracks().map(t => (D.speakers || [])
+      .filter(s => s.speaker_track === t.id && isHttp(s.speaker_image)).map(s => ({ s, t })));
+    const picks = [];
+    for (let i = 0; picks.length < 14 && pools.some(p => p[i]); i++) {
+      pools.forEach(p => { if (p[i] && picks.length < 14) picks.push(p[i]); });
+    }
+    if (picks.length < 4) return;
+    box.innerHTML = '';
+    picks.forEach(({ s, t }) => {
+      const c = el('article', 'spk-card');
+      c.appendChild(photo(s.speaker_image, 520, ''));
+      c.appendChild(el('span', 'spk-tag', t.title));
+      const info = el('div', 'spk-info');
+      info.append(el('b', null, s.speaker_fullname), el('span', null, s.speaker_affiliation));
+      c.appendChild(info); box.appendChild(c);
+    });
+    const wrap = box.closest('[data-featured]'); if (wrap) wrap.hidden = false;
+    if (window.SAINTS && window.SAINTS.rail) window.SAINTS.rail();
+  }
+
+  // tracks → home cards, nav menus, counts
   function renderTracks() {
     const tracks = getTracks();
     const n = tracks.length;
@@ -345,6 +414,7 @@
     if (speakers) $$('[data-speaker-count]').forEach(s => { s.textContent = speakers; });
     $$('[data-track-count]').forEach(s => {
       if (!n) return;
+      if (s.dataset.trackCount === 'num') { s.textContent = n; return; }
       const w = n < WORDS.length ? WORDS[n] : String(n);
       s.textContent = s.dataset.trackCount === 'cap' ? w.charAt(0).toUpperCase() + w.slice(1) : w;
     });
@@ -358,11 +428,10 @@
         if (mobile) { a.className = 'm-sublink'; a.textContent = t.title + (t.theme ? ': ' + t.theme : ''); }
         else {
           a.className = 'dropdown-link';
-          const num = el('span', 'track-num', t.id);
+          const num = icon(t.icon);
           const txt = el('span', 'dd-text'); txt.appendChild(el('b', null, t.title));
           if (t.theme) txt.appendChild(el('small', null, t.theme));
-          const arr = el('i', 'fa-solid fa-arrow-right dd-arrow');
-          a.append(num, txt, arr);
+          a.append(num, txt);
         }
         li.appendChild(a); ul.appendChild(li);
       });
@@ -372,14 +441,8 @@
     if (!grid || !n) return;
     grid.innerHTML = '';
     tracks.forEach((t, i) => {
-      const a = el('a', 'track'); a.href = 'track.html?track=' + encodeURIComponent(t.id);
+      const a = trackCard(t);
       a.setAttribute('data-reveal', ''); a.style.setProperty('--d', i * 80 + 'ms');
-      a.appendChild(el('span', 'track-no', pad2(Number(t.id) || t.id)));
-      a.appendChild(el('h3', null, t.title));
-      if (t.theme) a.appendChild(el('p', null, t.theme));
-      const foot = el('span', 'track-go', 'View track ');
-      foot.appendChild(el('i', 'fa-solid fa-arrow-right'));
-      a.appendChild(foot);
       grid.appendChild(a);
     });
     reveal(grid); show(grid.closest('section'));
@@ -389,7 +452,7 @@
   function speakerCard(s) {
     const card = el('article', 'speaker');
     const ph = el('div', 'speaker-photo');
-    if (isHttp(s.speaker_image)) ph.appendChild(photo(s.speaker_image, 160, s.speaker_fullname));
+    if (isHttp(s.speaker_image)) ph.appendChild(photo(s.speaker_image, 160, ''));
     const txt = el('div', 'speaker-text');
     txt.append(el('h4', 'speaker-name', s.speaker_fullname), el('p', 'speaker-aff', s.speaker_affiliation));
     card.append(ph, txt);
@@ -403,8 +466,8 @@
     const set = (k, v) => $$('[data-tp="' + k + '"]').forEach(n => { n.textContent = v; });
     const page = $('[data-track-page]');
 
-    if (!t) { set('title', 'Track not found'); set('theme', ''); $$('[data-tp-section]').forEach(s => { s.hidden = true; }); return; }
-    set('title', t.title); set('theme', t.theme); set('crumb', t.title);
+    if (!t) { set('title', 'Tracks'); set('theme', 'Track not found'); $$('[data-tp-section]').forEach(s => { s.hidden = true; }); return; }
+    set('title', t.title); set('theme', t.theme || t.title); set('crumb', t.title);
     document.title = t.title + (t.theme ? ': ' + t.theme : '') + ' | ' + (OPT.site_fullname || 'SAINTS 2027');
 
     // speakers, grouped by category (sheet order)
@@ -433,14 +496,7 @@
 
     // other tracks
     const obox = $('[data-tp="others"]'); obox.innerHTML = '';
-    tracks.filter(x => x.id !== t.id).forEach(x => {
-      const a = el('a', 'track'); a.href = 'track.html?track=' + encodeURIComponent(x.id);
-      a.appendChild(el('span', 'track-no', pad2(Number(x.id) || x.id)));
-      a.appendChild(el('h3', null, x.title));
-      if (x.theme) a.appendChild(el('p', null, x.theme));
-      const foot = el('span', 'track-go', 'View track '); foot.appendChild(el('i', 'fa-solid fa-arrow-right')); a.appendChild(foot);
-      obox.appendChild(a);
-    });
+    tracks.filter(x => x.id !== t.id).forEach(x => obox.appendChild(trackCard(x)));
     if (page) page.hidden = false;
   }
 
@@ -452,7 +508,10 @@
     box.innerHTML = '';
     items.forEach(r => {
       const fig = el('figure', 'gal');
-      fig.append(photo(r.image_url, 900, r.image_title));
+      const a = el('a'); a.href = sized(r.image_url, 1800);
+      a.setAttribute('data-lightbox', ''); a.setAttribute('data-caption', r.image_title || '');
+      a.setAttribute('aria-label', 'View larger: ' + (r.image_title || 'photo'));
+      a.appendChild(photo(r.image_url, 900, '')); fig.appendChild(a);
       if (r.image_title) fig.appendChild(el('figcaption', null, r.image_title));
       box.appendChild(fig);
     });
@@ -468,19 +527,19 @@
     rows.forEach((r, i) => {
       const card = el('article', 'msg'); card.setAttribute('data-reveal', ''); card.style.setProperty('--d', i * 100 + 'ms');
       const body = el('div', 'msg-body is-clamped'); body.innerHTML = sanitize(r.welcome_message_text);
-      const more = el('button', 'msg-more', 'Read full message'); more.type = 'button';
+      const more = el('button', 'msg-more', 'Read full message'); more.type = 'button'; more.setAttribute('aria-expanded', 'false');
       more.addEventListener('click', () => {
         const open = body.classList.toggle('is-clamped') === false;
-        more.textContent = open ? 'Show less' : 'Read full message';
+        more.textContent = open ? 'Show less' : 'Read full message'; more.setAttribute('aria-expanded', String(open));
       });
       const by = el('footer', 'msg-by');
       if (isHttp(r.welcome_message_image)) {
-        by.appendChild(photo(r.welcome_message_image, 160, r.welcome_message_by));
+        by.appendChild(photo(r.welcome_message_image, 160, ''));
       }
       const who = el('div'); who.append(el('p', 'msg-name', r.welcome_message_by));
       const sub = [r.welcome_message_role, r.welcome_message_designation, r.welcome_message_institute].filter(Boolean).join(' · ');
       who.appendChild(el('p', 'msg-role', sub));
-      by.appendChild(who); card.append(body, more, by); box.appendChild(card);
+      by.appendChild(who); card.append(icon('quotes', 'ph-fill msg-quote'), body, more, by); box.appendChild(card);
     });
     reveal(box); show(box.closest('section'));
   }
@@ -499,7 +558,8 @@
       const ul = el('ul', 'cm-list');
       members.forEach(m => {
         const li = el('li', 'cm-member');
-        if (isHttp(m.member_image)) li.appendChild(photo(m.member_image, 160, m.member_fullname));
+        if (isHttp(m.member_image)) li.appendChild(photo(m.member_image, 160, ''));
+        else { const ph = el('span', 'cm-blank'); ph.appendChild(icon('user')); li.appendChild(ph); }
         const t = el('div'); t.appendChild(el('p', 'cm-name', m.member_fullname));
         if (m.member_designation) t.appendChild(el('p', 'cm-desig', m.member_designation));
         li.appendChild(t); ul.appendChild(li);
@@ -520,8 +580,9 @@
       if (isHttp(r.ptv_link)) { a.href = r.ptv_link; a.target = '_blank'; a.rel = 'noopener'; }
       a.setAttribute('data-reveal', ''); a.style.setProperty('--d', (i % 4) * 70 + 'ms');
       if (isHttp(r.ptv_image)) a.appendChild(photo(r.ptv_image, 640, ''));
-      const cap = el('div', 'place-cap'); cap.appendChild(el('h3', null, r.ptv_title));
-      if (r.ptv_desc) cap.appendChild(el('p', null, r.ptv_desc));
+      const cap = el('div', 'place-cap'); const txt = el('div'); txt.appendChild(el('h3', null, r.ptv_title));
+      if (r.ptv_desc) txt.appendChild(el('p', null, r.ptv_desc));
+      cap.appendChild(txt); if (isHttp(r.ptv_link)) cap.appendChild(icon('arrow-up-right'));
       a.appendChild(cap); box.appendChild(a);
     });
     reveal(box); collapsible(box, 4); show(box.closest('section'));
@@ -583,8 +644,9 @@
   /* ── Registry: which tabs a renderer needs, and when it applies ── */
   const RENDERERS = [
     { tabs: ['site_options'],                 when: () => true,                                                           run: applySiteOptions },
-    { tabs: ['important_dates'],              when: () => $('[data-sheet="important_dates"],[data-date],[data-day],#countdown'), run: renderDates },
+    { tabs: ['important_dates'],              when: () => $('[data-sheet="important_dates"],[data-date],[data-day],[data-countdown],[data-next-title]'), run: renderDates },
     { tabs: ['tracks', 'speakers'],           when: () => $('[data-tracks-menu],[data-sheet="tracks"],[data-track-count]'), run: renderTracks },
+    { tabs: ['tracks', 'speakers'],           when: () => $('[data-sheet="featured_speakers"]'),                          run: renderFeatured },
     { tabs: ['tracks', 'speakers', 'schedule'], when: () => $('[data-track-page]'),                                       run: renderTrackPage },
     { tabs: ['gallery_images'],               when: () => $('[data-sheet="gallery_images"]'),                             run: renderGallery },
     { tabs: ['welcome_messages'],             when: () => $('[data-sheet="welcome_messages"]'),                           run: renderWelcome },

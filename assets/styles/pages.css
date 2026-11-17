@@ -1,0 +1,33 @@
+/* ============================================================
+   SAINTS 2027 — inner-page additions
+   Loaded after site.css on abstract.html, committee.html and
+   track.html. Small on purpose: everything shared lives in site.css.
+   ============================================================ */
+
+/* Vertical rhythm for a section body that stacks mixed blocks */
+.flow > * + * { margin-top: clamp(20px, 2.4vw, 28px); }
+
+/* Small label above a list (e.g. "The Book of Abstracts will") */
+.list-label { margin: 14px 0 12px; color: var(--muted); }
+.list-label + .ticks { margin-top: 0; }
+
+/* File download row: button with a filename beside it */
+.file-row { align-items: center; column-gap: 20px; }
+.file-row .small { display: inline-flex; align-items: center; gap: 6px; }
+
+/* Presentation preference note: space between the chips and the closing line */
+.note .chips + p { margin-top: 14px; }
+
+/* .split switches to two columns at a 900px viewport, but inside .sec-body
+   (beside the sticky .sec-head) that leaves the text column about 180px wide
+   at 1000-1279px. Keep it stacked until there is room. */
+@media (min-width: 1000px) and (max-width: 1279px) {
+  .sec-body.split { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Current crumb reads as text, not a link */
+.crumbs [aria-current] { color: #fff; }
+
+/* Track page: the h1 is the long theme name, so step it down and let it run wider */
+.page-head--track h1 { font-size: clamp(2rem, 4.2vw, 3.25rem); line-height: 1.08; max-width: 26ch; }
+

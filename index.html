@@ -7,6 +7,7 @@
   <meta name="description" content="International Conference on Scientific Advances in Natural &amp; Technological Sciences, hosted by the School of Sciences at CHRIST (Deemed to be University), Bangalore." />
   <meta name="author" content="SAINTS 2027 Organizing Committee" />
   <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0b1730" />
   <link rel="canonical" href="https://saints.christuniversity.in/" />
   <meta property="og:url" content="https://saints.christuniversity.in/" />
   <meta property="og:type" content="website" />
@@ -23,548 +24,515 @@
   <meta name="twitter:description" content="International Conference on Scientific Advances in Natural &amp; Technological Sciences, hosted by the School of Sciences at CHRIST (Deemed to be University), Bangalore." />
   <meta name="twitter:image" content="https://saints.christuniversity.in/assets/images/og-image.jpg" />
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/dchqvsa57/image/upload/v1780542921/favicon-32x32_qu1mkw.png" />
+  <script>document.documentElement.classList.add('js');</script>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400..700&display=swap" rel="stylesheet" />
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-  <!-- Project Stylesheet -->
-  <link rel="stylesheet" href="assets/styles/main.css" />
-
-  <!-- Tailwind utilities load after main.css, as the CDN build did, so they win ties -->
-  <link rel="stylesheet" href="assets/styles/tailwind.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
+  <link rel="stylesheet" href="assets/styles/site.css" />
 </head>
 
-<body class="font-sans bg-white text-gray-800 antialiased">
+<body>
+<a class="skip" href="#main">Skip to content</a>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     FIXED HEADER — slides up (transform only, no reflow) on
-     scroll-down so only the navbar stays; returns on scroll-up
-════════════════════════════════════════════════════════ -->
-<div id="scroll-progress" aria-hidden="true"></div>
-
-<header id="main-header" class="fixed top-0 left-0 right-0 z-50">
-
-  <!-- ── Slides away on scroll: Topbar + Top Header ───── -->
-  <div id="header-top">
-
-    <!-- LAYER 1 — TOPBAR (Announcements) -->
-    <div id="topbar" class="topbar">
-      <div class="topbar-inner container mx-auto flex items-center gap-3">
-
-        <span class="topbar-badge">
-          <span class="topbar-pulse"></span> Updates
-        </span>
-
-        <div class="ticker-mask flex-1 overflow-hidden relative">
-          <div class="ticker-track inline-flex items-center gap-12">
-            <span><strong>Abstract submission is open.</strong> Submit by <strong data-date="Abstract Deadline">25 November 2026</strong>.</span>
-            <span><strong>Plenary speakers announced</strong> for all four tracks.</span>
-            <span><strong>Conference dates:</strong> <span data-date="Conference Dates">6&ndash;8 January 2027</span>, CHRIST (Deemed to be University), Bangalore</span>
-            <span><strong>Best Paper Awards</strong> across all four tracks.</span>
-          </div>
-        </div>
-
-        <button id="topbar-close" aria-label="Close announcements bar" class="topbar-close">
-          <i class="fa-solid fa-xmark text-xs"></i>
-        </button>
-
-      </div>
+<header>
+  <div class="notice">
+    <div class="wrap">
+      <p class="notice-next">
+        <span class="label"><i class="ph ph-timer" aria-hidden="true"></i> Next deadline</span>
+        <b data-next-title>Abstract Deadline</b>
+        <span data-next-date>25 November 2026</span>
+        <span class="notice-left" data-next-left></span>
+      </p>
+      <a href="#dates">All dates <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
     </div>
-    <!-- end Topbar -->
-
-    <!-- LAYER 2 — TOP HEADER (Logos & Branding) -->
-    <div id="top-header" class="top-header">
-      <div class="container mx-auto py-3 flex items-center justify-between gap-4 sm:gap-6">
-
-        <!-- Left — University Logo -->
-        <a href="#hero" class="logo-link" aria-label="CHRIST (Deemed to be University)">
-          <img src="assets/images/logos/christ_main_blue-gold.png"
-            alt="CHRIST (Deemed to be University)"
-            class="h-12 sm:h-16 w-auto object-contain" />
-        </a>
-
-        <!-- Center — SAINTS Logo -->
-        <a href="#hero" class="logo-link" aria-label="SAINTS 2027 home">
-          <img src="assets/images/logos/saints_main.png"
-            alt="SAINTS 2027 Logo"
-            class="h-12 sm:h-16 w-auto object-contain" />
-        </a>
-
-        <!-- Right — Gold Sponsor -->
-        <div class="sponsor-chip">
-          <span class="sponsor-label">
-            <i class="fa-solid fa-medal"></i> Gold Sponsor
-          </span>
-          <img src="assets/images/logos/rsi-supports-research-gold-sponsor.png"
-            alt="RSI Supports Research — Gold Sponsor"
-            class="h-10 sm:h-14 w-auto object-contain" />
-        </div>
-
-      </div>
-    </div>
-    <!-- end Top Header -->
-
   </div>
-  <!-- end #header-top -->
 
-
-  <!-- LAYER 3 — NAVBAR (always visible) -->
-  <nav id="navbar" class="navbar" aria-label="Primary">
-    <div class="container mx-auto flex items-center justify-between h-16">
-
-      <!-- Compact brand (fades in once the top header has slid away) -->
-      <a href="#hero" class="nav-brand" aria-label="SAINTS 2027 home">
-        <img src="assets/images/logos/saints_main.png" alt="SAINTS 2027" class="h-9 w-auto object-contain" />
+  <div class="masthead">
+    <div class="wrap">
+      <a href="https://christuniversity.in/" target="_blank" rel="noopener" aria-label="CHRIST (Deemed to be University), opens in a new tab">
+        <img src="assets/images/logos/christ_main_blue-gold.png" alt="CHRIST (Deemed to be University)" width="600" height="192" />
       </a>
-
-      <!-- Desktop Nav Links -->
-      <ul class="nav-list hidden lg:flex items-center gap-1 text-sm font-medium">
-
-        <li><a href="#hero" class="nav-link active">Home</a></li>
-        <li><a href="#about" class="nav-link">About</a></li>
-
-        <!-- Speakers dropdown -->
-        <li class="nav-item relative">
-          <button class="nav-link" aria-haspopup="true">
-            Speakers <i class="fa-solid fa-chevron-down chev"></i>
-          </button>
-          <ul class="dropdown-menu" data-tracks-menu="desktop">
-            <li><a href="track.html?track=1" class="dropdown-link"><span class="track-num">1</span><span class="dd-text"><b>Track 1</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
-            <li><a href="track.html?track=2" class="dropdown-link"><span class="track-num">2</span><span class="dd-text"><b>Track 2</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
-            <li><a href="track.html?track=3" class="dropdown-link"><span class="track-num">3</span><span class="dd-text"><b>Track 3</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
-            <li><a href="track.html?track=4" class="dropdown-link"><span class="track-num">4</span><span class="dd-text"><b>Track 4</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
-          </ul>
-        </li>
-
-        <li><a href="abstract.html#fees" class="nav-link">Registration</a></li>
-
-        <li><a href="#publications" class="nav-link">Publications</a></li>
-        <li><a href="#schedule" class="nav-link">Schedule</a></li>
-        <li><a href="#gallery" class="nav-link">Gallery</a></li>
-        <li><a href="committee.html" class="nav-link">Committee</a></li>
-
-        <!-- Legacy dropdown -->
-        <li class="nav-item relative">
-          <button class="nav-link" aria-haspopup="true">
-            Legacy <i class="fa-solid fa-chevron-down chev"></i>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a href="https://sites.google.com/christuniversity.in/saints/home?pli=1&amp;authuser=0" target="_blank" rel="noopener" class="dropdown-link"><span class="track-num"><i class="fa-regular fa-calendar"></i></span><span class="dd-text"><b>SAINTS 2026</b></span><i class="fa-solid fa-arrow-up-right-from-square dd-arrow"></i></a></li>
-            <li><a href="https://sites.google.com/christuniversity.in/saints-2024/home" target="_blank" rel="noopener" class="dropdown-link"><span class="track-num"><i class="fa-regular fa-calendar"></i></span><span class="dd-text"><b>SAINTS 2024</b></span><i class="fa-solid fa-arrow-up-right-from-square dd-arrow"></i></a></li>
-          </ul>
-        </li>
-
-      </ul>
-      <!-- end Desktop Nav -->
-
-      <!-- Right: CTAs + Hamburger -->
-      <div class="flex items-center gap-2 sm:gap-3 ml-auto lg:ml-0">
-        <a href="abstract.html" class="btn btn-primary hidden sm:inline-flex">
-          Submit Abstract <i class="fa-solid fa-arrow-right btn-arrow"></i>
-        </a>
-        <button id="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu"
-          class="hamburger lg:hidden">
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-        </button>
-      </div>
-
-    </div>
-
-    <!-- Mobile Menu Panel -->
-    <div id="mobile-menu" class="lg:hidden">
-      <div class="mobile-menu-inner">
-        <ul class="container mx-auto py-3 flex flex-col gap-1 text-sm font-medium">
-          <li><a href="#hero" class="m-link">Home</a></li>
-          <li><a href="#about" class="m-link">About</a></li>
-          <li>
-            <button class="mobile-accordion-btn m-link w-full flex items-center justify-between" data-target="mobile-speakers" aria-expanded="false">
-              Speakers <i class="fa-solid fa-chevron-down text-xs"></i>
-            </button>
-            <div id="mobile-speakers" class="mobile-submenu"><ul data-tracks-menu="mobile">
-              <li><a href="track.html?track=1" class="m-sublink">Track 1</a></li>
-              <li><a href="track.html?track=2" class="m-sublink">Track 2</a></li>
-              <li><a href="track.html?track=3" class="m-sublink">Track 3</a></li>
-              <li><a href="track.html?track=4" class="m-sublink">Track 4</a></li>
-            </ul></div>
-          </li>
-          <li><a href="abstract.html#fees" class="m-link">Registration</a></li>
-          <li><a href="#publications" class="m-link">Publications</a></li>
-          <li><a href="#schedule" class="m-link">Schedule</a></li>
-          <li><a href="#gallery" class="m-link">Gallery</a></li>
-          <li><a href="committee.html" class="m-link">Committee</a></li>
-          <li>
-            <button class="mobile-accordion-btn m-link w-full flex items-center justify-between" data-target="mobile-legacy" aria-expanded="false">
-              Legacy <i class="fa-solid fa-chevron-down text-xs"></i>
-            </button>
-            <div id="mobile-legacy" class="mobile-submenu"><ul>
-              <li><a href="https://sites.google.com/christuniversity.in/saints/home?pli=1&amp;authuser=0" target="_blank" rel="noopener" class="m-sublink">SAINTS 2026</a></li>
-              <li><a href="https://sites.google.com/christuniversity.in/saints-2024/home" target="_blank" rel="noopener" class="m-sublink">SAINTS 2024</a></li>
-            </ul></div>
-          </li>
-          <li class="pt-2 pb-2">
-            <a href="abstract.html" class="btn btn-primary justify-center w-full">Submit Abstract <i class="fa-solid fa-arrow-right btn-arrow"></i></a>
-          </li>
-        </ul>
+      <a class="masthead-mid" href="index.html" aria-label="SAINTS 2027 home">
+        <img src="assets/images/logos/saints_main.png" alt="SAINTS 2027" width="495" height="192" />
+      </a>
+      <div class="sponsor">
+        <span class="sponsor-label"><i class="ph-fill ph-medal" aria-hidden="true"></i> Gold sponsor</span>
+        <img src="assets/images/logos/rsi-supports-research-gold-sponsor.png" alt="RSI Supports Research, Gold Sponsor" width="120" height="120" />
       </div>
     </div>
-    <!-- end Mobile Menu Panel -->
-
-  </nav>
-  <!-- end Navbar -->
-
+  </div>
 </header>
-<!-- end #main-header -->
 
+<nav class="nav" id="nav" aria-label="Primary">
+  <div class="wrap">
+    <a class="nav-brand" href="index.html" aria-label="SAINTS 2027 home">
+      <img src="assets/images/logos/saints_main.png" alt="" width="495" height="192" />
+    </a>
 
-<!-- ═══════════════════════════════════════════════════════
-     HERO
-════════════════════════════════════════════════════════ -->
-<section id="hero" class="relative flex items-end overflow-hidden bg-primary-950 text-white" style="min-height: 92vh;">
+    <ul class="nav-list">
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li class="nav-item">
+        <button class="nav-link" type="button" aria-expanded="false" aria-controls="menu-tracks">Speakers <i class="ph ph-caret-down" aria-hidden="true"></i></button>
+        <ul class="dropdown-menu" id="menu-tracks" data-tracks-menu="desktop">
+          <li><a href="track.html?track=1" class="dropdown-link"><i class="ph ph-atom" aria-hidden="true"></i><span class="dd-text"><b>Track 1</b></span></a></li>
+          <li><a href="track.html?track=2" class="dropdown-link"><i class="ph ph-leaf" aria-hidden="true"></i><span class="dd-text"><b>Track 2</b></span></a></li>
+          <li><a href="track.html?track=3" class="dropdown-link"><i class="ph ph-function" aria-hidden="true"></i><span class="dd-text"><b>Track 3</b></span></a></li>
+          <li><a href="track.html?track=4" class="dropdown-link"><i class="ph ph-cpu" aria-hidden="true"></i><span class="dd-text"><b>Track 4</b></span></a></li>
+        </ul>
+      </li>
+      <li><a href="#dates" class="nav-link">Key dates</a></li>
+      <li><a href="#schedule" class="nav-link">Programme</a></li>
+      <li><a href="abstract.html#fees" class="nav-link">Registration</a></li>
+      <li><a href="#venue" class="nav-link">Venue</a></li>
+      <li><a href="committee.html" class="nav-link">Committee</a></li>
+      <li class="nav-item">
+        <button class="nav-link" type="button" aria-expanded="false" aria-controls="menu-past">Past editions <i class="ph ph-caret-down" aria-hidden="true"></i></button>
+        <ul class="dropdown-menu" id="menu-past">
+          <li><a href="https://sites.google.com/christuniversity.in/saints/home" target="_blank" rel="noopener" class="dropdown-link"><i class="ph ph-calendar-blank" aria-hidden="true"></i><span class="dd-text"><b>SAINTS 2026</b></span></a></li>
+          <li><a href="https://sites.google.com/christuniversity.in/saints-2024/home" target="_blank" rel="noopener" class="dropdown-link"><i class="ph ph-calendar-blank" aria-hidden="true"></i><span class="dd-text"><b>SAINTS 2024</b></span></a></li>
+        </ul>
+      </li>
+    </ul>
 
-  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('assets/images/website-assets/hero-section.jpg');"></div>
-  <!-- same navy tint as the inner page heroes: solid under the text, clearing to the right -->
-  <div class="absolute inset-0 hero-tint"></div>
-  <div class="absolute bottom-0 left-0 right-0 h-1 bg-accent-500"></div>
+    <div class="nav-cta">
+      <a href="abstract.html" class="btn btn-gold btn-sm">Submit abstract <i class="ph ph-paper-plane-tilt" aria-hidden="true"></i></a>
+      <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
 
-  <div class="relative z-10 container mx-auto pt-10 pb-28 sm:pb-32 flex items-center justify-between gap-12">
-    <div class="max-w-3xl">
+  <div class="nav-panel" id="mobile-menu">
+    <div class="wrap">
+      <a href="#about" class="m-link"><i class="ph ph-info" aria-hidden="true"></i> About</a>
+      <a href="#dates" class="m-link"><i class="ph ph-calendar-check" aria-hidden="true"></i> Key dates</a>
+      <a href="#schedule" class="m-link"><i class="ph ph-clock" aria-hidden="true"></i> Programme</a>
+      <a href="abstract.html#fees" class="m-link"><i class="ph ph-ticket" aria-hidden="true"></i> Registration</a>
+      <a href="#venue" class="m-link"><i class="ph ph-map-pin" aria-hidden="true"></i> Venue</a>
+      <a href="committee.html" class="m-link"><i class="ph ph-users-three" aria-hidden="true"></i> Committee</a>
+      <span class="m-head">Speakers by track</span>
+      <ul data-tracks-menu="mobile">
+        <li><a href="track.html?track=1" class="m-sublink">Track 1</a></li>
+        <li><a href="track.html?track=2" class="m-sublink">Track 2</a></li>
+        <li><a href="track.html?track=3" class="m-sublink">Track 3</a></li>
+        <li><a href="track.html?track=4" class="m-sublink">Track 4</a></li>
+      </ul>
+      <span class="m-head">Past editions</span>
+      <ul>
+        <li><a href="https://sites.google.com/christuniversity.in/saints/home" target="_blank" rel="noopener" class="m-sublink">SAINTS 2026</a></li>
+        <li><a href="https://sites.google.com/christuniversity.in/saints-2024/home" target="_blank" rel="noopener" class="m-sublink">SAINTS 2024</a></li>
+      </ul>
+      <a href="abstract.html" class="btn btn-gold">Submit abstract <i class="ph ph-paper-plane-tilt" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</nav>
 
-      <p class="eyebrow eyebrow-light" data-reveal>International Conference</p>
+<main id="main">
 
-      <h1 class="font-display text-4xl sm:text-5xl lg:text-[3.6rem] font-bold leading-[1.1] mt-5 mb-6" data-reveal style="--d:80ms">
-        Scientific Advances in Natural &amp; Technological Sciences
-      </h1>
-
-      <div class="flex flex-col sm:flex-row gap-3 mt-9" data-reveal style="--d:160ms">
-        <a href="abstract.html" class="btn btn-primary btn-lg">Submit Abstract <i class="fa-solid fa-arrow-right btn-arrow"></i></a>
-        <a href="#about" class="btn btn-outline-light btn-lg">About the conference</a>
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="top">
+  <div class="hero-bg" style="background-image: url('assets/images/website-assets/hero-section.jpg');"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <p class="chip" data-reveal><i class="ph ph-atom" aria-hidden="true"></i> SAINTS 2027 &middot; International conference</p>
+      <h1 data-reveal style="--d:80ms">Scientific Advances in Natural &amp; Technological Sciences</h1>
+      <p class="hero-tag" data-reveal style="--d:160ms">Discovery to Scalable Solutions</p>
+      <div class="btn-row" data-reveal style="--d:240ms">
+        <a href="abstract.html" class="btn btn-gold">Submit abstract <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+        <a href="abstract.html#fees" class="btn btn-line"><i class="ph ph-ticket" aria-hidden="true"></i> Registration &amp; fees</a>
       </div>
-
     </div>
 
-    <!-- Conference logo, right-hand side (desktop) -->
-    <div class="hero-logo hidden lg:flex" data-reveal style="--d:200ms">
-      <img src="https://res.cloudinary.com/dchqvsa57/image/upload/f_auto,q_auto,c_limit,w_840/v1780714581/saints_new_logo_lruoy4.png"
-        alt="SAINTS 2027" data-site-img="light_logo" class="w-full h-auto object-contain" />
-    </div>
+    <aside class="glass cd-card" data-reveal style="--d:200ms" aria-label="Conference countdown">
+      <p class="label"><i class="ph ph-hourglass-medium" aria-hidden="true"></i> <span data-cd-label>Conference opens in</span></p>
+      <div class="cd-grid" data-countdown data-start="2027-01-06" data-end="2027-01-08">
+        <div class="cd"><b data-cd="d">--</b><span>Days</span></div>
+        <div class="cd"><b data-cd="h">--</b><span>Hours</span></div>
+        <div class="cd"><b data-cd="m">--</b><span>Min</span></div>
+        <div class="cd"><b data-cd="s">--</b><span>Sec</span></div>
+      </div>
+      <ul class="cd-meta">
+        <li><i class="ph ph-calendar-blank" aria-hidden="true"></i> <span data-date="Conference Dates">6&ndash;8 January 2027</span></li>
+        <li><i class="ph ph-map-pin" aria-hidden="true"></i> <a href="#venue">CHRIST (Deemed to be University), Bangalore, India</a></li>
+      </ul>
+    </aside>
   </div>
 </section>
-<!-- end #hero -->
 
-
-<!-- ═══ Quick facts strip (overlaps hero) ═══ -->
-<div class="relative z-20 container mx-auto -mt-16 sm:-mt-20">
+<div class="wrap facts-wrap">
   <div class="facts" data-reveal>
     <div class="fact">
-      <i class="fa-regular fa-calendar"></i>
-      <div><p class="fact-k">Date</p><p class="fact-v" data-date="Conference Dates">6&ndash;8 January 2027</p></div>
+      <span class="icon-badge"><i class="ph ph-calendar-blank" aria-hidden="true"></i></span>
+      <div><p class="fact-k">Dates</p><p class="fact-v" data-date="Conference Dates">6&ndash;8 January 2027</p></div>
     </div>
     <div class="fact">
-      <i class="fa-solid fa-location-dot"></i>
-      <div>
-        <p class="fact-k">Venue</p>
-        <a class="fact-v fact-link" href="https://maps.app.goo.gl/uuUKjwd8Y8pchqi28" target="_blank" rel="noopener">
-          CHRIST (Deemed to be University), Bangalore, India <i class="fa-solid fa-arrow-up-right-from-square"></i>
-        </a>
-      </div>
+      <span class="icon-badge"><i class="ph ph-map-pin" aria-hidden="true"></i></span>
+      <div><p class="fact-k">Venue</p><a class="fact-v" href="#venue">CHRIST (Deemed to be University), Bangalore</a></div>
     </div>
     <div class="fact">
-      <i class="fa-solid fa-building-columns"></i>
-      <div><p class="fact-k">Organised by</p><p class="fact-v"><a href="https://christuniversity.in/schools/school-of-sciences" target="_blank" rel="noopener" class="inline-link">School of Sciences</a></p></div>
+      <span class="icon-badge"><i class="ph ph-buildings" aria-hidden="true"></i></span>
+      <div><p class="fact-k">Organised by</p><a class="fact-v" href="https://christuniversity.in/schools/school-of-sciences" target="_blank" rel="noopener">School of Sciences<span class="vh"> (opens in a new tab)</span></a></div>
     </div>
-    <div class="fact fact-count" id="countdown" aria-label="Time until the conference begins">
-      <div class="cd"><b data-cd="d">00</b><span>Days</span></div>
-      <div class="cd"><b data-cd="h">00</b><span>Hrs</span></div>
-      <div class="cd"><b data-cd="m">00</b><span>Min</span></div>
-      <div class="cd"><b data-cd="s">00</b><span>Sec</span></div>
+    <div class="fact">
+      <span class="icon-badge icon-badge--navy"><i class="ph ph-paper-plane-tilt" aria-hidden="true"></i></span>
+      <div><p class="fact-k">Abstracts close</p><a class="fact-v" href="abstract.html" data-date="Abstract Deadline">25 November 2026</a></div>
     </div>
   </div>
 </div>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     ABOUT
-════════════════════════════════════════════════════════ -->
-<section id="about" class="section">
-  <div class="container mx-auto">
-
-    <div class="max-w-3xl" data-reveal>
-      <p class="eyebrow">About the conference</p>
-      <h2 class="h2">Discovery to Scalable Solutions</h2>
-      <p class="lead">
-        SAINTS is the International Conference on Scientific Advances in Natural &amp; Technological Sciences, hosted by the
-        <a href="https://christuniversity.in/schools/school-of-sciences" target="_blank" rel="noopener" class="inline-link">School of Sciences</a> at CHRIST (Deemed to be University), Bangalore.
-        The 2027 edition takes place on <span data-date="Conference Dates">6&ndash;8 January 2027</span>.
-      </p>
-      <p class="body-copy">
-        The programme has plenary lectures, parallel technical sessions, poster presentations and workshops,
-        organised in <span data-track-count>four</span> tracks.
-      </p>
-      <a href="#speakers" class="link-arrow mt-2">See the tracks <i class="fa-solid fa-arrow-right"></i></a>
+<!-- ═══ TRACKS AND SPEAKERS  (sheet: tracks, speakers) ═══ -->
+<section class="sec" id="speakers" hidden>
+  <div class="wrap">
+    <div class="sec-top" data-reveal>
+      <header>
+        <span class="sec-no" aria-hidden="true"></span>
+        <h2 class="sec-title">Tracks and speakers</h2>
+        <p class="sec-note">Open a track for its full speaker list and schedule.</p>
+      </header>
     </div>
+    <div class="tracks-grid" data-sheet="tracks"></div>
 
-    <!-- Speakers and awards -->
-    <div class="why" data-reveal>
-      <p class="eyebrow">Speakers and awards</p>
-      <div class="why-split">
-        <ul class="why-stats">
-          <li>
-            <p class="why-fig" data-speaker-count>95</p>
-            <h3>Speakers</h3>
-            <p class="why-sub">Across <span data-track-count>four</span> tracks</p>
-          </li>
-          <li>
-            <p class="why-fig">33+</p>
-            <h3>Countries</h3>
-            <p class="why-sub">Represented</p>
-          </li>
-        </ul>
-        <ul class="why-awards">
-          <li><span>Best Paper Award</span><b>Cash prize of &#8377;5,000</b></li>
-          <li><span>Best Innovation Pitch Award</span></li>
-          <li><span>Best PhD Thesis Award</span><b>Cash prize of &#8377;5,000</b></li>
-        </ul>
+    <div data-featured hidden>
+      <div class="sec-top" style="margin-top: clamp(44px, 5vw, 72px);" data-reveal>
+        <header>
+          <p class="kicker"><i class="ph ph-microphone-stage" aria-hidden="true"></i> Speakers</p>
+          <h3 class="h3" style="margin-top: 8px; font-size: clamp(1.6rem, 2.6vw, 2.1rem);">Among the plenary speakers</h3>
+        </header>
+        <div class="rail-nav">
+          <button class="rail-btn" type="button" data-rail="prev" aria-label="Previous speakers"><i class="ph ph-caret-left" aria-hidden="true"></i></button>
+          <button class="rail-btn" type="button" data-rail="next" aria-label="More speakers"><i class="ph ph-caret-right" aria-hidden="true"></i></button>
+        </div>
       </div>
+      <div class="spk-rail" data-sheet="featured_speakers" tabindex="0" aria-label="Plenary speakers"></div>
     </div>
-
   </div>
 </section>
 
+<!-- ═══ KEY DATES  (sheet: important_dates) ═══ -->
+<section class="sec sec--tint" id="dates" hidden>
+  <div class="wrap sec-grid">
+    <header class="sec-head" data-reveal>
+      <span class="sec-no" aria-hidden="true"></span>
+      <h2 class="sec-title">Key dates</h2>
+      <div class="next-card">
+        <p class="label"><i class="ph ph-timer" aria-hidden="true"></i> Next deadline</p>
+        <b data-next-title>Abstract Deadline</b>
+        <span data-next-date>25 November 2026</span>
+        <em data-next-left></em>
+      </div>
+    </header>
+    <div class="sec-body">
+      <ol class="timeline" data-sheet="important_dates"></ol>
+    </div>
+  </div>
+</section>
 
-<!-- ═══════════════════════════════════════════════════════
-     WELCOME MESSAGES  (backend: welcome_messages)
-════════════════════════════════════════════════════════ -->
-<section id="welcome" class="section section-paper" hidden>
-  <div class="container mx-auto">
-    <div class="max-w-2xl mb-12" data-reveal>
-      <h2 class="h2">Welcome messages</h2>
+<!-- ═══ FIGURES ═══ -->
+<section class="stats" aria-label="The conference in numbers">
+  <div class="wrap stats-grid">
+    <div class="stat" data-reveal>
+      <span class="icon-badge icon-badge--glass"><i class="ph ph-microphone-stage" aria-hidden="true"></i></span>
+      <div><b data-speaker-count data-count>95</b><span>Speakers</span></div>
+    </div>
+    <div class="stat" data-reveal style="--d:80ms">
+      <span class="icon-badge icon-badge--glass"><i class="ph ph-flask" aria-hidden="true"></i></span>
+      <div><b data-track-count="num" data-count>4</b><span>Tracks</span></div>
+    </div>
+    <div class="stat" data-reveal style="--d:160ms">
+      <span class="icon-badge icon-badge--glass"><i class="ph ph-globe-hemisphere-west" aria-hidden="true"></i></span>
+      <div><b data-count data-suffix="+">33+</b><span>Countries</span></div>
+    </div>
+    <div class="stat" data-reveal style="--d:240ms">
+      <span class="icon-badge icon-badge--glass"><i class="ph ph-calendar-check" aria-hidden="true"></i></span>
+      <div><b data-count>3</b><span>Days</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section class="sec" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div data-reveal>
+        <span class="sec-no" aria-hidden="true"></span>
+        <h2 class="sec-title">About the conference</h2>
+        <p class="lead" style="margin-top: 22px;">
+          SAINTS is the International Conference on Scientific Advances in Natural &amp; Technological Sciences, hosted by the
+          <a href="https://christuniversity.in/schools/school-of-sciences" target="_blank" rel="noopener" class="inline-link">School of Sciences</a>
+          at CHRIST (Deemed to be University), Bangalore. The 2027 edition takes place on <span data-date="Conference Dates">6&ndash;8 January 2027</span>.
+        </p>
+        <p class="copy">
+          The programme has plenary lectures, parallel technical sessions, poster presentations and workshops,
+          organised in <span data-track-count>four</span> tracks.
+        </p>
+        <a href="committee.html" class="link-arrow" style="margin-top: 26px;">Meet the organizing committee <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+      </div>
+
+      <div class="awards" data-reveal style="--d:120ms">
+        <p class="label">Awards</p>
+        <div class="award-row">
+          <span class="icon-badge"><i class="ph ph-trophy" aria-hidden="true"></i></span>
+          <div><b>Best Paper Award</b><span>Cash prize of &#8377;5,000</span></div>
+        </div>
+        <div class="award-row">
+          <span class="icon-badge"><i class="ph ph-lightbulb" aria-hidden="true"></i></span>
+          <div><b>Best Innovation Pitch Award</b></div>
+        </div>
+        <div class="award-row">
+          <span class="icon-badge"><i class="ph ph-graduation-cap" aria-hidden="true"></i></span>
+          <div><b>Best PhD Thesis Award</b><span>Cash prize of &#8377;5,000</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABSTRACTS + PUBLICATIONS ═══ -->
+<section class="sec sec--tint" id="abstract">
+  <div class="wrap">
+    <div class="sec-top" data-reveal>
+      <header>
+        <span class="sec-no" aria-hidden="true"></span>
+        <h2 class="sec-title">Submit and publish</h2>
+      </header>
+    </div>
+    <div class="duo">
+      <div class="on-navy" data-reveal>
+        <span class="icon-badge"><i class="ph ph-note-pencil" aria-hidden="true"></i></span>
+        <p class="kicker">Call for abstracts</p>
+        <h3 class="h3">Submit your research</h3>
+        <p class="copy">Original, unpublished work in any of the <span data-track-count>four</span> tracks is welcome, for oral or poster presentation.</p>
+        <ul class="ticks">
+          <li>Deadline: <span data-date="Abstract Deadline">25 November 2026</span></li>
+          <li>One page, in the SAINTS 2027 template</li>
+          <li>Peer-reviewed by the scientific committee</li>
+        </ul>
+        <a href="abstract.html" class="btn btn-gold">Submission guidelines <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <div id="publications" data-reveal style="--d:120ms">
+        <span class="icon-badge icon-badge--blue"><i class="ph ph-book-open" aria-hidden="true"></i></span>
+        <p class="kicker">Publications</p>
+        <h3 class="h3">Book of Abstracts &amp; journals</h3>
+        <p class="copy">Every accepted abstract is published in the SAINTS 2027 Book of Abstracts. Selected papers may be invited to conference proceedings, edited books or special issues of partner journals, subject to peer review.</p>
+        <ul class="ticks">
+          <li>Book of Abstracts with an ISBN</li>
+          <li>Conference proceedings and edited books</li>
+          <li>Special issues of partner journals</li>
+        </ul>
+        <a href="abstract.html#publication" class="link-arrow">Publication details <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROGRAMME ═══ -->
+<section class="sec" id="schedule">
+  <div class="wrap">
+    <div class="sec-top" data-reveal>
+      <header>
+        <span class="sec-no" aria-hidden="true"></span>
+        <h2 class="sec-title">Programme</h2>
+      </header>
+    </div>
+    <div class="days">
+      <div class="day" data-day-card data-reveal>
+        <p class="day-n">Day 1</p><p class="day-d" data-day="1">6 January 2027</p>
+        <ul>
+          <li><i class="ph ph-identification-badge" aria-hidden="true"></i> Registration</li>
+          <li><i class="ph ph-flag-checkered" aria-hidden="true"></i> Inaugural session</li>
+          <li><i class="ph ph-microphone-stage" aria-hidden="true"></i> Plenary lectures</li>
+        </ul>
+      </div>
+      <div class="day" data-day-card data-reveal style="--d:100ms">
+        <p class="day-n">Day 2</p><p class="day-d" data-day="2">7 January 2027</p>
+        <ul>
+          <li><i class="ph ph-users-three" aria-hidden="true"></i> Parallel technical sessions</li>
+          <li><i class="ph ph-presentation-chart" aria-hidden="true"></i> Poster presentations</li>
+          <li><i class="ph ph-chalkboard-teacher" aria-hidden="true"></i> Workshops</li>
+        </ul>
+      </div>
+      <div class="day" data-day-card data-reveal style="--d:200ms">
+        <p class="day-n">Day 3</p><p class="day-d" data-day="3">8 January 2027</p>
+        <ul>
+          <li><i class="ph ph-microphone-stage" aria-hidden="true"></i> Invited talks</li>
+          <li><i class="ph ph-trophy" aria-hidden="true"></i> Awards</li>
+          <li><i class="ph ph-seal-check" aria-hidden="true"></i> Valedictory session</li>
+        </ul>
+      </div>
+    </div>
+    <p class="small"><i class="ph ph-calendar-check" aria-hidden="true"></i> The detailed programme will be published on <span data-date="Program Announcement">20 December 2026</span>.</p>
+  </div>
+</section>
+
+<!-- ═══ WELCOME MESSAGES  (sheet: welcome_messages) ═══ -->
+<section class="sec sec--tint" id="welcome" hidden>
+  <div class="wrap">
+    <div class="sec-top" data-reveal>
+      <header>
+        <span class="sec-no" aria-hidden="true"></span>
+        <h2 class="sec-title">Welcome messages</h2>
+      </header>
     </div>
     <div class="msg-grid" data-sheet="welcome_messages"></div>
   </div>
 </section>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     KEY DATES
-════════════════════════════════════════════════════════ -->
-<section id="dates" class="section section-navy" hidden>
-  <div class="container mx-auto">
-    <div class="max-w-2xl mb-14" data-reveal>
-      <h2 class="h2 text-white">Key dates</h2>
+<!-- ═══ GALLERY  (sheet: gallery_images) ═══ -->
+<section class="sec" id="gallery" hidden>
+  <div class="wrap">
+    <div class="sec-top" data-reveal>
+      <header>
+        <span class="sec-no" aria-hidden="true"></span>
+        <h2 class="sec-title">From previous editions</h2>
+      </header>
     </div>
-
-    <ol class="timeline" data-sheet="important_dates"></ol>
+    <div data-sheet="gallery_images" data-reveal></div>
   </div>
 </section>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     TRACKS & SPEAKERS
-════════════════════════════════════════════════════════ -->
-<section id="speakers" class="section" hidden>
-  <div class="container mx-auto">
-    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12" data-reveal>
-      <div class="max-w-2xl">
-        <h2 class="h2 mb-0">Tracks and speakers</h2>
-      </div>
-      <p class="text-gray-600 max-w-md">Select a track to see its speakers and schedule.</p>
+<!-- ═══ VENUE ═══ -->
+<section class="sec sec--tint" id="venue">
+  <div class="wrap">
+    <div class="sec-top" data-reveal>
+      <header>
+        <span class="sec-no" aria-hidden="true"></span>
+        <h2 class="sec-title">Venue</h2>
+      </header>
     </div>
-
-    <div class="tracks-grid" data-sheet="tracks"></div>
+    <div class="venue" data-reveal>
+      <div class="card venue-card">
+        <ul style="display: grid; gap: 20px;">
+          <li>
+            <span class="icon-badge"><i class="ph ph-map-pin" aria-hidden="true"></i></span>
+            <div><b>CHRIST (Deemed to be University)</b><span>Bangalore Central Campus, Bengaluru, India</span></div>
+          </li>
+          <li>
+            <span class="icon-badge"><i class="ph ph-calendar-blank" aria-hidden="true"></i></span>
+            <div><b data-date="Conference Dates">6&ndash;8 January 2027</b><span>On-site registration opens on the first day</span></div>
+          </li>
+          <li>
+            <span class="icon-badge"><i class="ph ph-envelope-simple" aria-hidden="true"></i></span>
+            <div><b><a href="mailto:saints@christuniversity.in" class="inline-link">saints@christuniversity.in</a></b><span>General enquiries</span></div>
+          </li>
+        </ul>
+        <a href="https://maps.app.goo.gl/uuUKjwd8Y8pchqi28" target="_blank" rel="noopener" class="btn">Open in Google Maps <i class="ph ph-arrow-up-right" aria-hidden="true"></i><span class="vh"> (opens in a new tab)</span></a>
+      </div>
+      <div class="venue-map">
+        <iframe title="Map: CHRIST (Deemed to be University), Bangalore Central Campus" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Christ+University+Bangalore+Central+Campus&amp;output=embed"></iframe>
+      </div>
+    </div>
   </div>
 </section>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     ABSTRACT SUBMISSION + PUBLICATIONS
-════════════════════════════════════════════════════════ -->
-<section id="abstract" class="section section-paper">
-  <div class="container mx-auto grid lg:grid-cols-2 gap-6">
-
-    <div class="panel" data-reveal>
-      <p class="eyebrow">Call for abstracts</p>
-      <h2 class="h3">Submit your research</h2>
-      <p class="body-copy">Original, unpublished work across all four tracks is welcome. Submit an abstract for oral or poster presentation.</p>
-      <ul class="check-list">
-        <li>Deadline: <span data-date="Abstract Deadline">25 November 2026</span></li>
-        <li>Oral and poster presentation formats</li>
-        <li>Peer-reviewed by the scientific committee</li>
-      </ul>
-      <a href="abstract.html" class="btn btn-navy mt-6">Submit Abstract <i class="fa-solid fa-arrow-right btn-arrow"></i></a>
-    </div>
-
-    <div class="panel" id="publications" data-reveal style="--d:120ms">
-      <p class="eyebrow">Publications</p>
-      <h2 class="h3">Book of Abstracts &amp; journals</h2>
-      <p class="body-copy">Every accepted abstract is published in the SAINTS 2027 Book of Abstracts. Selected papers may be invited to conference proceedings, edited books or special issues of partner journals, subject to peer review.</p>
-      <ul class="check-list">
-        <li>Book of Abstracts with an ISBN</li>
-        <li>Conference proceedings and edited books</li>
-        <li>Special issues of partner journals</li>
-      </ul>
-      <a href="abstract.html#publication" class="link-arrow mt-6">Publication details <i class="fa-solid fa-arrow-right"></i></a>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     SCHEDULE
-════════════════════════════════════════════════════════ -->
-<section id="schedule" class="section">
-  <div class="container mx-auto">
-    <div class="max-w-2xl mb-12" data-reveal>
-      <p class="eyebrow">Programme</p>
-      <h2 class="h2">Three days at a glance</h2>
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="day" data-day-card data-reveal>
-        <p class="day-n">Day 1</p><p class="day-d" data-day="1">6 January 2027</p>
-        <ul><li>Registration</li><li>Inaugural session</li><li>Keynote lectures</li></ul>
-      </div>
-      <div class="day" data-day-card data-reveal style="--d:100ms">
-        <p class="day-n">Day 2</p><p class="day-d" data-day="2">7 January 2027</p>
-        <ul><li>Parallel technical sessions</li><li>Poster presentations</li><li>Workshops</li></ul>
-      </div>
-      <div class="day" data-day-card data-reveal style="--d:200ms">
-        <p class="day-n">Day 3</p><p class="day-d" data-day="3">8 January 2027</p>
-        <ul><li>Invited talks</li><li>Best Paper Awards</li><li>Valedictory session</li></ul>
-      </div>
-    </div>
-    <p class="text-sm text-gray-500 mt-6">The detailed programme will be published on <span data-date="Program Announcement">20 December 2026</span>.</p>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     PLACES TO VISIT  (backend: places_to_visit)
-════════════════════════════════════════════════════════ -->
-<section id="visit" class="section section-paper" hidden>
-  <div class="container mx-auto">
-    <div class="max-w-2xl mb-12" data-reveal>
-      <h2 class="h2">Places to visit</h2>
+<!-- ═══ PLACES TO VISIT  (sheet: places_to_visit) ═══ -->
+<section class="sec" id="visit" hidden>
+  <div class="wrap">
+    <div class="sec-top" data-reveal>
+      <header>
+        <span class="sec-no" aria-hidden="true"></span>
+        <h2 class="sec-title">Around Bangalore</h2>
+      </header>
     </div>
     <div class="places" data-sheet="places_to_visit"></div>
   </div>
 </section>
 
-
-<!-- ═══════════════════════════════════════════════════════
-     GALLERY
-════════════════════════════════════════════════════════ -->
-<section id="gallery" class="section" hidden>
-  <div class="container mx-auto">
-    <div class="max-w-2xl mb-12" data-reveal>
-      <h2 class="h2">From previous editions</h2>
-    </div>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3" data-reveal data-sheet="gallery_images"></div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     FAQ  (backend: faqs)
-════════════════════════════════════════════════════════ -->
-<section id="faq" class="section section-paper" hidden>
-  <div class="container mx-auto max-w-3xl">
-    <div class="mb-10" data-reveal>
-      <h2 class="h2">Frequently asked questions</h2>
-    </div>
-    <div class="faqs" data-sheet="faqs"></div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     REGISTER CTA
-════════════════════════════════════════════════════════ -->
-<section id="join" class="section section-navy">
-  <div class="container mx-auto text-center max-w-3xl" data-reveal>
-    <h2 class="h2 text-white">Take part in SAINTS 2027</h2>
-    <p class="text-white/75 text-lg mb-9">Abstracts are accepted until <span data-date="Abstract Deadline">25 November 2026</span>. Registration closes on <span data-date="Final Registration">31 December 2026</span>.</p>
-    <div class="flex flex-col sm:flex-row gap-3 justify-center">
-      <a href="abstract.html" class="btn btn-primary btn-lg">Submit Abstract <i class="fa-solid fa-arrow-right btn-arrow"></i></a>
-      <a href="abstract.html#fees" class="btn btn-outline-light btn-lg">Registration &amp; fees</a>
+<!-- ═══ FAQ  (sheet: faqs) ═══ -->
+<section class="sec sec--tint" id="faq" hidden>
+  <div class="wrap sec-grid">
+    <header class="sec-head" data-reveal>
+      <span class="sec-no" aria-hidden="true"></span>
+      <h2 class="sec-title">Questions</h2>
+      <p class="sec-note">For anything else, write to <a href="mailto:saints@christuniversity.in" class="inline-link">saints@christuniversity.in</a></p>
+    </header>
+    <div class="sec-body">
+      <div class="faqs" data-sheet="faqs"></div>
     </div>
   </div>
 </section>
 
+</main>
 
-<!-- ═══════════════════════════════════════════════════════
-     FOOTER
-════════════════════════════════════════════════════════ -->
-<footer class="bg-primary-950 text-white/70 text-sm">
-  <div class="container mx-auto grid gap-10 md:grid-cols-4">
-    <div class="md:col-span-2">
-      <img src="assets/images/logos/CULOGO25_White.png" alt="CHRIST (Deemed to be University)" data-site-img="footer_logo" class="h-14 w-auto mb-5" />
-      <p class="max-w-sm leading-relaxed">SAINTS 2027, the International Conference on Scientific Advances in Natural &amp; Technological Sciences, is organised by the <a href="https://christuniversity.in/schools/school-of-sciences" target="_blank" rel="noopener" class="inline-link">School of Sciences</a>.</p>
+<!-- ═══ CLOSING ═══ -->
+<section class="closing on-navy" id="join">
+  <div class="wrap">
+    <div>
+      <h2>Take part in SAINTS 2027</h2>
+      <p>Abstracts are accepted until <span data-date="Abstract Deadline">25 November 2026</span>. Registration closes on <span data-date="Final Registration">31 December 2026</span>.</p>
+    </div>
+    <div class="btn-row">
+      <a href="abstract.html" class="btn btn-gold">Submit abstract <i class="ph ph-arrow-right" aria-hidden="true"></i></a>
+      <a href="abstract.html#fees" class="btn btn-line"><i class="ph ph-ticket" aria-hidden="true"></i> Registration &amp; fees</a>
+    </div>
+  </div>
+</section>
 
-      <p class="foot-h mt-8">Follow CHRIST (Deemed to be University)</p>
-      <ul class="socials">
-        <li><a href="https://christbangalore.blogspot.com/" target="_blank" rel="noopener" aria-label="Blog"><i class="fa-brands fa-blogger-b"></i></a></li>
-        <li><a href="https://www.youtube.com/thechristuniversity" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a></li>
-        <li><a href="https://www.facebook.com/www.christuniversity.in/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a></li>
-        <li><a href="https://www.instagram.com/christ_university_bangalore/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a></li>
-        <li><a href="https://www.linkedin.com/school/christ-university-bangalore/posts/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a></li>
-        <li><a href="https://x.com/christbangalore" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a></li>
-      </ul>
+<!-- ═══ FOOTER ═══ -->
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <img class="foot-logo" src="assets/images/logos/CULOGO25_White.png" alt="CHRIST (Deemed to be University)" data-site-img="footer_logo" />
+      <p class="foot-about">SAINTS 2027, the International Conference on Scientific Advances in Natural &amp; Technological Sciences, is organised by the <a href="https://christuniversity.in/schools/school-of-sciences" target="_blank" rel="noopener" class="inline-link">School of Sciences</a>.</p>
+      <div class="foot-follow">
+        <p class="foot-h">Follow CHRIST (Deemed to be University)</p>
+        <ul class="socials">
+          <li><a href="https://christbangalore.blogspot.com/" target="_blank" rel="noopener" aria-label="Blog"><i class="ph ph-article" aria-hidden="true"></i></a></li>
+          <li><a href="https://www.youtube.com/thechristuniversity" target="_blank" rel="noopener" aria-label="YouTube"><i class="ph ph-youtube-logo" aria-hidden="true"></i></a></li>
+          <li><a href="https://www.facebook.com/www.christuniversity.in/" target="_blank" rel="noopener" aria-label="Facebook"><i class="ph ph-facebook-logo" aria-hidden="true"></i></a></li>
+          <li><a href="https://www.instagram.com/christ_university_bangalore/" target="_blank" rel="noopener" aria-label="Instagram"><i class="ph ph-instagram-logo" aria-hidden="true"></i></a></li>
+          <li><a href="https://www.linkedin.com/school/christ-university-bangalore/posts/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="ph ph-linkedin-logo" aria-hidden="true"></i></a></li>
+          <li><a href="https://x.com/christbangalore" target="_blank" rel="noopener" aria-label="X"><i class="ph ph-x-logo" aria-hidden="true"></i></a></li>
+        </ul>
+      </div>
     </div>
     <div>
       <p class="foot-h">Conference</p>
-      <ul class="space-y-2.5">
-        <li><a href="#about" class="foot-a">About</a></li>
-        <li><a href="#speakers" class="foot-a">Tracks &amp; speakers</a></li>
-        <li><a href="#schedule" class="foot-a">Schedule</a></li>
-        <li><a href="#gallery" class="foot-a">Gallery</a></li>
-        <li><a href="abstract.html#fees" class="foot-a">Registration &amp; fees</a></li>
-        <li><a href="committee.html" class="foot-a">Organizing committee</a></li>
-        <li><a href="#visit" class="foot-a" data-needs="visit" hidden>Places to visit</a></li>
-        <li><a href="#faq" class="foot-a" data-needs="faq" hidden>FAQs</a></li>
+      <ul class="foot-list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#speakers">Tracks &amp; speakers</a></li>
+        <li><a href="#dates">Key dates</a></li>
+        <li><a href="#schedule">Programme</a></li>
+        <li><a href="#venue">Venue</a></li>
+        <li><a href="committee.html">Organizing committee</a></li>
       </ul>
     </div>
     <div>
-      <p class="foot-h">Venue</p>
-      <a href="https://maps.app.goo.gl/uuUKjwd8Y8pchqi28" target="_blank" rel="noopener" class="foot-a leading-relaxed block">
-        CHRIST (Deemed to be University),<br />Bangalore, India <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1"></i>
-      </a>
-      <p class="mt-3" data-date="Conference Dates">6&ndash;8 January 2027</p>
-
-      <p class="foot-h mt-8">Contact</p>
-      <a href="mailto:saints@christuniversity.in" class="foot-a">saints@christuniversity.in</a>
+      <p class="foot-h">Take part</p>
+      <ul class="foot-list">
+        <li><a href="abstract.html">Abstract submission</a></li>
+        <li><a href="abstract.html#fees">Registration &amp; fees</a></li>
+        <li><a href="abstract.html#publication">Publications</a></li>
+        <li><a href="abstract.html#awards">Awards</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="foot-h">Venue &amp; contact</p>
+      <ul class="foot-contact">
+        <li><i class="ph ph-map-pin" aria-hidden="true"></i> <a href="https://maps.app.goo.gl/uuUKjwd8Y8pchqi28" target="_blank" rel="noopener">CHRIST (Deemed to be University),<br />Bangalore, India</a></li>
+        <li><i class="ph ph-calendar-blank" aria-hidden="true"></i> <span data-date="Conference Dates">6&ndash;8 January 2027</span></li>
+        <li><i class="ph ph-envelope-simple" aria-hidden="true"></i> <a href="mailto:saints@christuniversity.in">saints@christuniversity.in</a></li>
+      </ul>
     </div>
   </div>
-  <div class="border-t border-white/10">
-    <div class="container mx-auto py-5 text-xs text-white/50 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-      <span data-site-text="footer_text">&copy; 2027 SAINTS Organizing Committee. All rights reserved.</span>
-      <span>Designed &amp; developed by
-        <a href="https://abhinavjain.dev" target="_blank" rel="noopener" class="credit">Abhinav Jain</a>
- and
-        <a href="https://adarshg.dev" target="_blank" rel="noopener" class="credit">Adarsh Gupta</a>
-
-      </span>
+  <div class="foot-base">
+    <div class="wrap">
+      <span data-site-text="footer_text">&copy; SAINTS 2027 - All Rights Reserved.</span>
+      <span>Designed &amp; developed by <a href="https://abhinavjain.dev" target="_blank" rel="noopener">Abhinav Jain</a> and <a href="https://adarshg.dev" target="_blank" rel="noopener">Adarsh Gupta</a></span>
     </div>
   </div>
 </footer>
 
+<dialog class="lightbox" id="lightbox" aria-label="Photo">
+  <button class="lightbox-close" type="button" aria-label="Close"><i class="ph ph-x" aria-hidden="true"></i></button>
+  <img alt="" />
+  <p></p>
+</dialog>
 
-<!-- ═══════════════════════════════════════════════════════
-     SCRIPTS
-════════════════════════════════════════════════════════ -->
 <script src="assets/js/main.js"></script>
 <script src="assets/js/snapshot.js"></script>
 <script src="assets/js/backend.js"></script>
-
 </body>
 </html>
