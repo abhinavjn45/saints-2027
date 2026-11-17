@@ -13,8 +13,8 @@ module.exports = {
         dark: '#0f0e17',
       },
       fontFamily: {
-        sans:    ['Inter', 'sans-serif'],
-        display: ['Playfair Display', 'serif'],
+        sans:    ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        display: ['Newsreader', 'Iowan Old Style', 'Palatino Linotype', 'Palatino', 'Georgia', 'serif'],
       },
     },
   },
