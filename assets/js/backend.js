@@ -8,9 +8,11 @@
    the browser tab regains focus. A section is only re-drawn when its
    data changed, so an edit in the sheet shows up without reloading.
 
-   If Google can't be reached (offline, throttled, timeout) the last
-   good copy of each tab, kept in localStorage, is shown instead, and
-   polling backs off. Loading placeholders are shown while waiting.
+   The page never waits for Google to show something. On load it paints
+   from the newest copy it already has: the last good fetch kept in
+   localStorage, or assets/js/snapshot.js (written by `npm run snapshot`).
+   Live data then replaces it. If Google can't be reached (offline,
+   throttled, timeout) that copy stays on screen and polling backs off.
 
    Rules
    - Tabs with a *_status column only show rows where status = "active".
@@ -44,7 +46,7 @@
   // Used only while the `tracks` tab doesn't exist yet.
   const TRACKS_FALLBACK = [
     { id: '1', title: 'Track 1', theme: 'Materials for Advanced Applications' },
-    { id: '2', title: 'Track 2', theme: 'Frontier in Life Sciences, climate change & Sustainable Technologies' },
+    { id: '2', title: 'Track 2', theme: 'Frontier in Life Sciences, Climate Change & Sustainable Technologies' },
     { id: '3', title: 'Track 3', theme: 'Scalable Mathematical & Statistical Solutions Through Modelling, Analysis and Computation' },
     { id: '4', title: 'Track 4', theme: 'From Innovation to Implementation: Advancing Next Generation Technologies' },
   ];
@@ -278,7 +280,7 @@
 
     $$('[data-site-img]').forEach(img => {
       const v = o[img.dataset.siteImg];
-      if (isHttp(v)) { img.src = v; if (o.site_fullname) img.alt = o.site_fullname; }
+      if (isHttp(v)) { img.src = sized(v, 840); if (o.site_fullname) img.alt = o.site_fullname; }
     });
     $$('[data-site-text]').forEach(n => {
       const v = o[n.dataset.siteText];
@@ -339,6 +341,8 @@
   function renderTracks() {
     const tracks = getTracks();
     const n = tracks.length;
+    const speakers = (D.speakers || []).length;
+    if (speakers) $$('[data-speaker-count]').forEach(s => { s.textContent = speakers; });
     $$('[data-track-count]').forEach(s => {
       if (!n) return;
       const w = n < WORDS.length ? WORDS[n] : String(n);
@@ -452,7 +456,7 @@
       if (r.image_title) fig.appendChild(el('figcaption', null, r.image_title));
       box.appendChild(fig);
     });
-    $$('[data-hide-when="gallery_images"]').forEach(n => { n.hidden = true; });
+    reveal(box); show(box.closest('section'));
   }
 
   // welcome_messages (long text is clamped on the page; a button opens it)
@@ -627,6 +631,29 @@
     D[name] = t.rows;
   }
 
+  // Run every renderer whose data is present and has changed since it last ran.
+  function render(active) {
+    active.forEach(r => {
+      if (r.tabs.some(n => D[n] === undefined)) return;               // nothing live and nothing saved
+      const sig = r.tabs.map(n => JSON.stringify(D[n])).join('|') + (r.tabs.indexOf('tracks') >= 0 ? D.tracks_missing : '');
+      if (lastSig.get(r) === sig) return;
+      lastSig.set(r, sig);
+      try { r.run(); } catch (e) { console.warn('[backend]', e); }
+    });
+  }
+
+  // First paint: the newer of the saved copy and the shipped snapshot, before any network.
+  function paintFromCopies() {
+    const snap = window.SAINTS_SNAPSHOT || {};
+    const active = RENDERERS.filter(r => r.when());
+    Array.from(new Set(active.flatMap(r => r.tabs))).forEach(n => {
+      const a = loadCopy(n), b = snap[n];
+      const c = a && b ? (a.t >= b.t ? a : b) : (a || b);
+      if (c && Array.isArray(c.rows)) apply(n, c);
+    });
+    render(active);
+  }
+
   async function refresh(force) {
     if (busy || (!force && Date.now() - lastRun < MIN_GAP)) return;
     busy = true; lastRun = Date.now();
@@ -642,13 +669,7 @@
           if (D[n] === undefined) { const c = loadCopy(n); if (c) apply(n, c); }   // show the saved copy
         }
       }));
-      active.forEach(r => {
-        if (r.tabs.some(n => D[n] === undefined)) return;               // nothing live and nothing saved
-        const sig = r.tabs.map(n => JSON.stringify(D[n])).join('|') + (r.tabs.indexOf('tracks') >= 0 ? D.tracks_missing : '');
-        if (lastSig.get(r) === sig) return;
-        lastSig.set(r, sig);
-        try { r.run(); } catch (e) { console.warn('[backend]', e); }
-      });
+      render(active);
       settleSkeletons();
     } finally { busy = false; }
     failures = ok === 0 && bad > 0 ? failures + 1 : 0;
@@ -667,7 +688,8 @@
     ['https://res.cloudinary.com', 'https://docs.google.com'].forEach(h => {
       const l = document.createElement('link'); l.rel = 'preconnect'; l.href = h; l.crossOrigin = ''; document.head.appendChild(l);
     });
-    skeletons();
+    paintFromCopies();
+    skeletons();                       // only for sections that still have nothing to show
     refresh(true).then(schedule);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(false); });
     window.addEventListener('focus', () => refresh(false));

@@ -967,3 +967,23 @@ p, li, dd, summary, figcaption { text-wrap: pretty; }
 .link-arrow, .msg-more, .track-go { font-size: 0.9375rem; }
 .track-go   { font-weight: 600; }
 .crumbs     { font-size: 0.8125rem; }
+
+
+/* ── 21. Footer socials, nav fit, registration form link ─── */
+/* Socials: outline turns gold, no fill and no lift */
+.socials a { color: rgba(255,255,255,0.85); transition: color 0.2s, border-color 0.2s, background-color 0.2s; }
+.socials a:hover, .socials a:focus-visible {
+  background: rgba(217, 180, 74, 0.1); border-color: var(--amber-400); color: var(--amber-400);
+  transform: none; outline: none;
+}
+
+/* Nine nav items: tighter padding until the viewport is wide */
+@media (min-width: 1024px) and (max-width: 1359px) {
+  .nav-list { gap: 0; }
+  .nav-link { padding: 10px 9px; }
+  .nav-link::after { left: 9px; right: 9px; }
+}
+
+.reg-form { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
+.reg-form p { font-size: 0.875rem; color: var(--muted); }
+.foot-h { line-height: 1.5; }
