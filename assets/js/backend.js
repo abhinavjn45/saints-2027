@@ -411,6 +411,16 @@
     if (!t) { set('title', 'Track not found'); set('theme', ''); $$('[data-tp-section]').forEach(s => { s.hidden = true; }); return; }
     set('title', t.title); set('theme', t.theme); set('crumb', t.title);
     document.title = t.title + (t.theme ? ': ' + t.theme : '') + ' | ' + (OPT.site_fullname || 'SAINTS 2027');
+    // each track is its own indexable page: give it its own canonical URL and social/search text
+    const url = location.origin + location.pathname + '?track=' + encodeURIComponent(t.id);
+    const desc = t.title + (t.theme ? ': ' + t.theme + '. ' : '. ') + 'Speakers and schedule for this ' + (OPT.site_fullname || 'SAINTS 2027') + ' track.';
+    const setHead = (sel, make, attr, val) => { let n = $(sel); if (!n) { n = make(); document.head.appendChild(n); } n.setAttribute(attr, val); };
+    const mk = (tag, a, v) => () => { const n = document.createElement(tag); n.setAttribute(a, v); return n; };
+    setHead('link[rel="canonical"]', mk('link', 'rel', 'canonical'), 'href', url);
+    setHead('meta[name="description"]', mk('meta', 'name', 'description'), 'content', desc);
+    setHead('meta[property="og:title"]', mk('meta', 'property', 'og:title'), 'content', document.title);
+    setHead('meta[property="og:description"]', mk('meta', 'property', 'og:description'), 'content', desc);
+    setHead('meta[property="og:url"]', mk('meta', 'property', 'og:url'), 'content', url);
 
     // speakers, grouped by category (sheet order)
     const sbox = $('[data-tp="speakers"]');
