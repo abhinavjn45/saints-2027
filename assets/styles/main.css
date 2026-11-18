@@ -283,6 +283,10 @@ html { scroll-padding-top: 88px; }  /* anchors land below the navbar */
 
 /* ── 8. Hero offset syncs smoothly with header height ────── */
 #hero { transition: padding-top 0.4s var(--ease-out); }
+/* Full-height hero on tablet and desktop; on phones it sizes to its content so the title isn't
+   pushed down by a tall empty band of photo. (Inner pages use #page-hero, unaffected.) */
+#hero { min-height: 92vh; }
+@media (max-width: 639px) { #hero { min-height: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
   #main-header, .ticker-track, .topbar-pulse { transition: none; animation: none; }
