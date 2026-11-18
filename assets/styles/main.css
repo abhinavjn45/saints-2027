@@ -207,6 +207,9 @@ html { scroll-padding-top: 88px; }  /* anchors land below the navbar */
   outline: 2px solid var(--indigo-600); outline-offset: 2px;
 }
 
+/* navbar Submit button: square corners, label centred as one run of text */
+.nav-cta { border-radius: 4px; justify-content: center; text-align: center; }
+
 .btn-primary {
   color: var(--indigo-950);
   background: var(--amber-400);
@@ -1022,7 +1025,7 @@ p, li, dd, summary, figcaption { text-wrap: pretty; }
   .nav-meta span { font-size: 11px; font-weight: 500; letter-spacing: 0.02em; color: #6b7280; white-space: nowrap; }
   #main-header.is-collapsed .nav-meta { display: none; }
   .navbar .container { gap: 10px; }
-  .nav-cta { padding: 10px 16px; border-radius: 12px; }
+  .nav-cta { padding: 10px 16px; }
   .hamburger { flex-shrink: 0; }
 
   /* menu panel: larger touch targets, dividers, closing actions */
