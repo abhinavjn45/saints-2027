@@ -412,7 +412,7 @@
     set('title', t.title); set('theme', t.theme); set('crumb', t.title);
     document.title = t.title + (t.theme ? ': ' + t.theme : '') + ' | ' + (OPT.site_fullname || 'SAINTS 2027');
     // each track is its own indexable page: give it its own canonical URL and social/search text
-    const url = location.origin + location.pathname + '?track=' + encodeURIComponent(t.id);
+    const url = 'https://saints.christuniversity.in/track.html?track=' + encodeURIComponent(t.id);
     const desc = t.title + (t.theme ? ': ' + t.theme + '. ' : '. ') + 'Speakers and schedule for this ' + (OPT.site_fullname || 'SAINTS 2027') + ' track.';
     const setHead = (sel, make, attr, val) => { let n = $(sel); if (!n) { n = make(); document.head.appendChild(n); } n.setAttribute(attr, val); };
     const mk = (tag, a, v) => () => { const n = document.createElement(tag); n.setAttribute(a, v); return n; };
