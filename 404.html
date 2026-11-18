@@ -3,98 +3,338 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex" />
-  <meta name="theme-color" content="#081330" />
+  <title>Page not found | SAINTS 2027</title>
+  <meta name="description" content="This page could not be found in the SAINTS 2027 conference site." />
+  <meta name="author" content="SAINTS 2027 Organizing Committee" />
+  <meta name="robots" content="noindex, follow" />
   <base href="/" />
-  <title>404: Hypothesis not found | SAINTS 2027</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SAINTS 2027" />
+  <meta property="og:locale" content="en_IN" />
+  <meta property="og:title" content="Page not found | SAINTS 2027" />
+  <meta property="og:description" content="This page could not be found in the SAINTS 2027 conference site." />
+  <meta property="og:image" content="https://saints.christuniversity.in/assets/images/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="SAINTS 2027 - Discovery to Scalable Solutions" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Page not found | SAINTS 2027" />
+  <meta name="twitter:description" content="This page could not be found in the SAINTS 2027 conference site." />
+  <meta name="twitter:image" content="https://saints.christuniversity.in/assets/images/og-image.jpg" />
+
+  <meta name="theme-color" content="#081330" />
+  <link rel="apple-touch-icon" href="https://res.cloudinary.com/dchqvsa57/image/upload/v1780542921/apple-touch-icon_h6gowb.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/dchqvsa57/image/upload/v1780542921/favicon-32x32_qu1mkw.png" />
+
+  <!-- Fonts: self-hosted -->
+  <link rel="preload" href="assets/fonts/inter-latin-1.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/newsreader-latin-3.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/styles/fonts.css?v=b53c81d4" />
+
+  <!-- Icons: small CSS-mask subset of Font Awesome (no webfont download) -->
+  <link rel="stylesheet" href="assets/styles/fa-subset.css?v=4e3318b3" />
+
+  <!-- Project Stylesheet -->
+  <link rel="stylesheet" href="assets/styles/main.min.css?v=02a69fd6" />
+
+  <!-- Tailwind utilities load after main.css, as the CDN build did, so they win ties -->
+  <link rel="stylesheet" href="assets/styles/tailwind.css?v=f827e138" />
   <style>
-    :root { --navy: #081330; --gold: #e0a526; --ink: #e8ecf7; --muted: #9fb0d6; }
-    * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 28px 20px; text-align: center;
-           font-family: Inter, system-ui, sans-serif; color: var(--ink);
-           background:
-             radial-gradient(ellipse at 50% 28%, #16347a 0%, rgba(22,52,122,0) 60%),
-             linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px) 0 0 / 44px 44px,
-             linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px) 0 0 / 44px 44px,
-             var(--navy); }
-    main { max-width: 640px; }
-    .atom { width: min(240px, 62vw); height: auto; margin: 0 auto; display: block; cursor: pointer; }
-    .orbit { fill: none; stroke: rgba(224,165,38,.45); stroke-width: 1.5; }
-    .spin { transform-origin: 120px 120px; transform-box: view-box; animation: spin 7s linear infinite; }
-    .spin.b { animation-duration: 11s; animation-direction: reverse; }
-    .spin.c { animation-duration: 15s; }
-    .e { fill: var(--gold); }
-    .nucleus { fill: #fff; font: 700 30px Newsreader, Georgia, serif; }
-    .core { fill: #0d2260; stroke: var(--gold); stroke-width: 2; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .tag { display: inline-block; margin: 14px 0 0; padding: 4px 12px; border: 1px solid rgba(224,165,38,.6); color: var(--gold);
-           font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; }
-    h1 { font-family: Newsreader, Georgia, serif; font-size: clamp(2.2rem, 7vw, 3.6rem); line-height: 1.08; margin: 16px 0 10px; }
-    h1 em { color: var(--gold); font-style: italic; }
-    .quip { min-height: 3.2em; margin: 0 auto 26px; max-width: 34em; color: var(--muted); font-size: 1.05rem; line-height: 1.55;
-            transition: opacity .35s; }
-    .quip.out { opacity: 0; }
-    .quip b { color: var(--ink); font-weight: 600; }
-    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-    .btn { display: inline-block; padding: 12px 24px; text-decoration: none; font-weight: 600; border: 1px solid var(--gold); }
-    .btn.solid { background: var(--gold); color: var(--navy); }
-    .btn.ghost { color: var(--gold); }
-    .btn:hover, .btn:focus-visible { background: #fff; border-color: #fff; color: var(--navy); outline: none; }
-    .btn:focus-visible { box-shadow: 0 0 0 3px rgba(255,255,255,.5); }
-    .foot { margin-top: 34px; font-size: .82rem; color: #6f82ad; }
-    .foot a { color: var(--muted); }
-    @media (prefers-reduced-motion: reduce) { .spin { animation: none; } .quip { transition: none; } }
+    .nf-ref { border-left: 3px solid var(--amber-500); background: #f6f4ee; padding: 22px 26px; max-width: 46rem; }
+    .nf-ref dl { display: grid; grid-template-columns: max-content 1fr; gap: 8px 22px; margin: 0; font-size: 0.9375rem; }
+    .nf-ref dt { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--indigo-700); padding-top: 3px; }
+    .nf-ref dd { margin: 0; color: #374151; overflow-wrap: anywhere; }
+    .nf-ref code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.9em; color: var(--indigo-950); }
+    @media (min-width: 1024px) { .nf-grid { grid-template-columns: repeat(3, 1fr); } }
+    .nf-lead { max-width: 40rem; color: rgba(255,255,255,0.82); font-size: 1.1rem; line-height: 1.6; margin-top: 18px; }
   </style>
 </head>
-<body>
-  <main>
-    <svg class="atom" id="atom" viewBox="0 0 240 240" role="img" aria-label="An atom whose nucleus reads 404. Click it for another excuse.">
-      <g class="spin"><ellipse class="orbit" cx="120" cy="120" rx="108" ry="40" /><circle class="e" cx="228" cy="120" r="7" /></g>
-      <g class="spin b" style="transform: rotate(60deg)"><g class="spin b"><ellipse class="orbit" cx="120" cy="120" rx="108" ry="40" /><circle class="e" cx="12" cy="120" r="7" /></g></g>
-      <g class="spin c" style="transform: rotate(120deg)"><g class="spin c"><ellipse class="orbit" cx="120" cy="120" rx="108" ry="40" /><circle class="e" cx="120" cy="80" r="7" /></g></g>
-      <circle class="core" cx="120" cy="120" r="38" />
-      <text class="nucleus" x="120" y="131" text-anchor="middle">404</text>
-    </svg>
 
-    <span class="tag">Experiment inconclusive</span>
-    <h1>Hypothesis <em>not found</em></h1>
-    <p class="quip" id="quip" aria-live="polite"></p>
+<body data-own-meta class="font-sans bg-white text-gray-800 antialiased">
 
-    <div class="actions">
-      <a class="btn solid" href="/">Back to SAINTS 2027</a>
-      <a class="btn ghost" href="abstract.html">Submit an abstract</a>
-      <a class="btn ghost" href="committee.html">Meet the committee</a>
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<header id="main-header" class="fixed top-0 left-0 right-0 z-50">
+
+  <!-- ── Slides away on scroll: Topbar + Top Header ───── -->
+  <div id="header-top">
+
+    <!-- LAYER 1 — TOPBAR (Announcements) -->
+    <div id="topbar" class="topbar">
+      <div class="topbar-inner container mx-auto flex items-center gap-3">
+
+        <span class="topbar-badge">
+          <span class="topbar-pulse"></span> Updates
+        </span>
+
+        <div class="ticker-mask flex-1 overflow-hidden relative">
+          <div class="ticker-track inline-flex items-center gap-12">
+            <span><strong>Abstract submission is open.</strong> Submit by <strong data-date="Abstract Deadline">25 November 2026</strong>.</span>
+            <span><strong>Plenary speakers announced</strong> for all four tracks.</span>
+            <span><strong>Conference dates:</strong> <span data-date="Conference Dates">6&ndash;8 January 2027</span>, CHRIST (Deemed to be University), Bangalore</span>
+            <span><strong>Best Paper Awards</strong> across all four tracks.</span>
+          </div>
+        </div>
+
+        <button id="topbar-close" aria-label="Close announcements bar" class="topbar-close">
+          <i class="fa-solid fa-xmark text-xs"></i>
+        </button>
+
+      </div>
+    </div>
+    <!-- end Topbar -->
+
+    <!-- LAYER 2 — TOP HEADER (Logos & Branding) -->
+    <div id="top-header" class="top-header">
+      <div class="container mx-auto py-3 flex items-center justify-between gap-4 sm:gap-6">
+
+        <!-- Left — University Logo -->
+        <a href="index.html#hero" class="logo-link" aria-label="CHRIST (Deemed to be University)">
+          <img src="assets/images/logos/christ_main_blue-gold.webp" width="400" height="128"
+            alt="CHRIST (Deemed to be University)"
+            class="h-12 sm:h-16 w-auto object-contain" />
+        </a>
+
+        <!-- Center — SAINTS Logo -->
+        <a href="index.html#hero" class="logo-link" aria-label="SAINTS 2027 home">
+          <img src="assets/images/logos/saints_main.webp" width="330" height="128"
+            alt="SAINTS 2027 Logo"
+            class="h-12 sm:h-16 w-auto object-contain" />
+        </a>
+
+        <!-- Right — Gold Sponsor -->
+        <div class="sponsor-chip">
+          <span class="sponsor-label">
+            <i class="fa-solid fa-medal"></i> Gold Sponsor
+          </span>
+          <img src="assets/images/logos/rsi-supports-research-gold-sponsor.webp" width="113" height="112"
+            alt="RSI Supports Research — Gold Sponsor"
+            class="h-10 sm:h-14 w-auto object-contain" />
+        </div>
+
+      </div>
+    </div>
+    <!-- end Top Header -->
+
+  </div>
+  <!-- end #header-top -->
+
+
+  <!-- LAYER 3 — NAVBAR (always visible) -->
+  <nav id="navbar" class="navbar" aria-label="Primary">
+    <div class="container mx-auto flex items-center justify-between h-16">
+
+      <!-- Compact brand (fades in once the top header has slid away) -->
+      <a href="index.html#hero" class="nav-brand" aria-label="SAINTS 2027 home">
+        <img src="assets/images/logos/saints_main.webp" width="330" height="128" alt="SAINTS 2027" class="h-9 w-auto object-contain" />
+      </a>
+
+      <!-- Phone/tablet: event label while the logo row is visible -->
+      <span class="nav-meta"><b>SAINTS 2027</b><span>6&ndash;8 Jan 2027 &middot; Bangalore</span></span>
+
+      <!-- Desktop Nav Links -->
+      <ul class="nav-list hidden lg:flex items-center gap-1 text-sm font-medium">
+
+        <li><a href="index.html#hero" class="nav-link">Home</a></li>
+        <li><a href="index.html#about" class="nav-link">About</a></li>
+
+        <!-- Speakers dropdown -->
+        <li class="nav-item relative">
+          <button class="nav-link" aria-haspopup="true">
+            Speakers <i class="fa-solid fa-chevron-down chev"></i>
+          </button>
+          <ul class="dropdown-menu" data-tracks-menu="desktop">
+            <li><a href="track.html?track=1" class="dropdown-link"><span class="track-num">1</span><span class="dd-text"><b>Track 1</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+            <li><a href="track.html?track=2" class="dropdown-link"><span class="track-num">2</span><span class="dd-text"><b>Track 2</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+            <li><a href="track.html?track=3" class="dropdown-link"><span class="track-num">3</span><span class="dd-text"><b>Track 3</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+            <li><a href="track.html?track=4" class="dropdown-link"><span class="track-num">4</span><span class="dd-text"><b>Track 4</b></span><i class="fa-solid fa-arrow-right dd-arrow"></i></a></li>
+          </ul>
+        </li>
+
+        <li><a href="abstract.html#fees" class="nav-link">Registration</a></li>
+
+        <li><a href="index.html#publications" class="nav-link">Publications</a></li>
+        <li><a href="index.html#schedule" class="nav-link">Schedule</a></li>
+        <li><a href="index.html#gallery" class="nav-link">Gallery</a></li>
+        <li><a href="committee.html" class="nav-link">Committee</a></li>
+
+        <!-- Legacy dropdown -->
+        <li class="nav-item relative">
+          <button class="nav-link" aria-haspopup="true">
+            Legacy <i class="fa-solid fa-chevron-down chev"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="https://sites.google.com/christuniversity.in/saints/home?pli=1&amp;authuser=0" target="_blank" rel="noopener" class="dropdown-link"><span class="track-num"><i class="fa-regular fa-calendar"></i></span><span class="dd-text"><b>SAINTS 2026</b></span><i class="fa-solid fa-arrow-up-right-from-square dd-arrow"></i></a></li>
+            <li><a href="https://sites.google.com/christuniversity.in/saints-2024/home" target="_blank" rel="noopener" class="dropdown-link"><span class="track-num"><i class="fa-regular fa-calendar"></i></span><span class="dd-text"><b>SAINTS 2024</b></span><i class="fa-solid fa-arrow-up-right-from-square dd-arrow"></i></a></li>
+          </ul>
+        </li>
+
+      </ul>
+      <!-- end Desktop Nav -->
+
+      <!-- Right: CTAs + Hamburger -->
+      <div class="flex items-center gap-2 sm:gap-3 ml-auto lg:ml-0">
+        <a href="abstract.html" class="btn btn-primary nav-cta">
+          Submit<span class="hidden sm:inline">&nbsp;Abstract</span> <i class="fa-solid fa-arrow-right btn-arrow"></i>
+        </a>
+        <button id="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu"
+          class="hamburger lg:hidden">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+
     </div>
 
-    <p class="foot">6&ndash;8 January 2027 &middot; CHRIST (Deemed to be University), Bangalore &middot; <a href="/">Discovery to Scalable Solutions</a></p>
-  </main>
+    <!-- Mobile Menu Panel -->
+    <div id="mobile-menu" class="lg:hidden">
+      <div class="mobile-menu-inner">
+        <ul class="container mx-auto py-3 flex flex-col gap-1 text-sm font-medium">
+          <li><a href="index.html#hero" class="m-link">Home</a></li>
+          <li><a href="index.html#about" class="m-link">About</a></li>
+          <li>
+            <button class="mobile-accordion-btn m-link w-full flex items-center justify-between" data-target="mobile-speakers" aria-expanded="false">
+              Speakers <i class="fa-solid fa-chevron-down text-xs"></i>
+            </button>
+            <div id="mobile-speakers" class="mobile-submenu"><ul data-tracks-menu="mobile">
+              <li><a href="track.html?track=1" class="m-sublink">Track 1</a></li>
+              <li><a href="track.html?track=2" class="m-sublink">Track 2</a></li>
+              <li><a href="track.html?track=3" class="m-sublink">Track 3</a></li>
+              <li><a href="track.html?track=4" class="m-sublink">Track 4</a></li>
+            </ul></div>
+          </li>
+          <li><a href="abstract.html#fees" class="m-link">Registration</a></li>
+          <li><a href="index.html#publications" class="m-link">Publications</a></li>
+          <li><a href="index.html#schedule" class="m-link">Schedule</a></li>
+          <li><a href="index.html#gallery" class="m-link">Gallery</a></li>
+          <li><a href="committee.html" class="m-link">Committee</a></li>
+          <li>
+            <button class="mobile-accordion-btn m-link w-full flex items-center justify-between" data-target="mobile-legacy" aria-expanded="false">
+              Legacy <i class="fa-solid fa-chevron-down text-xs"></i>
+            </button>
+            <div id="mobile-legacy" class="mobile-submenu"><ul>
+              <li><a href="https://sites.google.com/christuniversity.in/saints/home?pli=1&amp;authuser=0" target="_blank" rel="noopener" class="m-sublink">SAINTS 2026</a></li>
+              <li><a href="https://sites.google.com/christuniversity.in/saints-2024/home" target="_blank" rel="noopener" class="m-sublink">SAINTS 2024</a></li>
+            </ul></div>
+          </li>
+          <li class="m-cta">
+            <a href="abstract.html" class="btn btn-primary justify-center">Submit Abstract <i class="fa-solid fa-arrow-right btn-arrow"></i></a>
+            <a href="abstract.html#fees" class="btn btn-ghost justify-center">Register</a>
+          </li>
+          <li class="m-contact"><a href="mailto:saints@christuniversity.in"><i class="fa-regular fa-envelope"></i> saints@christuniversity.in</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- end Mobile Menu Panel -->
 
-  <script>
-    (function () {
-      var lines = [
-        '<b>Reviewer 2 says:</b> &ldquo;The page is missing. Please add more data.&rdquo;',
-        'We checked the control group. The page was not in it either.',
-        'This page has undergone <b>quantum tunnelling</b> and is now on the other side of the server.',
-        'Results were not reproducible. The URL could not be replicated.',
-        'Our sincere apologies. The page was last seen in a <b>fume hood</b>.',
-        'Peer review is still pending. So is this page.',
-        'The p-value for this page existing is <b>p&nbsp;&gt;&nbsp;0.05</b>. Not significant.',
-        'Schr&ouml;dinger&rsquo;s page: both here and not here, until you opened the link. It is not here.',
-        'The page decayed. Half-life: shorter than your patience.',
-        'Conclusion: the link is broken. Future work: fix the link.'
-      ];
-      var q = document.getElementById('quip'), i = Math.floor(Math.random() * lines.length), busy = false;
-      function show(text) { q.innerHTML = text; }
-      function next() {
-        if (busy) return; busy = true;
-        q.classList.add('out');
-        setTimeout(function () { i = (i + 1) % lines.length; show(lines[i]); q.classList.remove('out'); busy = false; }, 350);
-      }
-      show(lines[i]);
-      document.getElementById('atom').addEventListener('click', next);
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(next, 6000);
-    })();
-  </script>
+  </nav>
+  <!-- end Navbar -->
+
+</header>
+<!-- end #main-header -->
+
+<!-- ═══ 404 ═══ -->
+<section id="page-hero" class="relative overflow-hidden bg-primary-950 text-white">
+  <img src="assets/images/website-assets/hero-section-1280.webp"
+    srcset="assets/images/website-assets/hero-section-640.webp 640w, assets/images/website-assets/hero-section-1280.webp 1280w, assets/images/website-assets/hero-section-1920.webp 1920w"
+    sizes="100vw" width="1920" height="1200" alt="" fetchpriority="high" decoding="async"
+    class="absolute inset-0 w-full h-full object-cover object-center" />
+  <div class="absolute inset-0 hero-tint"></div>
+  <div class="absolute bottom-0 left-0 right-0 h-1 bg-accent-500"></div>
+  <div class="relative z-10 container mx-auto">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><span>Page not found</span></nav>
+    <p class="eyebrow eyebrow-light mt-6">Error 404</p>
+    <h1 class="font-display text-4xl sm:text-5xl font-bold leading-tight mt-4">This page is not in the proceedings.</h1>
+    <p class="nf-lead">The address you followed does not match any page of SAINTS 2027. The link may have moved, or it may have been mistyped along the way.</p>
+  </div>
+</section>
+
+<main>
+<section class="section" style="padding-bottom:48px">
+  <div class="container mx-auto">
+    <div class="nf-ref" role="note" aria-label="Details of the missing page">
+      <dl>
+        <dt>Requested</dt><dd><code id="nf-path">/</code></dd>
+        <dt>Status</dt><dd>Not located in the SAINTS 2027 conference site</dd>
+        <dt>Event</dt><dd>6&ndash;8 January 2027 &middot; CHRIST (Deemed to be University), Bangalore</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="section section-paper" style="padding-top:0">
+  <div class="container mx-auto" style="padding-top:64px">
+    <p class="eyebrow">Continue</p>
+    <h2 class="h2 mt-4 mb-10">Where would you like to go?</h2>
+    <div class="tracks-grid nf-grid">
+      <a class="track" href="abstract.html"><span class="track-no">01</span><h3>Submit an abstract</h3><p>Abstracts are open until <span data-date="Abstract Deadline">25 November 2026</span>.</p><span class="track-go">Submit <i class="fa-solid fa-arrow-right"></i></span></a>
+      <a class="track" href="index.html#speakers"><span class="track-no">02</span><h3>Tracks &amp; speakers</h3><p>Four thematic tracks and the plenary speakers leading them.</p><span class="track-go">Explore <i class="fa-solid fa-arrow-right"></i></span></a>
+      <a class="track" href="abstract.html#fees"><span class="track-no">03</span><h3>Registration &amp; fees</h3><p>Categories, early-bird rates and how to register.</p><span class="track-go">Register <i class="fa-solid fa-arrow-right"></i></span></a>
+      <a class="track" href="index.html#dates"><span class="track-no">04</span><h3>Key dates</h3><p>Deadlines, notifications and the conference days.</p><span class="track-go">View dates <i class="fa-solid fa-arrow-right"></i></span></a>
+      <a class="track" href="index.html#schedule"><span class="track-no">05</span><h3>Programme</h3><p>The conference schedule across all three days.</p><span class="track-go">View schedule <i class="fa-solid fa-arrow-right"></i></span></a>
+      <a class="track" href="committee.html"><span class="track-no">06</span><h3>Organizing committee</h3><p>The people and patrons behind SAINTS 2027.</p><span class="track-go">Meet the team <i class="fa-solid fa-arrow-right"></i></span></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<script>document.getElementById('nf-path').textContent = decodeURIComponent(location.pathname) + location.search;</script>
+
+<footer class="bg-primary-950 text-white/70 text-sm">
+  <div class="container mx-auto grid gap-10 md:grid-cols-4">
+    <div class="md:col-span-2">
+      <img src="assets/images/logos/CULOGO25_White.webp" width="331" height="112" loading="lazy" decoding="async" alt="CHRIST (Deemed to be University)" data-site-img="footer_logo" data-img-w="340" class="h-14 w-auto mb-5" />
+      <p class="max-w-sm leading-relaxed">SAINTS 2027, the International Conference on Scientific Advances in Natural &amp; Technological Sciences, is organised by the <a href="https://christuniversity.in/schools/school-of-sciences" target="_blank" rel="noopener" class="inline-link">School of Sciences</a>.</p>
+
+      <p class="foot-h mt-8">Follow CHRIST (Deemed to be University)</p>
+      <ul class="socials">
+        <li><a href="https://christbangalore.blogspot.com/" target="_blank" rel="noopener" aria-label="Blog"><i class="fa-brands fa-blogger-b"></i></a></li>
+        <li><a href="https://www.youtube.com/thechristuniversity" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a></li>
+        <li><a href="https://www.facebook.com/www.christuniversity.in/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a></li>
+        <li><a href="https://www.instagram.com/christ_university_bangalore/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a></li>
+        <li><a href="https://www.linkedin.com/school/christ-university-bangalore/posts/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a></li>
+        <li><a href="https://x.com/christbangalore" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="foot-h">Conference</p>
+      <ul class="space-y-2.5">
+        <li><a href="index.html#about" class="foot-a">About</a></li>
+        <li><a href="index.html#speakers" class="foot-a">Tracks &amp; speakers</a></li>
+        <li><a href="index.html#schedule" class="foot-a">Schedule</a></li>
+        <li><a href="index.html#gallery" class="foot-a">Gallery</a></li>
+        <li><a href="abstract.html#fees" class="foot-a">Registration &amp; fees</a></li>
+        <li><a href="committee.html" class="foot-a">Organizing committee</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="foot-h">Venue</p>
+      <a href="https://maps.app.goo.gl/uuUKjwd8Y8pchqi28" target="_blank" rel="noopener" class="foot-a leading-relaxed block">
+        CHRIST (Deemed to be University),<br />Bangalore, India <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1"></i>
+      </a>
+      <p class="mt-3" data-date="Conference Dates">6&ndash;8 January 2027</p>
+
+      <p class="foot-h mt-8">Contact</p>
+      <a href="mailto:saints@christuniversity.in" class="foot-a">saints@christuniversity.in</a>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="container mx-auto py-5 text-xs text-white/50 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <span data-site-text="footer_text">&copy; 2027 SAINTS Organizing Committee. All rights reserved.</span>
+      <span>Designed &amp; developed by
+        <a href="https://adarshg.dev" target="_blank" rel="noopener" class="credit">Adarsh Gupta</a> and
+        <a href="https://abhinavjain.dev" target="_blank" rel="noopener" class="credit">Abhinav Jain</a>
+
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script defer src="assets/js/main.js?v=5823bf06"></script>
+<script defer src="assets/js/backend.js?v=86b78a0d" data-snapshot="assets/js/snapshot.js?v=983a935c"></script>
+
 </body>
 </html>
