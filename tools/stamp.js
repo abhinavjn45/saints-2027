@@ -7,7 +7,7 @@ const crypto = require('crypto');
 
 const root = path.join(__dirname, '..');
 const pages = fs.readdirSync(root).filter((f) => f.endsWith('.html'));
-const ref = /((?:src|href)=")(assets\/(?:styles|js)\/[\w.-]+\.(?:css|js))(?:\?v=[0-9a-f]+)?(")/g;
+const ref = /((?:src|href|data-snapshot)=")(assets\/(?:styles|js)\/[\w.-]+\.(?:css|js))(?:\?v=[0-9a-f]+)?(")/g;
 
 let changed = 0;
 for (const page of pages) {

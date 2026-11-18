@@ -10,7 +10,8 @@
 
    The page never waits for Google to show something. On load it paints
    from the newest copy it already has: the last good fetch kept in
-   localStorage, or assets/js/snapshot.js (written by `npm run snapshot`).
+   localStorage, or assets/js/snapshot.js (written by `npm run snapshot`; only downloaded when
+   this browser has no saved copy yet).
    Live data then replaces it. If Google can't be reached (offline,
    throttled, timeout) that copy stays on screen and polling backs off.
 
@@ -26,6 +27,10 @@
    ============================================================ */
 (function () {
   'use strict';
+
+  // URL of the shipped snapshot (from data-snapshot on this script tag). It is only fetched when
+  // this browser has no saved copy yet, so returning visitors never download it.
+  const SNAPSHOT_URL = document.currentScript && document.currentScript.dataset.snapshot;
 
   const SHEET_ID = '1T8OY51wObS-MhN7tSpAHnSGPJ143aYBVnnUFK51E2jU';
   const POLL_MS  = 60000;      // while the page is visible
@@ -280,7 +285,7 @@
 
     $$('[data-site-img]').forEach(img => {
       const v = o[img.dataset.siteImg];
-      if (isHttp(v)) { img.src = sized(v, 840); if (o.site_fullname) img.alt = o.site_fullname; }
+      if (isHttp(v)) { img.src = sized(v, +img.dataset.imgW || 840); if (o.site_fullname) img.alt = o.site_fullname; }
     });
     $$('[data-site-text]').forEach(n => {
       const v = o[n.dataset.siteText];
@@ -684,10 +689,21 @@
     }, delay);
   }
 
-  function boot() {
+  function loadSnapshot() {
+    const names = Array.from(new Set(RENDERERS.filter(r => r.when()).flatMap(r => r.tabs)));
+    if (!SNAPSHOT_URL || names.every(n => loadCopy(n))) return Promise.resolve();
+    return new Promise(done => {
+      const s = document.createElement('script');
+      s.src = SNAPSHOT_URL; s.onload = s.onerror = () => done();
+      document.head.appendChild(s);
+    });
+  }
+
+  async function boot() {
     ['https://res.cloudinary.com', 'https://docs.google.com'].forEach(h => {
       const l = document.createElement('link'); l.rel = 'preconnect'; l.href = h; l.crossOrigin = ''; document.head.appendChild(l);
     });
+    await loadSnapshot();
     paintFromCopies();
     skeletons();                       // only for sections that still have nothing to show
     refresh(true).then(schedule);
