@@ -4,25 +4,97 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#081330" />
   <base href="/" />
-  <title>Page not found - SAINTS 2027</title>
+  <title>404: Hypothesis not found | SAINTS 2027</title>
   <link rel="stylesheet" href="assets/styles/fonts.css?v=b53c81d4" />
   <style>
-    body { margin: 0; min-height: 100vh; display: grid; place-items: center; text-align: center; padding: 24px;
-           font-family: Inter, system-ui, sans-serif; color: #1f2937; background: #fff; }
-    h1 { font-family: Newsreader, Georgia, serif; font-size: clamp(2.2rem, 6vw, 3.4rem); margin: 18px 0 8px; color: #0b1f4a; }
-    p { margin: 0 0 26px; color: #4b5563; }
-    a.btn { display: inline-block; padding: 12px 26px; background: #0b1f4a; color: #fff; text-decoration: none; font-weight: 600; }
-    a.btn:hover, a.btn:focus-visible { background: #16347a; }
-    img { height: 64px; width: auto; }
+    :root { --navy: #081330; --gold: #e0a526; --ink: #e8ecf7; --muted: #9fb0d6; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 28px 20px; text-align: center;
+           font-family: Inter, system-ui, sans-serif; color: var(--ink);
+           background:
+             radial-gradient(ellipse at 50% 28%, #16347a 0%, rgba(22,52,122,0) 60%),
+             linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px) 0 0 / 44px 44px,
+             linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px) 0 0 / 44px 44px,
+             var(--navy); }
+    main { max-width: 640px; }
+    .atom { width: min(240px, 62vw); height: auto; margin: 0 auto; display: block; cursor: pointer; }
+    .orbit { fill: none; stroke: rgba(224,165,38,.45); stroke-width: 1.5; }
+    .spin { transform-origin: 120px 120px; transform-box: view-box; animation: spin 7s linear infinite; }
+    .spin.b { animation-duration: 11s; animation-direction: reverse; }
+    .spin.c { animation-duration: 15s; }
+    .e { fill: var(--gold); }
+    .nucleus { fill: #fff; font: 700 30px Newsreader, Georgia, serif; }
+    .core { fill: #0d2260; stroke: var(--gold); stroke-width: 2; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .tag { display: inline-block; margin: 14px 0 0; padding: 4px 12px; border: 1px solid rgba(224,165,38,.6); color: var(--gold);
+           font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; }
+    h1 { font-family: Newsreader, Georgia, serif; font-size: clamp(2.2rem, 7vw, 3.6rem); line-height: 1.08; margin: 16px 0 10px; }
+    h1 em { color: var(--gold); font-style: italic; }
+    .quip { min-height: 3.2em; margin: 0 auto 26px; max-width: 34em; color: var(--muted); font-size: 1.05rem; line-height: 1.55;
+            transition: opacity .35s; }
+    .quip.out { opacity: 0; }
+    .quip b { color: var(--ink); font-weight: 600; }
+    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .btn { display: inline-block; padding: 12px 24px; text-decoration: none; font-weight: 600; border: 1px solid var(--gold); }
+    .btn.solid { background: var(--gold); color: var(--navy); }
+    .btn.ghost { color: var(--gold); }
+    .btn:hover, .btn:focus-visible { background: #fff; border-color: #fff; color: var(--navy); outline: none; }
+    .btn:focus-visible { box-shadow: 0 0 0 3px rgba(255,255,255,.5); }
+    .foot { margin-top: 34px; font-size: .82rem; color: #6f82ad; }
+    .foot a { color: var(--muted); }
+    @media (prefers-reduced-motion: reduce) { .spin { animation: none; } .quip { transition: none; } }
   </style>
 </head>
 <body>
   <main>
-    <img src="assets/images/logos/saints_main.webp" width="330" height="128" alt="SAINTS 2027" />
-    <h1>Page not found</h1>
-    <p>The page you are looking for does not exist or has moved.</p>
-    <a class="btn" href="/">Back to the SAINTS 2027 home page</a>
+    <svg class="atom" id="atom" viewBox="0 0 240 240" role="img" aria-label="An atom whose nucleus reads 404. Click it for another excuse.">
+      <g class="spin"><ellipse class="orbit" cx="120" cy="120" rx="108" ry="40" /><circle class="e" cx="228" cy="120" r="7" /></g>
+      <g class="spin b" style="transform: rotate(60deg)"><g class="spin b"><ellipse class="orbit" cx="120" cy="120" rx="108" ry="40" /><circle class="e" cx="12" cy="120" r="7" /></g></g>
+      <g class="spin c" style="transform: rotate(120deg)"><g class="spin c"><ellipse class="orbit" cx="120" cy="120" rx="108" ry="40" /><circle class="e" cx="120" cy="80" r="7" /></g></g>
+      <circle class="core" cx="120" cy="120" r="38" />
+      <text class="nucleus" x="120" y="131" text-anchor="middle">404</text>
+    </svg>
+
+    <span class="tag">Experiment inconclusive</span>
+    <h1>Hypothesis <em>not found</em></h1>
+    <p class="quip" id="quip" aria-live="polite"></p>
+
+    <div class="actions">
+      <a class="btn solid" href="/">Back to SAINTS 2027</a>
+      <a class="btn ghost" href="abstract.html">Submit an abstract</a>
+      <a class="btn ghost" href="committee.html">Meet the committee</a>
+    </div>
+
+    <p class="foot">6&ndash;8 January 2027 &middot; CHRIST (Deemed to be University), Bangalore &middot; <a href="/">Discovery to Scalable Solutions</a></p>
   </main>
+
+  <script>
+    (function () {
+      var lines = [
+        '<b>Reviewer 2 says:</b> &ldquo;The page is missing. Please add more data.&rdquo;',
+        'We checked the control group. The page was not in it either.',
+        'This page has undergone <b>quantum tunnelling</b> and is now on the other side of the server.',
+        'Results were not reproducible. The URL could not be replicated.',
+        'Our sincere apologies. The page was last seen in a <b>fume hood</b>.',
+        'Peer review is still pending. So is this page.',
+        'The p-value for this page existing is <b>p&nbsp;&gt;&nbsp;0.05</b>. Not significant.',
+        'Schr&ouml;dinger&rsquo;s page: both here and not here, until you opened the link. It is not here.',
+        'The page decayed. Half-life: shorter than your patience.',
+        'Conclusion: the link is broken. Future work: fix the link.'
+      ];
+      var q = document.getElementById('quip'), i = Math.floor(Math.random() * lines.length), busy = false;
+      function show(text) { q.innerHTML = text; }
+      function next() {
+        if (busy) return; busy = true;
+        q.classList.add('out');
+        setTimeout(function () { i = (i + 1) % lines.length; show(lines[i]); q.classList.remove('out'); busy = false; }, 350);
+      }
+      show(lines[i]);
+      document.getElementById('atom').addEventListener('click', next);
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(next, 6000);
+    })();
+  </script>
 </body>
 </html>
