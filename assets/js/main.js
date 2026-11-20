@@ -196,22 +196,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-/* Academic partners: show ~3 rows, expand on demand */
+/* Academic partners: show ~3 rows, expand/collapse with a smooth height transition */
 (function () {
   var grid = document.getElementById('pub-academic-grid');
   var btn = document.querySelector('.pub-more');
   if (!grid || !btn) return;
   var total = grid.children.length;
-  grid.classList.add('is-collapsed');
+  var COLLAPSED = 364;          /* keep in sync with .pub-academic.is-collapsed */
+  var MARGIN_SHIFT = 38;        /* button margin-top: 20px (open) -> -18px (closed) */
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  grid.classList.add('is-anim', 'is-collapsed');
   btn.hidden = false;
+
+  grid.addEventListener('transitionend', function (e) {
+    if (e.propertyName === 'max-height' && !grid.classList.contains('is-collapsed')) grid.style.maxHeight = 'none';
+  });
+
   btn.addEventListener('click', function () {
-    var open = grid.classList.toggle('is-collapsed') === false;
-    btn.setAttribute('aria-expanded', open);
-    btn.textContent = open ? 'Show fewer' : 'Show all ' + total + ' partners';
-    if (!open) {
-      /* grid just shrank: keep the button where the reader is looking, no jump */
-      var r = btn.getBoundingClientRect();
-      window.scrollTo({ top: window.scrollY + r.top - window.innerHeight * 0.6, behavior: 'instant' });
+    var opening = grid.classList.contains('is-collapsed');
+    btn.setAttribute('aria-expanded', opening);
+    btn.textContent = opening ? 'Show fewer' : 'Show all ' + total + ' partners';
+    if (opening) {
+      grid.style.maxHeight = grid.scrollHeight + 'px';
+      grid.classList.remove('is-collapsed');
+      if (still) grid.style.maxHeight = 'none';
+      return;
     }
+    /* collapsing: shrink the grid and glide the page so the button stays where the reader is looking */
+    var shrink = grid.offsetHeight - COLLAPSED + MARGIN_SHIFT;
+    var top = btn.getBoundingClientRect().top - shrink;
+    grid.style.maxHeight = grid.offsetHeight + 'px';
+    void grid.offsetHeight;
+    grid.classList.add('is-collapsed');
+    grid.style.maxHeight = COLLAPSED + 'px';
+    window.scrollTo({ top: window.scrollY + top - window.innerHeight * 0.6, behavior: still ? 'instant' : 'smooth' });
   });
 })();

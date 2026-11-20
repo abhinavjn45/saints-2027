@@ -1062,8 +1062,11 @@ p, li, dd, summary, figcaption { text-wrap: pretty; }
 .pub-books .pub-card { background: #fff; }
 .pub-books .pub-img { height: 170px; background: #fff; padding: 28px; }
 .pub-books .pub-img img { max-height: 100%; }
-.pub-academic.is-collapsed { max-height: 364px; overflow: hidden; -webkit-mask-image: linear-gradient(#000 78%, transparent); mask-image: linear-gradient(#000 78%, transparent); }
-.pub-more { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; margin: -18px auto 0; padding: 7px 16px 7px 18px; font: inherit; font-size: .6875rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--indigo-950); background: #fff; border: 1px solid #d9d5c7; border-radius: 999px; box-shadow: 0 4px 12px -6px #08133040; cursor: pointer; transition: border-color .2s, color .2s, box-shadow .2s; }
+@property --pub-fade { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
+.pub-academic.is-anim { overflow: hidden; --pub-fade: 100%; -webkit-mask-image: linear-gradient(#000 var(--pub-fade), transparent); mask-image: linear-gradient(#000 var(--pub-fade), transparent); transition: max-height .6s var(--ease-out), --pub-fade .6s var(--ease-out); }
+.pub-academic.is-collapsed { max-height: 364px; --pub-fade: 78%; }
+@media (prefers-reduced-motion: reduce) { .pub-academic.is-anim, .pub-more { transition: none; } }
+.pub-more { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; margin: -18px auto 0; padding: 7px 16px 7px 18px; font: inherit; font-size: .6875rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--indigo-950); background: #fff; border: 1px solid #d9d5c7; border-radius: 999px; box-shadow: 0 4px 12px -6px #08133040; cursor: pointer; transition: border-color .2s, color .2s, box-shadow .2s, margin-top .6s var(--ease-out); }
 .pub-more::after { content: ''; width: 5px; height: 5px; margin-top: -3px; border-right: 1.5px solid var(--amber-600); border-bottom: 1.5px solid var(--amber-600); transform: rotate(45deg); transition: transform .25s var(--ease-out), margin .25s; }
 .pub-more:hover, .pub-more:focus-visible { border-color: var(--amber-500); box-shadow: 0 6px 16px -8px #08133059; }
 .pub-more:focus-visible { outline: 2px solid var(--indigo-700); outline-offset: 3px; }
