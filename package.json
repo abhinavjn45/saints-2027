@@ -1,12 +1,14 @@
 {
   "name": "saints-2027",
   "private": true,
-  "description": "SAINTS 2027 conference website (static). Run `npm run build:css` after changing Tailwind classes in the HTML or JS, and `npm run snapshot` after the Google Sheet changes.",
+  "description": "SAINTS 2027 conference website (static). Run `npm run build:css` after changing Tailwind classes in the HTML or JS, or editing assets/styles/main.css (it also writes main.min.css, which the pages load), and `npm run snapshot` after the Google Sheet changes.",
   "scripts": {
-    "build:css": "tailwindcss -c tailwind.config.js -i assets/styles/tailwind.src.css -o assets/styles/tailwind.css --minify",
-    "snapshot": "node tools/snapshot.js"
+    "build:css": "tailwindcss -c tailwind.config.js -i assets/styles/tailwind.src.css -o assets/styles/tailwind.css --minify && esbuild assets/styles/main.css --minify --outfile=assets/styles/main.min.css",
+    "snapshot": "node tools/snapshot.js",
+    "stamp": "node tools/stamp.js"
   },
   "devDependencies": {
+    "esbuild": "^0.28.2",
     "tailwindcss": "3.4.17"
   }
 }

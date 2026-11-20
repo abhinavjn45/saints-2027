@@ -1,10 +1,6 @@
 .git
 .gitignore
 node_modules
-tools
-package.json
-package-lock.json
-tailwind.config.js
 README.md
 Dockerfile
 .dockerignore

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Track | SAINTS 2027</title>
   <meta name="description" content="Speakers and schedule for this SAINTS 2027 track." />
+  <link rel="canonical" href="https://saints.christuniversity.in/track.html?track=1" />
   <meta name="author" content="SAINTS 2027 Organizing Committee" />
   <meta name="robots" content="index, follow" />
   <meta property="og:type" content="website" />
@@ -21,22 +22,25 @@
   <meta name="twitter:description" content="Speakers and schedule for this SAINTS 2027 track." />
   <meta name="twitter:image" content="https://saints.christuniversity.in/assets/images/og-image.jpg" />
 
+  <meta name="theme-color" content="#081330" />
+  <link rel="apple-touch-icon" href="https://res.cloudinary.com/dchqvsa57/image/upload/v1780542921/apple-touch-icon_h6gowb.png" />
+
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/dchqvsa57/image/upload/v1780542921/favicon-32x32_qu1mkw.png" />
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400..700&display=swap" rel="stylesheet" />
+  <!-- Fonts: self-hosted -->
+  <link rel="preload" href="assets/fonts/inter-latin-1.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/newsreader-latin-3.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/styles/fonts.css?v=b53c81d4" />
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Icons: small CSS-mask subset of Font Awesome (no webfont download) -->
+  <link rel="stylesheet" href="assets/styles/fa-subset.css?v=4e3318b3" />
 
   <!-- Project Stylesheet -->
-  <link rel="stylesheet" href="assets/styles/main.css" />
+  <link rel="stylesheet" href="assets/styles/main.min.css?v=234387e9" />
 
   <!-- Tailwind utilities load after main.css, as the CDN build did, so they win ties -->
-  <link rel="stylesheet" href="assets/styles/tailwind.css" />
+  <link rel="stylesheet" href="assets/styles/tailwind.css?v=f827e138" />
 </head>
 
 <body data-own-meta data-own-title class="font-sans bg-white text-gray-800 antialiased">
@@ -79,14 +83,14 @@
 
         <!-- Left — University Logo -->
         <a href="index.html#hero" class="logo-link" aria-label="CHRIST (Deemed to be University)">
-          <img src="assets/images/logos/christ_main_blue-gold.png"
+          <img src="assets/images/logos/christ_main_blue-gold.webp" width="400" height="128"
             alt="CHRIST (Deemed to be University)"
             class="h-12 sm:h-16 w-auto object-contain" />
         </a>
 
         <!-- Center — SAINTS Logo -->
         <a href="index.html#hero" class="logo-link" aria-label="SAINTS 2027 home">
-          <img src="assets/images/logos/saints_main.png"
+          <img src="assets/images/logos/saints_main.webp" width="330" height="128"
             alt="SAINTS 2027 Logo"
             class="h-12 sm:h-16 w-auto object-contain" />
         </a>
@@ -96,7 +100,7 @@
           <span class="sponsor-label">
             <i class="fa-solid fa-medal"></i> Gold Sponsor
           </span>
-          <img src="assets/images/logos/rsi-supports-research-gold-sponsor.png"
+          <img src="assets/images/logos/rsi-supports-research-gold-sponsor.webp" width="113" height="112"
             alt="RSI Supports Research — Gold Sponsor"
             class="h-10 sm:h-14 w-auto object-contain" />
         </div>
@@ -115,7 +119,7 @@
 
       <!-- Compact brand (fades in once the top header has slid away) -->
       <a href="index.html#hero" class="nav-brand" aria-label="SAINTS 2027 home">
-        <img src="assets/images/logos/saints_main.png" alt="SAINTS 2027" class="h-9 w-auto object-contain" />
+        <img src="assets/images/logos/saints_main.webp" width="330" height="128" alt="SAINTS 2027" class="h-9 w-auto object-contain" />
       </a>
 
       <!-- Phone/tablet: event label while the logo row is visible -->
@@ -164,7 +168,7 @@
       <!-- Right: CTAs + Hamburger -->
       <div class="flex items-center gap-2 sm:gap-3 ml-auto lg:ml-0">
         <a href="abstract.html" class="btn btn-primary nav-cta">
-          Submit<span class="hidden sm:inline">&nbsp;Abstract</span> <i class="fa-solid fa-arrow-right btn-arrow"></i>
+          <span>Submit<span class="hidden sm:inline">&nbsp;Abstract</span></span> <i class="fa-solid fa-arrow-right btn-arrow"></i>
         </a>
         <button id="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu"
           class="hamburger lg:hidden">
@@ -226,7 +230,10 @@
 <!-- ═══ TRACK PAGE  (backend: tracks, speakers, schedule) ═══ -->
 <div data-track-page>
 <section id="page-hero" class="relative overflow-hidden bg-primary-950 text-white">
-  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('assets/images/website-assets/hero-section.jpg');"></div>
+  <img src="assets/images/website-assets/hero-section-1280.webp"
+    srcset="assets/images/website-assets/hero-section-640.webp 640w, assets/images/website-assets/hero-section-1280.webp 1280w, assets/images/website-assets/hero-section-1920.webp 1920w"
+    sizes="100vw" width="1920" height="1200" alt="" fetchpriority="high" decoding="async"
+    class="absolute inset-0 w-full h-full object-cover object-center" />
   <div class="absolute inset-0 hero-tint"></div>
   <div class="absolute bottom-0 left-0 right-0 h-1 bg-accent-500"></div>
   <div class="relative z-10 container mx-auto">
@@ -269,7 +276,7 @@
 <footer class="bg-primary-950 text-white/70 text-sm">
   <div class="container mx-auto grid gap-10 md:grid-cols-4">
     <div class="md:col-span-2">
-      <img src="assets/images/logos/CULOGO25_White.png" alt="CHRIST (Deemed to be University)" data-site-img="footer_logo" class="h-14 w-auto mb-5" />
+      <img src="assets/images/logos/CULOGO25_White.webp" width="331" height="112" loading="lazy" decoding="async" alt="CHRIST (Deemed to be University)" data-site-img="footer_logo" data-img-w="340" class="h-14 w-auto mb-5" />
       <p class="max-w-sm leading-relaxed">SAINTS 2027, the International Conference on Scientific Advances in Natural &amp; Technological Sciences, is organised by the <a href="https://christuniversity.in/schools/school-of-sciences" target="_blank" rel="noopener" class="inline-link">School of Sciences</a>.</p>
 
       <p class="foot-h mt-8">Follow CHRIST (Deemed to be University)</p>
@@ -316,9 +323,8 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js"></script>
-<script src="assets/js/snapshot.js"></script>
-<script src="assets/js/backend.js"></script>
+<script defer src="assets/js/main.js?v=5823bf06"></script>
+<script defer src="assets/js/backend.js?v=86b78a0d" data-snapshot="assets/js/snapshot.js?v=983a935c"></script>
 
 </body>
 </html>

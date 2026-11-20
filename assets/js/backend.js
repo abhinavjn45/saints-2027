@@ -10,7 +10,8 @@
 
    The page never waits for Google to show something. On load it paints
    from the newest copy it already has: the last good fetch kept in
-   localStorage, or assets/js/snapshot.js (written by `npm run snapshot`).
+   localStorage, or assets/js/snapshot.js (written by `npm run snapshot`; only downloaded when
+   this browser has no saved copy yet).
    Live data then replaces it. If Google can't be reached (offline,
    throttled, timeout) that copy stays on screen and polling backs off.
 
@@ -26,6 +27,10 @@
    ============================================================ */
 (function () {
   'use strict';
+
+  // URL of the shipped snapshot (from data-snapshot on this script tag). It is only fetched when
+  // this browser has no saved copy yet, so returning visitors never download it.
+  const SNAPSHOT_URL = document.currentScript && document.currentScript.dataset.snapshot;
 
   const SHEET_ID = '1T8OY51wObS-MhN7tSpAHnSGPJ143aYBVnnUFK51E2jU';
   const POLL_MS  = 60000;      // while the page is visible
@@ -280,7 +285,7 @@
 
     $$('[data-site-img]').forEach(img => {
       const v = o[img.dataset.siteImg];
-      if (isHttp(v)) { img.src = sized(v, 840); if (o.site_fullname) img.alt = o.site_fullname; }
+      if (isHttp(v)) { img.src = sized(v, +img.dataset.imgW || 840); if (o.site_fullname) img.alt = o.site_fullname; }
     });
     $$('[data-site-text]').forEach(n => {
       const v = o[n.dataset.siteText];
@@ -406,6 +411,16 @@
     if (!t) { set('title', 'Track not found'); set('theme', ''); $$('[data-tp-section]').forEach(s => { s.hidden = true; }); return; }
     set('title', t.title); set('theme', t.theme); set('crumb', t.title);
     document.title = t.title + (t.theme ? ': ' + t.theme : '') + ' | ' + (OPT.site_fullname || 'SAINTS 2027');
+    // each track is its own indexable page: give it its own canonical URL and social/search text
+    const url = 'https://saints.christuniversity.in/track.html?track=' + encodeURIComponent(t.id);
+    const desc = t.title + (t.theme ? ': ' + t.theme + '. ' : '. ') + 'Speakers and schedule for this ' + (OPT.site_fullname || 'SAINTS 2027') + ' track.';
+    const setHead = (sel, make, attr, val) => { let n = $(sel); if (!n) { n = make(); document.head.appendChild(n); } n.setAttribute(attr, val); };
+    const mk = (tag, a, v) => () => { const n = document.createElement(tag); n.setAttribute(a, v); return n; };
+    setHead('link[rel="canonical"]', mk('link', 'rel', 'canonical'), 'href', url);
+    setHead('meta[name="description"]', mk('meta', 'name', 'description'), 'content', desc);
+    setHead('meta[property="og:title"]', mk('meta', 'property', 'og:title'), 'content', document.title);
+    setHead('meta[property="og:description"]', mk('meta', 'property', 'og:description'), 'content', desc);
+    setHead('meta[property="og:url"]', mk('meta', 'property', 'og:url'), 'content', url);
 
     // speakers, grouped by category (sheet order)
     const sbox = $('[data-tp="speakers"]');
@@ -684,10 +699,21 @@
     }, delay);
   }
 
-  function boot() {
+  function loadSnapshot() {
+    const names = Array.from(new Set(RENDERERS.filter(r => r.when()).flatMap(r => r.tabs)));
+    if (!SNAPSHOT_URL || names.every(n => loadCopy(n))) return Promise.resolve();
+    return new Promise(done => {
+      const s = document.createElement('script');
+      s.src = SNAPSHOT_URL; s.onload = s.onerror = () => done();
+      document.head.appendChild(s);
+    });
+  }
+
+  async function boot() {
     ['https://res.cloudinary.com', 'https://docs.google.com'].forEach(h => {
       const l = document.createElement('link'); l.rel = 'preconnect'; l.href = h; l.crossOrigin = ''; document.head.appendChild(l);
     });
+    await loadSnapshot();
     paintFromCopies();
     skeletons();                       // only for sections that still have nothing to show
     refresh(true).then(schedule);
