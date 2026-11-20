@@ -1062,6 +1062,12 @@ p, li, dd, summary, figcaption { text-wrap: pretty; }
 .pub-books .pub-card { background: #fff; }
 .pub-books .pub-img { height: 170px; background: #fff; padding: 28px; }
 .pub-books .pub-img img { max-height: 100%; }
+.pub-collapse > summary { cursor: pointer; list-style: none; position: relative; padding-right: 48px; align-items: center; }
+.pub-collapse > summary::-webkit-details-marker { display: none; }
+.pub-collapse > summary::after { content: '+'; position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-size: 28px; line-height: 1; color: var(--amber-600); transition: transform .25s var(--ease-out); }
+.pub-collapse[open] > summary::after { transform: translateY(-50%) rotate(45deg); }
+.pub-collapse > summary:focus-visible { outline: 2px solid var(--indigo-700); outline-offset: 4px; }
+.pub-count { display: inline-block; margin-left: 12px; font-family: var(--font-body, inherit); font-size: .8125rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); vertical-align: middle; }
 .pub-academic { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
 .pub-academic .pub-card { background: #fff; }
 .pub-academic .pub-img { height: 110px; background: #fff; padding: 16px 18px; }
