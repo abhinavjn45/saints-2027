@@ -1062,12 +1062,9 @@ p, li, dd, summary, figcaption { text-wrap: pretty; }
 .pub-books .pub-card { background: #fff; }
 .pub-books .pub-img { height: 170px; background: #fff; padding: 28px; }
 .pub-books .pub-img img { max-height: 100%; }
-.pub-collapse > summary { cursor: pointer; list-style: none; position: relative; padding-right: 48px; align-items: center; }
-.pub-collapse > summary::-webkit-details-marker { display: none; }
-.pub-collapse > summary::after { content: '+'; position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-size: 28px; line-height: 1; color: var(--amber-600); transition: transform .25s var(--ease-out); }
-.pub-collapse[open] > summary::after { transform: translateY(-50%) rotate(45deg); }
-.pub-collapse > summary:focus-visible { outline: 2px solid var(--indigo-700); outline-offset: 4px; }
-.pub-count { display: inline-block; margin-left: 12px; font-family: var(--font-body, inherit); font-size: .8125rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); vertical-align: middle; }
+.pub-academic.is-collapsed { max-height: 364px; overflow: hidden; -webkit-mask-image: linear-gradient(#000 78%, transparent); mask-image: linear-gradient(#000 78%, transparent); }
+.pub-more { display: block; margin: 18px auto 0; padding: 12px 28px; font: inherit; font-size: .875rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--indigo-950); background: #fff; border: 1.5px solid var(--indigo-950); cursor: pointer; transition: background .2s, color .2s; }
+.pub-more:hover, .pub-more:focus-visible { background: var(--indigo-950); color: #fff; }
 .pub-academic { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
 .pub-academic .pub-card { background: #fff; }
 .pub-academic .pub-img { height: 110px; background: #fff; padding: 16px 18px; }

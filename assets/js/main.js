@@ -195,3 +195,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+/* Academic partners: show ~3 rows, expand on demand */
+(function () {
+  var grid = document.getElementById('pub-academic-grid');
+  var btn = document.querySelector('.pub-more');
+  if (!grid || !btn) return;
+  var total = grid.children.length;
+  grid.classList.add('is-collapsed');
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var open = grid.classList.toggle('is-collapsed') === false;
+    btn.setAttribute('aria-expanded', open);
+    btn.textContent = open ? 'Show fewer' : 'Show all ' + total + ' partners';
+  });
+})();
