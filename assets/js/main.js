@@ -208,5 +208,10 @@ document.addEventListener('DOMContentLoaded', () => {
     var open = grid.classList.toggle('is-collapsed') === false;
     btn.setAttribute('aria-expanded', open);
     btn.textContent = open ? 'Show fewer' : 'Show all ' + total + ' partners';
+    if (!open) {
+      /* grid just shrank: keep the button where the reader is looking, no jump */
+      var r = btn.getBoundingClientRect();
+      window.scrollTo({ top: window.scrollY + r.top - window.innerHeight * 0.6, behavior: 'instant' });
+    }
   });
 })();
