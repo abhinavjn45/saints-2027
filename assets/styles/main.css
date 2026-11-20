@@ -1045,3 +1045,22 @@ p, li, dd, summary, figcaption { text-wrap: pretty; }
   .nav-meta span { display: none; }
   .nav-cta { padding: 10px 12px; }
 }
+
+/* Publication partners (journals and book volumes) */
+.pubs { margin-top: calc(var(--section-y) * 0.7); display: grid; gap: clamp(36px, 5vw, 64px); }
+.pub-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 40px; padding-top: 18px; border-top: 2px solid var(--indigo-950); }
+.pub-head h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.4rem, 2.4vw, 1.9rem); letter-spacing: -.014em; line-height: 1.15; color: var(--indigo-950); }
+.pub-head p { max-width: 44ch; font-size: .9375rem; line-height: 1.5; color: var(--muted); padding-left: 14px; border-left: 3px solid var(--amber-500); }
+.pub-grid { list-style: none; display: grid; gap: 18px; margin-top: 24px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.pub-card { height: 100%; background: #fff; border: 1px solid #e5e2d8; transition: transform .35s var(--ease-out), box-shadow .35s, border-color .25s; }
+.pub-card:hover { transform: translateY(-4px); border-color: var(--indigo-700); box-shadow: 0 18px 36px -22px #0813304d; }
+.pub-img { display: flex; align-items: center; justify-content: center; background: #f6f4ee; padding: 20px; }
+.pub-img img { display: block; width: auto; height: auto; max-width: 100%; }
+.pub-journals { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.pub-journals .pub-img { height: 150px; padding: 24px; background: #fff; }
+.pub-journals .pub-img img { width: 100%; max-height: 100%; object-fit: contain; }
+.pub-books .pub-card { background: #fff; }
+.pub-books .pub-img { height: 170px; background: #fff; padding: 28px; }
+.pub-books .pub-img img { max-height: 100%; }
+.pub-card figcaption { padding: 12px 16px; border-top: 1px solid #e5e2d8; font-size: .8125rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--indigo-700); text-align: center; }
+@media (max-width: 639px) { .pub-journals .pub-img { height: 120px; padding: 18px; } }
