@@ -195,3 +195,64 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+/* Academic partners: show ~3 rows, expand/collapse with a smooth height transition */
+(function () {
+  var grid = document.getElementById('pub-academic-grid');
+  var btn = document.querySelector('.pub-more');
+  if (!grid || !btn) return;
+  var total = grid.children.length;
+  var COLLAPSED = 364;          /* keep in sync with .pub-academic.is-collapsed */
+  var MARGIN_SHIFT = 38;        /* button margin-top: 20px (open) -> -18px (closed) */
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  grid.classList.add('is-anim', 'is-collapsed');
+  btn.hidden = false;
+
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+  /* Animate grid height + button margin together (same timing both ways). */
+  function animate(h0, h1, m0, m1, endTop, startTop) {
+    var t0 = null;
+    grid.style.transitionProperty = '--pub-fade'; btn.style.transition = 'none';
+    grid.style.maxHeight = h0 + 'px'; btn.style.marginTop = m0 + 'px';
+    function done() {
+      grid.style.maxHeight = grid.classList.contains('is-collapsed') ? '' : 'none';
+      btn.style.marginTop = ''; btn.style.transition = ''; grid.style.transitionProperty = '';
+    }
+    if (still) { done(); return; }
+    requestAnimationFrame(function frame(ts) {
+      if (t0 === null) t0 = ts;
+      var p = Math.min((ts - t0) / 550, 1), e = ease(p);
+      grid.style.maxHeight = (h0 + (h1 - h0) * e) + 'px';
+      btn.style.marginTop = (m0 + (m1 - m0) * e) + 'px';
+      if (endTop !== null) {  /* keep the button gliding to a fixed spot; page has scroll-behavior:smooth, so force instant */
+        window.scrollBy({ top: btn.getBoundingClientRect().top - (startTop + (endTop - startTop) * e), behavior: 'instant' });
+      }
+      if (p < 1) requestAnimationFrame(frame); else done();
+    });
+  }
+
+  btn.addEventListener('click', function () {
+    var opening = grid.classList.contains('is-collapsed');
+    btn.setAttribute('aria-expanded', opening);
+    btn.textContent = opening ? 'Show fewer' : 'Show all partners';
+    var h0 = grid.offsetHeight, m0 = parseFloat(getComputedStyle(btn).marginTop);
+    if (opening) {
+      var full = grid.scrollHeight;
+      /* pin size first so toggling the class doesn't change the layout before frame 1 */
+      grid.style.maxHeight = h0 + 'px';
+      grid.classList.remove('is-collapsed');
+      animate(h0, full, m0, 20, null, 0);
+      return;
+    }
+    var startTop = btn.getBoundingClientRect().top;
+    var finishTop = startTop - (h0 - COLLAPSED) - (m0 + 18);
+    /* keep the button's spot if it would still be on screen, otherwise bring it to ~60% down */
+    var want = window.innerHeight * 0.6;
+    var endTop = (finishTop > 40 && finishTop < window.innerHeight - 60) ? finishTop : want;
+    grid.style.maxHeight = h0 + 'px'; btn.style.marginTop = m0 + 'px';
+    grid.classList.add('is-collapsed');
+    if (still) window.scrollBy({ top: finishTop - want, behavior: 'instant' });
+    animate(h0, COLLAPSED, m0, -18, endTop, startTop);
+  });
+})();

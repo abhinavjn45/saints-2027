@@ -172,7 +172,12 @@
   }
   const money = (v, fallback) => {
     if (v === '' || v == null) return fallback;
-    const n = Number(String(v).replace(/,/g, ''));
+    const s = String(v).trim();
+    // Foreign amounts: "USD 50", "$50", "US$ 1,200" -> "USD 50" / "USD 1,200"
+    const usd = s.match(/^(?:USD|US\$|\$)\s*([\d,]+(?:\.\d+)?)$/i) || s.match(/^([\d,]+(?:\.\d+)?)\s*(?:USD|\$)$/i);
+    if (usd) { const u = Number(usd[1].replace(/,/g, '')); if (!isNaN(u)) return 'USD ' + u.toLocaleString('en-US'); }
+    // Plain numbers (and ₹/Rs/INR-prefixed) are rupees
+    const n = Number(s.replace(/^(?:₹|Rs\.?|INR)\s*/i, '').replace(/,/g, ''));
     return isNaN(n) ? v : '₹' + n.toLocaleString('en-IN');
   };
   const WORDS = ['zero','one','two','three','four','five','six','seven','eight','nine','ten'];

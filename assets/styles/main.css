@@ -1045,3 +1045,37 @@ p, li, dd, summary, figcaption { text-wrap: pretty; }
   .nav-meta span { display: none; }
   .nav-cta { padding: 10px 12px; }
 }
+
+/* Publication partners (journals and book volumes) */
+.pubs { margin-top: calc(var(--section-y) * 0.7); display: grid; gap: clamp(36px, 5vw, 64px); }
+.pub-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 40px; padding-top: 18px; border-top: 2px solid var(--indigo-950); }
+.pub-head h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.4rem, 2.4vw, 1.9rem); letter-spacing: -.014em; line-height: 1.15; color: var(--indigo-950); }
+.pub-head p { max-width: 44ch; font-size: .9375rem; line-height: 1.5; color: var(--muted); padding-left: 14px; border-left: 3px solid var(--amber-500); }
+.pub-grid { list-style: none; display: grid; gap: 18px; margin-top: 24px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.pub-card { height: 100%; background: #fff; border: 1px solid #e5e2d8; transition: transform .35s var(--ease-out), box-shadow .35s, border-color .25s; }
+.pub-card:hover { transform: translateY(-4px); border-color: var(--indigo-700); box-shadow: 0 18px 36px -22px #0813304d; }
+.pub-img { display: flex; align-items: center; justify-content: center; background: #f6f4ee; padding: 20px; }
+.pub-img img { display: block; width: auto; height: auto; max-width: 100%; }
+.pub-journals { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.pub-journals .pub-img { height: 150px; padding: 24px; background: #fff; }
+.pub-journals .pub-img img { width: 100%; max-height: 100%; object-fit: contain; }
+.pub-books .pub-card { background: #fff; }
+.pub-books .pub-img { height: 170px; background: #fff; padding: 28px; }
+.pub-books .pub-img img { max-height: 100%; }
+@property --pub-fade { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
+.pub-academic.is-anim, .pub-more { overflow-anchor: none; }
+.pub-academic.is-anim { overflow: hidden; --pub-fade: 100%; -webkit-mask-image: linear-gradient(#000 var(--pub-fade), transparent); mask-image: linear-gradient(#000 var(--pub-fade), transparent); transition: max-height .6s var(--ease-out), --pub-fade .6s var(--ease-out); }
+.pub-academic.is-collapsed { max-height: 364px; --pub-fade: 78%; }
+@media (prefers-reduced-motion: reduce) { .pub-academic.is-anim, .pub-more { transition: none; } }
+.pub-more { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; margin: -18px auto 0; padding: 7px 16px 7px 18px; font: inherit; font-size: .6875rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--indigo-950); background: #fff; border: 1px solid #d9d5c7; border-radius: 999px; box-shadow: 0 4px 12px -6px #08133040; cursor: pointer; transition: border-color .2s, color .2s, box-shadow .2s, margin-top .6s var(--ease-out); }
+.pub-more::after { content: ''; width: 5px; height: 5px; margin-top: -3px; border-right: 1.5px solid var(--amber-600); border-bottom: 1.5px solid var(--amber-600); transform: rotate(45deg); transition: transform .25s var(--ease-out), margin .25s; }
+.pub-more:hover, .pub-more:focus-visible { border-color: var(--amber-500); box-shadow: 0 6px 16px -8px #08133059; }
+.pub-more:focus-visible { outline: 2px solid var(--indigo-700); outline-offset: 3px; }
+.pub-more[aria-expanded="true"] { margin-top: 20px; }
+.pub-more[aria-expanded="true"]::after { transform: rotate(-135deg); margin-top: 3px; }
+.pub-academic { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
+.pub-academic .pub-card { background: #fff; }
+.pub-academic .pub-img { height: 110px; background: #fff; padding: 16px 18px; }
+.pub-academic .pub-img img { width: 100%; height: 100%; object-fit: contain; }
+.pub-card figcaption { padding: 12px 16px; border-top: 1px solid #e5e2d8; font-size: .8125rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--indigo-700); text-align: center; }
+@media (max-width: 639px) { .pub-journals .pub-img { height: 120px; padding: 18px; } }
