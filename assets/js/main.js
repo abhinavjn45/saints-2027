@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.style.transition = 'none'; btn.style.transition = 'none';
     grid.style.maxHeight = h0 + 'px'; btn.style.marginTop = m0 + 'px';
     grid.classList.add('is-collapsed');
-    if (still) { grid.style.maxHeight = ''; btn.style.marginTop = ''; window.scrollBy(0, finishTop - want); return; }
+    if (still) { grid.style.maxHeight = ''; btn.style.marginTop = ''; window.scrollBy({ top: finishTop - want, behavior: 'instant' }); return; }
     /* keep the button's spot if it would still be on screen, otherwise bring it to `want` */
     var endTop = (finishTop > 40 && finishTop < window.innerHeight - 60) ? finishTop : want;
     var t0 = null;
@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.style.maxHeight = (h0 + (COLLAPSED - h0) * e) + 'px';
       btn.style.marginTop = (m0 + (-18 - m0) * e) + 'px';
       var desired = startTop + (endTop - startTop) * e;
-      window.scrollBy(0, btn.getBoundingClientRect().top - desired);
+      window.scrollBy({ top: btn.getBoundingClientRect().top - desired, behavior: 'instant' }); /* html has scroll-behavior:smooth, so force instant */
       if (p < 1) { requestAnimationFrame(frame); return; }
       grid.style.maxHeight = ''; btn.style.marginTop = '';
       grid.style.transition = ''; btn.style.transition = '';
