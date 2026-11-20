@@ -230,11 +230,13 @@ document.addEventListener('DOMContentLoaded', () => {
     var want = window.innerHeight * 0.6;
     var startTop = btn.getBoundingClientRect().top;
     var finishTop = startTop - (h0 - COLLAPSED) - (m0 + 18);
+    /* pin current size first, so adding the class doesn't collapse the page before frame 1 */
+    grid.style.transition = 'none'; btn.style.transition = 'none';
+    grid.style.maxHeight = h0 + 'px'; btn.style.marginTop = m0 + 'px';
     grid.classList.add('is-collapsed');
     if (still) { grid.style.maxHeight = ''; btn.style.marginTop = ''; window.scrollBy(0, finishTop - want); return; }
     /* keep the button's spot if it would still be on screen, otherwise bring it to `want` */
     var endTop = (finishTop > 40 && finishTop < window.innerHeight - 60) ? finishTop : want;
-    grid.style.transition = 'none'; btn.style.transition = 'none';
     var t0 = null;
     requestAnimationFrame(function frame(ts) {
       if (t0 === null) t0 = ts;
