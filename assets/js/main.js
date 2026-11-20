@@ -208,46 +208,51 @@ document.addEventListener('DOMContentLoaded', () => {
   grid.classList.add('is-anim', 'is-collapsed');
   btn.hidden = false;
 
-  grid.addEventListener('transitionend', function (e) {
-    if (e.propertyName === 'max-height' && !grid.classList.contains('is-collapsed')) grid.style.maxHeight = 'none';
-  });
-
   function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+  /* Animate grid height + button margin together (same timing both ways). */
+  function animate(h0, h1, m0, m1, endTop, startTop) {
+    var t0 = null;
+    grid.style.transitionProperty = '--pub-fade'; btn.style.transition = 'none';
+    grid.style.maxHeight = h0 + 'px'; btn.style.marginTop = m0 + 'px';
+    function done() {
+      grid.style.maxHeight = grid.classList.contains('is-collapsed') ? '' : 'none';
+      btn.style.marginTop = ''; btn.style.transition = ''; grid.style.transitionProperty = '';
+    }
+    if (still) { done(); return; }
+    requestAnimationFrame(function frame(ts) {
+      if (t0 === null) t0 = ts;
+      var p = Math.min((ts - t0) / 550, 1), e = ease(p);
+      grid.style.maxHeight = (h0 + (h1 - h0) * e) + 'px';
+      btn.style.marginTop = (m0 + (m1 - m0) * e) + 'px';
+      if (endTop !== null) {  /* keep the button gliding to a fixed spot; page has scroll-behavior:smooth, so force instant */
+        window.scrollBy({ top: btn.getBoundingClientRect().top - (startTop + (endTop - startTop) * e), behavior: 'instant' });
+      }
+      if (p < 1) requestAnimationFrame(frame); else done();
+    });
+  }
 
   btn.addEventListener('click', function () {
     var opening = grid.classList.contains('is-collapsed');
     btn.setAttribute('aria-expanded', opening);
-    btn.textContent = opening ? 'Show fewer' : 'Show all ' + total + ' partners';
+    btn.textContent = opening ? 'Show fewer' : 'Show all partners';
+    var h0 = grid.offsetHeight, m0 = parseFloat(getComputedStyle(btn).marginTop);
     if (opening) {
-      grid.style.maxHeight = grid.scrollHeight + 'px';
+      var full = grid.scrollHeight;
+      /* pin size first so toggling the class doesn't change the layout before frame 1 */
+      grid.style.maxHeight = h0 + 'px';
       grid.classList.remove('is-collapsed');
-      if (still) grid.style.maxHeight = 'none';
+      animate(h0, full, m0, 20, null, 0);
       return;
     }
-    /* Collapsing: drive height and scroll together, frame by frame, so the page
-       never jumps. The button glides to a fixed spot (~60% down the screen). */
-    var h0 = grid.offsetHeight, m0 = parseFloat(getComputedStyle(btn).marginTop);
-    var want = window.innerHeight * 0.6;
     var startTop = btn.getBoundingClientRect().top;
     var finishTop = startTop - (h0 - COLLAPSED) - (m0 + 18);
-    /* pin current size first, so adding the class doesn't collapse the page before frame 1 */
-    grid.style.transition = 'none'; btn.style.transition = 'none';
+    /* keep the button's spot if it would still be on screen, otherwise bring it to ~60% down */
+    var want = window.innerHeight * 0.6;
+    var endTop = (finishTop > 40 && finishTop < window.innerHeight - 60) ? finishTop : want;
     grid.style.maxHeight = h0 + 'px'; btn.style.marginTop = m0 + 'px';
     grid.classList.add('is-collapsed');
-    if (still) { grid.style.maxHeight = ''; btn.style.marginTop = ''; window.scrollBy({ top: finishTop - want, behavior: 'instant' }); return; }
-    /* keep the button's spot if it would still be on screen, otherwise bring it to `want` */
-    var endTop = (finishTop > 40 && finishTop < window.innerHeight - 60) ? finishTop : want;
-    var t0 = null;
-    requestAnimationFrame(function frame(ts) {
-      if (t0 === null) t0 = ts;
-      var p = Math.min((ts - t0) / 550, 1), e = ease(p);
-      grid.style.maxHeight = (h0 + (COLLAPSED - h0) * e) + 'px';
-      btn.style.marginTop = (m0 + (-18 - m0) * e) + 'px';
-      var desired = startTop + (endTop - startTop) * e;
-      window.scrollBy({ top: btn.getBoundingClientRect().top - desired, behavior: 'instant' }); /* html has scroll-behavior:smooth, so force instant */
-      if (p < 1) { requestAnimationFrame(frame); return; }
-      grid.style.maxHeight = ''; btn.style.marginTop = '';
-      grid.style.transition = ''; btn.style.transition = '';
-    });
+    if (still) window.scrollBy({ top: finishTop - want, behavior: 'instant' });
+    animate(h0, COLLAPSED, m0, -18, endTop, startTop);
   });
 })();
