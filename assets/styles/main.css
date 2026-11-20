@@ -1063,6 +1063,7 @@ p, li, dd, summary, figcaption { text-wrap: pretty; }
 .pub-books .pub-img { height: 170px; background: #fff; padding: 28px; }
 .pub-books .pub-img img { max-height: 100%; }
 @property --pub-fade { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
+.pub-academic.is-anim, .pub-more { overflow-anchor: none; }
 .pub-academic.is-anim { overflow: hidden; --pub-fade: 100%; -webkit-mask-image: linear-gradient(#000 var(--pub-fade), transparent); mask-image: linear-gradient(#000 var(--pub-fade), transparent); transition: max-height .6s var(--ease-out), --pub-fade .6s var(--ease-out); }
 .pub-academic.is-collapsed { max-height: 364px; --pub-fade: 78%; }
 @media (prefers-reduced-motion: reduce) { .pub-academic.is-anim, .pub-more { transition: none; } }

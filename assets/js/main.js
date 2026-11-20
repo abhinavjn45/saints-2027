@@ -212,6 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.propertyName === 'max-height' && !grid.classList.contains('is-collapsed')) grid.style.maxHeight = 'none';
   });
 
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
   btn.addEventListener('click', function () {
     var opening = grid.classList.contains('is-collapsed');
     btn.setAttribute('aria-expanded', opening);
@@ -222,13 +224,28 @@ document.addEventListener('DOMContentLoaded', () => {
       if (still) grid.style.maxHeight = 'none';
       return;
     }
-    /* collapsing: shrink the grid and glide the page so the button stays where the reader is looking */
-    var shrink = grid.offsetHeight - COLLAPSED + MARGIN_SHIFT;
-    var top = btn.getBoundingClientRect().top - shrink;
-    grid.style.maxHeight = grid.offsetHeight + 'px';
-    void grid.offsetHeight;
+    /* Collapsing: drive height and scroll together, frame by frame, so the page
+       never jumps. The button glides to a fixed spot (~60% down the screen). */
+    var h0 = grid.offsetHeight, m0 = parseFloat(getComputedStyle(btn).marginTop);
+    var want = window.innerHeight * 0.6;
+    var startTop = btn.getBoundingClientRect().top;
+    var finishTop = startTop - (h0 - COLLAPSED) - (m0 + 18);
     grid.classList.add('is-collapsed');
-    grid.style.maxHeight = COLLAPSED + 'px';
-    window.scrollTo({ top: window.scrollY + top - window.innerHeight * 0.6, behavior: still ? 'instant' : 'smooth' });
+    if (still) { grid.style.maxHeight = ''; btn.style.marginTop = ''; window.scrollBy(0, finishTop - want); return; }
+    /* keep the button's spot if it would still be on screen, otherwise bring it to `want` */
+    var endTop = (finishTop > 40 && finishTop < window.innerHeight - 60) ? finishTop : want;
+    grid.style.transition = 'none'; btn.style.transition = 'none';
+    var t0 = null;
+    requestAnimationFrame(function frame(ts) {
+      if (t0 === null) t0 = ts;
+      var p = Math.min((ts - t0) / 550, 1), e = ease(p);
+      grid.style.maxHeight = (h0 + (COLLAPSED - h0) * e) + 'px';
+      btn.style.marginTop = (m0 + (-18 - m0) * e) + 'px';
+      var desired = startTop + (endTop - startTop) * e;
+      window.scrollBy(0, btn.getBoundingClientRect().top - desired);
+      if (p < 1) { requestAnimationFrame(frame); return; }
+      grid.style.maxHeight = ''; btn.style.marginTop = '';
+      grid.style.transition = ''; btn.style.transition = '';
+    });
   });
 })();
