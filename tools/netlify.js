@@ -18,6 +18,12 @@ fs.cpSync(path.join(root, 'assets'), path.join(dist, 'assets'), {
   filter: (src) => !skip.has(path.basename(src)),
 });
 
+fs.writeFileSync(path.join(dist, '_redirects'), [
+  '/index.html / 301!',
+  ...['abstract', 'committee', 'registration', 'track'].map(page => `/${page}.html /${page} 301!`),
+  '',
+].join('\n'));
+
 // same caching rules as nginx.conf
 fs.writeFileSync(path.join(dist, '_headers'), [
   '/*', '  Cache-Control: no-cache', '',

@@ -5,6 +5,10 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  if (location.pathname === '/' && location.hash === '#hero') {
+    history.replaceState(history.state, '', '/' + location.search);
+  }
+
   const root      = document.documentElement;
   const header    = document.getElementById('main-header');
   const headerTop = document.getElementById('header-top');
@@ -103,7 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         const id = entry.target.id;
-        const match = document.querySelector('a.nav-link[href="#' + id + '"]');
+        const href = id === 'hero' ? '/' : '#' + id;
+        const match = document.querySelector('a.nav-link[href="' + href + '"]');
         if (!match) return;
         navLinks.forEach(l => l.classList.remove('active'));
         match.classList.add('active');
