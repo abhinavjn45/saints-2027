@@ -364,7 +364,7 @@
       ul.innerHTML = '';
       const mobile = ul.dataset.tracksMenu === 'mobile';
       tracks.forEach(t => {
-        const li = el('li'); const a = el('a'); a.href = 'track.html?track=' + encodeURIComponent(t.id);
+        const li = el('li'); const a = el('a'); a.href = '/track?track=' + encodeURIComponent(t.id);
         if (mobile) { a.className = 'm-sublink'; a.textContent = t.title + (t.theme ? ': ' + t.theme : ''); }
         else {
           a.className = 'dropdown-link';
@@ -382,7 +382,7 @@
     if (!grid || !n) return;
     grid.innerHTML = '';
     tracks.forEach((t, i) => {
-      const a = el('a', 'track'); a.href = 'track.html?track=' + encodeURIComponent(t.id);
+      const a = el('a', 'track'); a.href = '/track?track=' + encodeURIComponent(t.id);
       a.setAttribute('data-reveal', ''); a.style.setProperty('--d', i * 80 + 'ms');
       a.appendChild(el('span', 'track-no', pad2(Number(t.id) || t.id)));
       a.appendChild(el('h3', null, t.title));
@@ -417,7 +417,7 @@
     set('title', t.title); set('theme', t.theme); set('crumb', t.title);
     document.title = t.title + (t.theme ? ': ' + t.theme : '') + ' | ' + (OPT.site_fullname || 'SAINTS 2027');
     // each track is its own indexable page: give it its own canonical URL and social/search text
-    const url = 'https://saints.christuniversity.in/track.html?track=' + encodeURIComponent(t.id);
+    const url = 'https://saints.christuniversity.in/track?track=' + encodeURIComponent(t.id);
     const desc = t.title + (t.theme ? ': ' + t.theme + '. ' : '. ') + 'Speakers and schedule for this ' + (OPT.site_fullname || 'SAINTS 2027') + ' track.';
     const setHead = (sel, make, attr, val) => { let n = $(sel); if (!n) { n = make(); document.head.appendChild(n); } n.setAttribute(attr, val); };
     const mk = (tag, a, v) => () => { const n = document.createElement(tag); n.setAttribute(a, v); return n; };
@@ -454,7 +454,7 @@
     // other tracks
     const obox = $('[data-tp="others"]'); obox.innerHTML = '';
     tracks.filter(x => x.id !== t.id).forEach(x => {
-      const a = el('a', 'track'); a.href = 'track.html?track=' + encodeURIComponent(x.id);
+      const a = el('a', 'track'); a.href = '/track?track=' + encodeURIComponent(x.id);
       a.appendChild(el('span', 'track-no', pad2(Number(x.id) || x.id)));
       a.appendChild(el('h3', null, x.title));
       if (x.theme) a.appendChild(el('p', null, x.theme));
