@@ -5,8 +5,15 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  if (location.pathname === '/' && location.hash === '#hero') {
-    history.replaceState(history.state, '', '/' + location.search);
+  if (location.pathname === '/') {
+    const clearSectionHash = () => {
+      if (!document.getElementById(location.hash.slice(1))) return;
+      history.replaceState(history.state, '', '/' + location.search);
+    };
+
+    // Let the browser scroll to the anchor before cleaning up the address bar.
+    requestAnimationFrame(clearSectionHash);
+    window.addEventListener('hashchange', clearSectionHash);
   }
 
   const root      = document.documentElement;
